@@ -1,4 +1,7 @@
 import React from "react";
+import {Route, Switch} from "react-router-dom";
+import Login from "./auth/login";
+import Signup from "./auth/signup";
 
 class MainPage extends React.Component{
     constructor(props){
@@ -156,7 +159,7 @@ class MainPage extends React.Component{
     render(){
         var handleLogin = this.handleLogin;
         var handleSignup = this.handleSignup;
-        return this.state.auth?(
+        return !this.state.auth?(
           <div>
             <div className = "alert alert-danger toast-message" style={{display: this.state.error? "inline" : "none"}}>
                 {this.state.error}
@@ -168,9 +171,7 @@ class MainPage extends React.Component{
           </div>
         ) : (
             <div>
-                <Switch>
-                <Route path = "/" component={MainPage}></Route>
-                </Switch>
+                <div>Writing Hub</div>
             </div>
         )
     }
