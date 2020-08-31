@@ -2,6 +2,7 @@ import React from "react";
 import {Route, Switch} from "react-router-dom";
 import Login from "./auth/login";
 import Signup from "./auth/signup";
+import MenuBar from "./reusable/menu_bar";
 
 class MainPage extends React.Component{
     constructor(props){
@@ -172,7 +173,7 @@ class MainPage extends React.Component{
           </div>
         ) : (
             <div>
-                <div>Writing Hub</div>
+                <MenuBar></MenuBar>
             </div>
         )
     }
