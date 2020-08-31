@@ -15,10 +15,22 @@ app.set('view engine', 'jade');
 
 app.use(express.static("/Users/VioletZhou/Desktop/Writing hub/app/frontend"));
 
+//allow cross domain access
+app.use((req, res, next) => {
+   
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader(
+      'Access-Control-Allow-Methods',
+      'OPTIONS, GET, POST, PUT, PATCH, DELETE'
+    );
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    next();
+  });
+
 app.get('*/', (req, res) => {
     res.render('index');
 });
 
-app.use('./auth', authRouter);
+app.use('/auth', authRouter);
 
 app.listen(3000, '127.0.0.1');

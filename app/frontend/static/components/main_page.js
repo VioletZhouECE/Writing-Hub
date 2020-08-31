@@ -101,6 +101,7 @@ class MainPage extends React.Component{
       })
     })
     .then(res => {
+      console.log(res);
       if (res.status === 401) {
           throw new Error('Wrong username or password');
       }
@@ -159,7 +160,7 @@ class MainPage extends React.Component{
     render(){
         var handleLogin = this.handleLogin;
         var handleSignup = this.handleSignup;
-        return !this.state.auth?(
+        return !this.state.isAuth?(
           <div>
             <div className = "alert alert-danger toast-message" style={{display: this.state.error? "inline" : "none"}}>
                 {this.state.error}
