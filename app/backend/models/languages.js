@@ -19,8 +19,9 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       },
 
-      languageName: {
+      name: {
         type: DataTypes.STRING,
+        unique: true,
         allowNull: false
       },
     });
