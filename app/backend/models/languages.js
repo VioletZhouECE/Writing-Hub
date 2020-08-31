@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
 
       createdAt: {
         type: DataTypes.DATE,
-        defaultValue: sequelize.fn('NOW'),
+        defaultValue: sequelize.fn('NOW'), 
         allowNull: false
       },
 
@@ -26,8 +26,8 @@ module.exports = (sequelize, DataTypes) => {
     });
   
     Language.associate = models => {
-      Language.belongsToMany(models.User, {through: "FirstLanguageUsers", as: "FirstLanguageUsers"});
-      Language.belongsToMany(models.User, {through: "LearnLanguageUsers", as: "LearnLanguageUsers"});
+      Language.belongsToMany(models.User, {through: "FirstLanguageUsers", as: "FirstLanguage"});
+      Language.belongsToMany(models.User, {through: "LearnLanguageUsers", as: "LearnLanguage"});
     };
   
     return Language;

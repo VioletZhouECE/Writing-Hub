@@ -38,8 +38,8 @@ module.exports = (sequelize, DataTypes) => {
     });
   
     User.associate = models => {
-        User.belongsToMany(models.Language, {through: "FirstLanguageUsers", as: "FirstLanguageUsers"});
-        User.belongsToMany(models.Language, {through: "LearnLanguageUsers", as: "LearnLanguageUsers"});
+        User.belongsToMany(models.Language, {through: "FirstLanguageUsers", as: "FirstLanguage"});
+        User.belongsToMany(models.Language, {through: "LearnLanguageUsers", as: "LearnLanguage"});
     };
   
     return User;
