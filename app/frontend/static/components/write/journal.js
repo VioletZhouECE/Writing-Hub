@@ -26,15 +26,15 @@ class Journal extends React.Component{
                     <div className = "p-0 col-sm-6 col-sm-6 col-sm-6"><LanguageSelect value = {this.state.langaugeFlag} handleChange = {this.handleLanguageChange}></LanguageSelect></div>
                 </div>
                 <div className = "form-group form-spacing">
-                    <label className = "m-0" for = "titleInput">Title</label>
-                    <small id = "titleHelp" class = "form-text text-muted">Briefly describe what your journal is about</small>
-                    <input type = "text" className = "form-control" id = "titleInput"></input>
+                    <label className = "m-0" for = "journalTitleInput">Title</label>
+                    <small id = "journalTitleHelp" class = "form-text text-muted">Briefly describe what your journal is about</small>
+                    <input type = "text" className = "form-control" id = "journalTitleInput"></input>
                 </div>
                 <div className = "form-group form-spacing">
                     <label className = "m-0">Body</label>
                     <small id ="journalHelp" class = "form-text text-muted">Now start your journal!</small>
                     <Editor
-                        id = "journal-editor"
+                        id = "journalEditor"
                         apiKey = {tiny_editor}
                         init = {{
                         height: 500,
@@ -56,7 +56,7 @@ class Journal extends React.Component{
                         Is there anything in particular you want others to pay attention to? i.e. a sentence/word choice you are unsure about
                     </small>
                     <Editor
-                        id = "additional-note-editor"
+                        id = "additionalNoteEditor"
                         apiKey = {tiny_editor}
                         init = {{
                         height: 200,
