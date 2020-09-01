@@ -2,7 +2,9 @@ import React from "react";
 import {Route, Switch} from "react-router-dom";
 import Login from "./auth/login";
 import Signup from "./auth/signup";
+import HomePage from "./home/home_page";
 import MenuBar from "./reusable/menu_bar";
+import WriteEntry from "./write/write_entry";
 
 class MainPage extends React.Component{
     constructor(props){
@@ -173,7 +175,11 @@ class MainPage extends React.Component{
           </div>
         ) : (
             <div>
-                <MenuBar handleLogout = {this.handleLogout}></MenuBar>
+              <MenuBar handleLogout = {this.handleLogout}></MenuBar>
+              <Switch>
+                <Route path = "/write" component = {WriteEntry}></Route>
+                <Route path ="/" component = {HomePage}></Route>
+              </Switch>
             </div>
         )
     }

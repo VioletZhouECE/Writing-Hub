@@ -9,10 +9,11 @@ class MenuBar extends React.Component{
         return(
         <div style = {{backgroundColor: "rgb(52, 225, 235)"}}>
             <div className = "d-flex flex-row justify-content-center">
-                <div className = "col-sm-3 col-md-3 col-lg-3"><Link>Home</Link></div>
-                <div className = "col-sm-3 col-md-3 col-lg-3"><Link >Entries</Link></div>
-                <div className = "col-sm-3 col-md-3 col-lg-3"><Link>Profile</Link></div>
-                <div className = "col-sm-3 col-md-3 col-lg-3" onClick = {this.props.handleLogout}><Link>Logout</Link></div>
+                <div className = "col-sm-2 col-md-2 col-lg-2"><Link to = "/">Home</Link></div>
+                <div className = "col-sm-2 col-md-2 col-lg-2"><Link >Entries</Link></div>
+                <div className = "col-sm-2 col-md-2 col-lg-2"><Link>Profile</Link></div>
+                <div className = "col-sm-2 col-md-2 col-lg-2" onClick = {this.props.handleLogout}><Link>Logout</Link></div>
+                <div className = "col-sm-2 col-md-2 col-lg-2"><Link to = "/write">Write</Link></div>
             </div>
         </div>
         )
