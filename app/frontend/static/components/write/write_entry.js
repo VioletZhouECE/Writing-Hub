@@ -8,8 +8,8 @@ class WriteEntry extends React.Component{
         return(
         <div className = "center-container">
             <div className = "d-flex justify-content-center">
-                <div className = "col-sm-6 col-sm-6 col-sm-6"><Link to="/write">Write a journal</Link></div>
-                <div className = "col-sm-6 col-sm-6 col-sm-6"><Link to="/write/question">Ask a question</Link></div>
+                <div className = "p-0 col-sm-6 col-sm-6 col-sm-6"><Link to="/write">Write a journal</Link></div>
+                <div className = "p-0 col-sm-6 col-sm-6 col-sm-6"><Link to="/write/question">Ask a question</Link></div>
             </div>
             <hr></hr>
             <Switch>

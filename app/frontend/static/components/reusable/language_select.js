@@ -11,9 +11,10 @@ class LanguageSelect extends React.Component {
           <label>
             <select value={this.props.value} onChange={this.props.handleChange}>
               <option value="English">English</option>
-              <option value="Simplified Chinese">Similified Chinese</option>
-              <option value="French">French</option>
-              <option value="Japanese">Japanese</option>
+              <option value="Simplified Chinese">简体中文</option>
+              <option value="Traditional Chinese">繁體中文</option>
+              <option value="French">Français</option>
+              <option value="Japanese">日本語</option>
             </select>
           </label>
         </form>

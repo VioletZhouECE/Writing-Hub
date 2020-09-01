@@ -1,6 +1,14 @@
+*{
+    margin:0px;
+} 
 .center-container{
     width: 60%;
-    margin-top: 50px;
     margin: auto;
+    padding: 30px;
     border: 1px solid black;
+}
+
+.form-spacing{
+    padding-top:5px;
+    padding-bottom:5px;
 }
