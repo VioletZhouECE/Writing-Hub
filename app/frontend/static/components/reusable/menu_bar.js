@@ -2,6 +2,9 @@ import React from "react";
 import {Link} from "react-router-dom";
 
 class MenuBar extends React.Component{
+    constructor(props){
+        super(props);
+    }
     render(){
         return(
         <div style = {{backgroundColor: "rgb(52, 225, 235)"}}>
@@ -9,7 +12,7 @@ class MenuBar extends React.Component{
                 <div className = "col-sm-3 col-md-3 col-lg-3"><Link>Home</Link></div>
                 <div className = "col-sm-3 col-md-3 col-lg-3"><Link >Entries</Link></div>
                 <div className = "col-sm-3 col-md-3 col-lg-3"><Link>Profile</Link></div>
-                <div className = "col-sm-3 col-md-3 col-lg-3"><Link>Logout</Link></div>
+                <div className = "col-sm-3 col-md-3 col-lg-3" onClick = {this.props.handleLogout}><Link>Logout</Link></div>
             </div>
         </div>
         )

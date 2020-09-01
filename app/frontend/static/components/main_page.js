@@ -147,7 +147,7 @@ class MainPage extends React.Component{
   }
 
   handleLogout(){
-    //logout the user out
+    //log the user out
     this.setState({
       isAuth : false,
       token: null
@@ -173,7 +173,7 @@ class MainPage extends React.Component{
           </div>
         ) : (
             <div>
-                <MenuBar></MenuBar>
+                <MenuBar handleLogout = {this.handleLogout}></MenuBar>
             </div>
         )
     }

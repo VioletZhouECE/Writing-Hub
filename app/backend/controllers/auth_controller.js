@@ -47,7 +47,7 @@ exports.signup = (req, res, next) => {
     models.User.findAll({where : {username:req.body.username}})
             .then(result => {
                 if (result.length !== 0){
-                    let err = new Error('A user with that user name already exists');
+                    let err = new Error('A user with that username already exists');
                     err.statusCode = 422;
                     throw err;
                 } else {
