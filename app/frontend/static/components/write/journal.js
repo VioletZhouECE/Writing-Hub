@@ -11,8 +11,8 @@ class Journal extends React.Component{
             languageFlag : "English",
             title: "",
             invalidTitle: false,
-            invalidBody: false,
             body: "",
+            invalidBody: false,
             comment: ""
         }
 
@@ -45,7 +45,7 @@ class Journal extends React.Component{
         if(this.validate()){
             this.resetform();
             this.displaySuccessMessage();
-            //submit data
+            this.props.handleSubmitJournal(this.state);
         }
     }
 

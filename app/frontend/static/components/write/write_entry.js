@@ -4,6 +4,28 @@ import Journal from "./journal";
 import Question from "./question";
 
 class WriteEntry extends React.Component{
+    constructor(props){
+        super(props);
+
+        this.handleSubmitJournal = this.handleSubmitJournal.bind(this);
+    }
+
+    handleSubmitJournal(data){
+        fetch('write/journal', {
+            method: "POST",
+            headers: {
+                'Content-Type' : 'application/json',
+                'Authorization' : 'Bearer ' + this.props.token
+            },
+            body: JSON.stringify({
+                language: data.languageFlag,
+                title: data.title,
+                body: data.body,
+                comment: data.comment
+            })
+        })
+    }
+
     render(){
         return(
         <div className = "center-container">
@@ -14,7 +36,7 @@ class WriteEntry extends React.Component{
             <hr></hr>
             <Switch>
                 <Route path="/write/question" component={Question}></Route>
-                <Route path="/write" component={Journal}></Route>
+                <Route path="/write" render={(props)=><Journal handleSubmitJournal={this.handleSubmitJournal}></Journal>}></Route>
             </Switch>
         </div>
         )

@@ -179,7 +179,7 @@ class MainPage extends React.Component{
               <MenuBar handleLogout = {this.handleLogout}></MenuBar>
               <PublishSuccess></PublishSuccess>
               <Switch>
-                <Route path = "/write" component = {WriteEntry}></Route>
+                <Route path = "/write" render = {(props)=><WriteEntry token = {this.state.token}></WriteEntry>}></Route>
                 <Route path ="/" component = {HomePage}></Route>
               </Switch>
             </div>
