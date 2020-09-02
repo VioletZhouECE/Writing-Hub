@@ -29,6 +29,8 @@ module.exports = (sequelize, DataTypes) => {
     Language.associate = models => {
       Language.belongsToMany(models.User, {through: "FirstLanguageUsers", as: "FirstLanguage"});
       Language.belongsToMany(models.User, {through: "LearnLanguageUsers", as: "LearnLanguage"});
+      Language.hasMany(models.Journal);
+      Language.hasMany(models.Question);
     };
   
     return Language;

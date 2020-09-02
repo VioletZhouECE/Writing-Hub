@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const User = sequelize.define('User', {
+    const Question = sequelize.define('Question', {
       id: {
         type: DataTypes.UUID,
         primaryKey: true,
@@ -19,30 +19,27 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       },
 
-      username: {
+      title: {
         type: DataTypes.STRING,
-        unique: true,
         allowNull: false
       },
 
-      password: {
-        type: DataTypes.STRING,
+      body: {
+        type: DataTypes.TEXT,
         allowNull: false
       },
-      
-      points: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-          defaultValue: 0
+
+      upvotesCount: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0
       }
     });
   
-    User.associate = models => {
-        User.belongsToMany(models.Language, {through: "FirstLanguageUsers", as: "FirstLanguage"});
-        User.belongsToMany(models.Language, {through: "LearnLanguageUsers", as: "LearnLanguage"});
-        User.hasMany(models.Journal);
-        User.hasMany(models.Question);
+    Question.associate = models => {
+        Question.belongsTo(models.Language);
+        Question.belongsTo(models.User);
     };
   
-    return User;
+    return Question;
   };
