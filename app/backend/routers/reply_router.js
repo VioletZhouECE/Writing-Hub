@@ -1,13 +1,14 @@
-const router = express.Router();
+// const express = require('express');
+// const router = express.Router();
 
-//GET /replies/:replyId
-router.get('/:replyId', getReplies);
+// //GET /replies/:replyId
+// router.get('/:replyId', getReplies);
 
-//POST /replies
-router.post('/', postReply);
+// //POST /replies
+// router.post('/', postReply);
 
-//PUT /replies/:replyId
-router.put('/:replyId', updateReply);
+// //PUT /replies/:replyId
+// router.put('/:replyId', updateReply);
 
-//DELETE /replies/:replyId
-router.delete('/:replyId', deleteReply);
+// //DELETE /replies/:replyId
+// router.delete('/:replyId', deleteReply);

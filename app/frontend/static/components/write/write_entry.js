@@ -11,8 +11,8 @@ class WriteEntry extends React.Component{
     }
 
     handleSubmitJournal(data){
-        fetch('post/journal', {
-            method: "POST",
+        fetch('/journals', {
+            method: 'POST',
             headers: {
                 'Content-Type' : 'application/json',
                 'Authorization' : 'Bearer ' + this.props.token
@@ -24,7 +24,16 @@ class WriteEntry extends React.Component{
                 comment: data.comment
             })
         }).then(resData=>{
-            
+            //do some error handling here
+            if (resData.status !== 200){
+                throw new Error(`server error: ${resData.json().message}`);
+            } else {
+                return resData.json()
+            }
+        }).then(data=>{
+            console.log(data.msg);
+        }).catch(err=>{
+            console.log(err.message);
         })
     }
 

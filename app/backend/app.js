@@ -36,6 +36,6 @@ app.get('*/', (req, res) => {
 
 app.use('/auth', authRouter);
 app.use('/journals', journalRouter);
-app.use('/questions', questionRouter);
+//app.use('/questions', questionRouter);
 
 app.listen(3000, '127.0.0.1');

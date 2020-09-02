@@ -105,7 +105,6 @@ class MainPage extends React.Component{
       })
     })
     .then(res => {
-      console.log(res);
       if (res.status === 401) {
           throw new Error('Wrong username or password');
       }
