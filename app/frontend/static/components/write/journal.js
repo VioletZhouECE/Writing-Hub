@@ -16,6 +16,8 @@ class Journal extends React.Component{
             comment: ""
         }
 
+        this.baseState = this.state;
+
         this.handleLanguageChange = this.handleLanguageChange.bind(this);
         this.handleTitleChange = this.handleTitleChange.bind(this);
         this.handleBodyChange = this.handleBodyChange.bind(this);
@@ -32,7 +34,6 @@ class Journal extends React.Component{
     }
 
     handleBodyChange(content, editor){
-        console.log(content);
         this.setState({body : content});
     }
 
@@ -41,13 +42,10 @@ class Journal extends React.Component{
     }
 
     handleSubmit(){
-        //validate
         if(this.validate()){
-            //clear the form
-            //submit
-            console.log("validation success!");
-        } else {
-            console.log("validation failed!");
+            this.resetform();
+            this.displaySuccessMessage();
+            //submit data
         }
     }
 
@@ -70,6 +68,18 @@ class Journal extends React.Component{
 
         return isValid;
     }
+
+    resetform(){
+        this.setState(this.baseState);
+    }
+
+    displaySuccessMessage(){
+        $("#success-message").css("display", "inline");
+        window.setTimeout(() => {
+            $("#success-message").css("display", "none");
+        }, 3000)
+    }
+
 
     render(){
         return(

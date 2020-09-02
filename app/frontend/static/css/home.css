@@ -12,3 +12,11 @@
     padding-top:5px;
     padding-bottom:5px;
 }
+
+#success-message {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 2;
+    display: none;
+}

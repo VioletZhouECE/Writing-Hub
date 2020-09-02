@@ -5,6 +5,7 @@ import Signup from "./auth/signup";
 import HomePage from "./home/home_page";
 import MenuBar from "./reusable/menu_bar";
 import WriteEntry from "./write/write_entry";
+import PublishSuccess from "./write/publish_success";
 
 class MainPage extends React.Component{
     constructor(props){
@@ -176,6 +177,7 @@ class MainPage extends React.Component{
         ) : (
             <div>
               <MenuBar handleLogout = {this.handleLogout}></MenuBar>
+              <PublishSuccess></PublishSuccess>
               <Switch>
                 <Route path = "/write" component = {WriteEntry}></Route>
                 <Route path ="/" component = {HomePage}></Route>
