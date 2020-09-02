@@ -11,7 +11,7 @@ class WriteEntry extends React.Component{
     }
 
     handleSubmitJournal(data){
-        fetch('write/journal', {
+        fetch('post/journal', {
             method: "POST",
             headers: {
                 'Content-Type' : 'application/json',
