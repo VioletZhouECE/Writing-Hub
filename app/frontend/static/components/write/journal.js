@@ -8,14 +8,67 @@ class Journal extends React.Component{
         super(props);
 
         this.state = {
-            languageFlag : "English"
+            languageFlag : "English",
+            title: "",
+            invalidTitle: false,
+            invalidBody: false,
+            body: "",
+            comment: ""
         }
 
         this.handleLanguageChange = this.handleLanguageChange.bind(this);
+        this.handleTitleChange = this.handleTitleChange.bind(this);
+        this.handleBodyChange = this.handleBodyChange.bind(this);
+        this.handleCommentChange = this.handleCommentChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleLanguageChange(e){
         this.setState({langaugeFlag : e.target.value});
+    }
+
+    handleTitleChange(e){
+        this.setState({title : e.target.value});
+    }
+
+    handleBodyChange(content, editor){
+        console.log(content);
+        this.setState({body : content});
+    }
+
+    handleCommentChange(content, editor){
+        this.setState({comment : content});
+    }
+
+    handleSubmit(){
+        //validate
+        if(this.validate()){
+            //clear the form
+            //submit
+            console.log("validation success!");
+        } else {
+            console.log("validation failed!");
+        }
+    }
+
+    validate(){
+        var isValid = true;
+
+        if(this.state.title.length == 0){
+            this.setState({invalidTitle : true});
+            isValid = false;
+        } else {
+            this.setState({invalidTitle : false}); 
+        }
+        
+        if (this.state.body.length == 0){
+            this.setState({invalidBody : true});
+            isValid = false;
+        } else {
+            this.setState({invalidBody : false}); 
+        }
+
+        return isValid;
     }
 
     render(){
@@ -27,11 +80,17 @@ class Journal extends React.Component{
                 </div>
                 <div className = "form-group form-spacing">
                     <label className = "m-0" for = "journalTitleInput">Title</label>
+                    <div style = {{display : this.state.invalidTitle? "inline" : "none"}}>
+                        <p className = "alert alert-danger">Title cannot be empty</p>
+                    </div>
                     <small id = "journalTitleHelp" class = "form-text text-muted">Briefly describe what your journal is about</small>
-                    <input type = "text" className = "form-control" id = "journalTitleInput"></input>
+                    <input type = "text" className = "form-control" id = "journalTitleInput" value={this.state.title} onChange={this.handleTitleChange}></input>
                 </div>
                 <div className = "form-group form-spacing">
                     <label className = "m-0">Body</label>
+                    <div style = {{display : this.state.invalidBody? "inline" : "none"}}>
+                        <p className = "alert alert-danger">Body cannot be empty</p>
+                    </div>
                     <small id ="journalHelp" class = "form-text text-muted">Now start your journal!</small>
                     <Editor
                         id = "journalEditor"
@@ -48,7 +107,9 @@ class Journal extends React.Component{
                             'undo redo | formatselect | bold italic backcolor | \
                             alignleft aligncenter alignright alignjustify | \
                             bullist numlist outdent indent | removeformat | help'
-                            }}></Editor>
+                            }}
+                        value = {this.state.body}
+                        onEditorChange={this.handleBodyChange}></Editor>
                 </div>
                 <div className = "form-group form-spacing">
                     <label className = "m-0">Additional Note</label>
@@ -70,7 +131,14 @@ class Journal extends React.Component{
                             'undo redo | formatselect | bold italic backcolor | \
                             alignleft aligncenter alignright alignjustify | \
                             bullist numlist outdent indent | removeformat | help'
-                            }}></Editor>
+                            }}
+                        value = {this.state.comment}
+                        onEditorChange={this.handleCommentChange}></Editor>
+                </div>
+                <div className = "form-spacing">
+                    <div style = {{width :"250px", margin : "auto"}}>
+                        <button type= "button" className="btn-primary" style = {{width : "100%"}} onClick = {this.handleSubmit}>Publish!</button>
+                    </div>
                 </div>
             </div>
         )
