@@ -74,9 +74,9 @@ class Journal extends React.Component{
     }
 
     displaySuccessMessage(){
-        $("#success-message").css("display", "inline");
+        $("#success_message").css("display", "inline");
         window.setTimeout(() => {
-            $("#success-message").css("display", "none");
+            $("#success_message").css("display", "none");
         }, 3000)
     }
 
@@ -89,21 +89,21 @@ class Journal extends React.Component{
                     <div className = "p-0 col-sm-6 col-sm-6 col-sm-6"><LanguageSelect value = {this.state.langaugeFlag} handleChange = {this.handleLanguageChange}></LanguageSelect></div>
                 </div>
                 <div className = "form-group form-spacing">
-                    <label className = "m-0" for = "journalTitleInput">Title</label>
+                    <label className = "m-0" for = "journal_title_input">Title</label>
                     <div style = {{display : this.state.invalidTitle? "inline" : "none"}}>
                         <p className = "alert alert-danger">Title cannot be empty</p>
                     </div>
-                    <small id = "journalTitleHelp" class = "form-text text-muted">Briefly describe what your journal is about</small>
-                    <input type = "text" className = "form-control" id = "journalTitleInput" value={this.state.title} onChange={this.handleTitleChange}></input>
+                    <small id = "journal_title_help" class = "form-text text-muted">Briefly describe what your journal is about</small>
+                    <input type = "text" className = "form-control" id = "journal_title_input" value={this.state.title} onChange={this.handleTitleChange}></input>
                 </div>
                 <div className = "form-group form-spacing">
                     <label className = "m-0">Body</label>
                     <div style = {{display : this.state.invalidBody? "inline" : "none"}}>
                         <p className = "alert alert-danger">Body cannot be empty</p>
                     </div>
-                    <small id ="journalHelp" class = "form-text text-muted">Now start your journal!</small>
+                    <small id ="journal_help" class = "form-text text-muted">Now start your journal!</small>
                     <Editor
-                        id = "journalEditor"
+                        id = "journal_editor"
                         apiKey = {tiny_editor}
                         init = {{
                         height: 500,
@@ -123,11 +123,11 @@ class Journal extends React.Component{
                 </div>
                 <div className = "form-group form-spacing">
                     <label className = "m-0">Additional Note</label>
-                    <small id = "additionalNoteHelp" class="form-text text-muted">
+                    <small id = "additional_note_help" class="form-text text-muted">
                         Is there anything in particular you want others to pay attention to? i.e. a sentence/word choice you are unsure about
                     </small>
                     <Editor
-                        id = "additionalNoteEditor"
+                        id = "additional_note_editor"
                         apiKey = {tiny_editor}
                         init = {{
                         height: 200,
