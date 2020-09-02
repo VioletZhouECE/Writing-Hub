@@ -2,7 +2,8 @@ const express = require('express');
 const bodyparser = require('body-parser');
 const path = require('path');
 const authRouter = require('./routers/auth_router');
-const postRouter = require('./routers/post_router');
+const journalRouter = require('./routers/journal_router');
+const questionRouter = require('./routers/question_router');
 const replyRouter = require('./routers/reply_router');
 const {sequelize} = require('./models/index');
 
@@ -34,7 +35,7 @@ app.get('*/', (req, res) => {
 });
 
 app.use('/auth', authRouter);
-app.use('/posts', postRouter);
-app.use('/replies', replyRouter);
+app.use('/journals', journalRouter);
+app.use('/questions', questionRouter);
 
 app.listen(3000, '127.0.0.1');

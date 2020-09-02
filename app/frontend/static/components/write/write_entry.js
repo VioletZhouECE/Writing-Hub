@@ -23,6 +23,8 @@ class WriteEntry extends React.Component{
                 body: data.body,
                 comment: data.comment
             })
+        }).then(resData=>{
+            
         })
     }
 
