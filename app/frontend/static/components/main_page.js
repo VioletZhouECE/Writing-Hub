@@ -24,7 +24,6 @@ class MainPage extends React.Component{
     }
 
     componentDidMount(){
-
       //if the token expires, remove items from local storage
       if (!localStorage.getItem('token')){
         return; 
@@ -144,8 +143,7 @@ class MainPage extends React.Component{
   }
 
   setAutoLogout(remainingMilliseconds){
-    setTimeout(()=>{
-      this.handleLogout, remainingMilliseconds});
+    setTimeout(()=>{this.handleLogout()}, remainingMilliseconds);
   }
 
   handleLogout(){
