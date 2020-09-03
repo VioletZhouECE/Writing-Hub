@@ -43,8 +43,6 @@ class Journal extends React.Component{
 
     handleSubmit(){
         if(this.validate()){
-            this.resetform();
-            this.displaySuccessMessage();
             this.props.handleSubmitJournal(this.state);
         }
     }
@@ -72,14 +70,6 @@ class Journal extends React.Component{
     resetform(){
         this.setState(this.baseState);
     }
-
-    displaySuccessMessage(){
-        $("#success_message").css("display", "inline");
-        window.setTimeout(() => {
-            $("#success_message").css("display", "none");
-        }, 3000)
-    }
-
 
     render(){
         return(

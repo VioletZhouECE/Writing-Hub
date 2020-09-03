@@ -2,6 +2,7 @@ import React from "react";
 import {Route, Switch, Link} from "react-router-dom";
 import Journal from "./journal";
 import Question from "./question";
+import {displaySuccessMessage} from "../../scripts/display_messages";
 
 class WriteEntry extends React.Component{
     constructor(props){
@@ -26,7 +27,7 @@ class WriteEntry extends React.Component{
         })
         .then(res=> res.json())
         .then(resData=>{
-            console.log(resData.msg);
+            displaySuccessMessage(resData.msg);
         })
         .catch(err=>{
             console.log(err.message);
