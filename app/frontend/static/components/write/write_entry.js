@@ -26,9 +26,6 @@ class WriteEntry extends React.Component{
         })
         .then(res=> res.json())
         .then(resData=>{
-            if(resData.status !== 200){
-                throw new Error("server error: " + resData.message);
-            }
             console.log(resData.msg);
         })
         .catch(err=>{

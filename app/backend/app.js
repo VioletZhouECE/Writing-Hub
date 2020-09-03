@@ -5,6 +5,7 @@ const authRouter = require('./routers/auth_router');
 const journalRouter = require('./routers/journal_router');
 const questionRouter = require('./routers/question_router');
 const replyRouter = require('./routers/reply_router');
+const jwtValidator = require('./middleware/jwt_validation');
 const errorHandler = require('./middleware/error_handler');
 
 // sequelize.sync();
@@ -35,7 +36,7 @@ app.get('*/', (req, res) => {
 });
 
 app.use('/auth', authRouter);
-app.use('/journals', journalRouter);
+app.use('/journals', jwtValidator, journalRouter);
 //app.use('/questions', questionRouter);
 
 app.use(errorHandler);
