@@ -132,8 +132,8 @@ class MainPage extends React.Component{
     //store userId and token to local storage
     localStorage.setItem('userId', userId.toString());
     localStorage.setItem('token', token.toString());
-    //auto-logout: 3min for testing
-    const remainingMilliseconds = 60 * 3 * 1000;
+    //auto-logout: 3h
+    const remainingMilliseconds = 3 * 60 * 60 * 1000;
     const expiryDate = new Date(
       new Date().getTime() + remainingMilliseconds
     );
