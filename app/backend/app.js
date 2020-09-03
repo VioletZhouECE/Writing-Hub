@@ -5,7 +5,7 @@ const authRouter = require('./routers/auth_router');
 const journalRouter = require('./routers/journal_router');
 const questionRouter = require('./routers/question_router');
 const replyRouter = require('./routers/reply_router');
-const {sequelize} = require('./models/index');
+const errorHandler = require('./middleware/error_handler');
 
 // sequelize.sync();
 // console.log("All models were synchronized successfully.");
@@ -37,5 +37,7 @@ app.get('*/', (req, res) => {
 app.use('/auth', authRouter);
 app.use('/journals', journalRouter);
 //app.use('/questions', questionRouter);
+
+app.use(errorHandler);
 
 app.listen(3000, '127.0.0.1');

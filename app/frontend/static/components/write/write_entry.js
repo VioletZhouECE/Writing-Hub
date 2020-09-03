@@ -23,16 +23,15 @@ class WriteEntry extends React.Component{
                 body: data.body,
                 comment: data.comment
             })
-        }).then(resData=>{
-            //do some error handling here
-            if (resData.status !== 200){
-                throw new Error(`server error: ${resData.json().message}`);
-            } else {
-                return resData.json()
+        })
+        .then(res=> res.json())
+        .then(resData=>{
+            if(resData.status !== 200){
+                throw new Error("server error: " + resData.message);
             }
-        }).then(data=>{
-            console.log(data.msg);
-        }).catch(err=>{
+            console.log(resData.msg);
+        })
+        .catch(err=>{
             console.log(err.message);
         })
     }
