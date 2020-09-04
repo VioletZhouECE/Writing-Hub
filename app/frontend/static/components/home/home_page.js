@@ -2,6 +2,8 @@ import React from "react";
 import PostSummary from "./post_summary";
 
 const languages = ["Simplified Chinese", "English", "Japanese"];
+const posts = [{username: "VioletZhou", title: "Today is a nice day", body:"I spent the whole day on my website", viewsCount:"0"},
+               {username: "Xinyi Zhou", title: "It is Friday already", body:"I am gonna spend the whole weekend on leetcoding + this simple website, yay!", viewsCount:"1"}];
 
 class HomePage extends React.Component{
     constructor(props){
@@ -16,28 +18,37 @@ class HomePage extends React.Component{
         //load posts
     }
 
+    loadFeed(){}
+
     loadPost(language){
-       //load posts
+        fetch(`/journals/all/language?=${language}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type' : 'application/json',
+                'Authorization' : 'Bearer ' + this.props.token
+            }
+        })
+        .then(res=> res.json())
+        .then(resData=>{
+            this.setState({posts: resData.posts});
+        })
+        .catch(err=>{
+            console.log(err.message);
+        })
     }
 
     render(){
-        let tabs = [];
-        tabs.push(<div className = "tab-float-left"><a href="" onClick = {(e) => this.loadPost(e.target.value)}>Feed</a></div>);
-        languages.forEach(element => {
-            tabs.push( <div className = "tab-float-left"><a href="" onClick = {(e) => this.loadPost(e.target.value)}>{element}</a></div>);
-        });
-        tabs.push(<div className = "tab-float-left"><a href="" onClick = {(e) => this.loadPost(e.target.value)}>...</a></div>);
-
         return(
             <div>
                 <div className="tab-bar">
-                    {tabs}
+                    <div className = "tab-float-left"><a href="" onClick = {(e) => this.loadFeed(e.target.value)}>Feed</a></div>
+                    {languages.map(language=>(<div className = "tab-float-left"><a href="" onClick = {(e) => this.loadPost(e.target.value)}>{language}</a></div>))}
+                    <div className = "tab-float-left"><a href="">...</a></div>
                     <div className="clear-float"></div>
                 </div>
                 <br></br>
                 <div className = "center-container">
-                    <PostSummary username="VioletZhou" title="Today is a nice day" body="I spent the whole day on my website" viewsCount="0"></PostSummary>
-                    <PostSummary username="Xinyi Zhou" title="It is Friday already" body="I am gonna spend the whole weekend on leetcoding + this simple website, yay!" viewsCount="1"></PostSummary>
+                    {posts.map(post => (<PostSummary username={post.username} title={post.title} body={post.body} viewsCount={post.viewsCount}></PostSummary>))}
                 </div>
             </div>
         )
