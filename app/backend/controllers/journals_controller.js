@@ -14,7 +14,7 @@ exports.getJournalsByLanguage= (req, res, next) => {
              err.statusCode = 500;
              throw err;
          }
-         return models.Journal.findAll({where: {LanguageId:language.id}});
+         return models.Journal.findAll({where: {LanguageId:language.id}, include:models.User});
         }
      ).then(journals=>{
          if (journals.length==0){
@@ -23,9 +23,21 @@ exports.getJournalsByLanguage= (req, res, next) => {
              res.send();
          } else {
             res.statusCode = 200;
-            res.json(journals);
+            let response;
+            response = {
+                posts: journals.map(journal=>(
+                    {id: journal.id,
+                     username: journal.User.username,
+                     title: journal.title,
+                     body: journal.body,
+                     viewsCount: journal.viewsCount
+                    }
+                ))
+            }
+            res.json(response);      
          }
-     }).catch(err=>
+     })
+     .catch(err=>
         next(err));
 }
 

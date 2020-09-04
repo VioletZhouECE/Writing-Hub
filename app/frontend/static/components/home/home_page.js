@@ -24,7 +24,6 @@ class HomePage extends React.Component{
     loadFeed(){}
 
     loadPost(language){
-        console.log("load post for: " + language);
         fetch(`/journals/all/language/${language}`, {
             method: 'GET',
             headers: {
@@ -34,7 +33,6 @@ class HomePage extends React.Component{
         })
         .then(res=>res.json())
         .then(resData=>{
-            console.log("resData is " + resData[0].body);
             this.setState({posts: resData.posts});
         })
         .catch(err=>{
@@ -53,7 +51,7 @@ class HomePage extends React.Component{
                 </div>
                 <br></br>
                 <div className = "center-container">
-                    {posts.map(post => (<PostSummary key={post.id} username={post.username} title={post.title} body={post.body} viewsCount={post.viewsCount}></PostSummary>))}
+                    {this.state.posts.map(post => (<PostSummary key={post.id} username={post.username} title={post.title} body={post.body} viewsCount={post.viewsCount}></PostSummary>))}
                 </div>
             </div>
         )
