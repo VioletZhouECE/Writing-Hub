@@ -31,13 +31,13 @@ app.use((req, res, next) => {
     next();
   });
 
-app.get('*/', (req, res) => {
-    res.render('index');
-});
-
 app.use('/auth', authRouter);
 app.use('/journals', jwtValidator, journalRouter);
 //app.use('/questions', questionRouter);
+
+app.get('*/', (req, res) => {
+    res.render('index');
+});
 
 app.use(errorHandler);
 

@@ -177,7 +177,7 @@ class MainPage extends React.Component{
               <PublishSuccess></PublishSuccess>
               <Switch>
                 <Route path = "/write" render = {(props)=><WriteEntry token = {this.state.token}></WriteEntry>}></Route>
-                <Route path ="/" component = {HomePage}></Route>
+                <Route path ="/" render = {(props)=><HomePage token = {this.state.token}></HomePage>}></Route>
               </Switch>
             </div>
         )
