@@ -18,6 +18,26 @@
     margin-right:20px;
 }
 
+.float-right{
+    float: right;
+}
+
+.clear-float{
+    clear:both;
+}
+
+.post-summary-container{
+    height: 100px;
+}
+
+.tab-bar{
+    width: 60%;
+    margin: auto;
+    height: auto;
+    padding:15px;
+    border: 1px solid black;
+}
+
 #success_message {
     position: fixed;
     top: 20px;
