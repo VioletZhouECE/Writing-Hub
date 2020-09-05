@@ -16,7 +16,7 @@ class HomePage extends React.Component{
     }
 
     componentDidMount(){
-        //load posts
+        //load feed
     }
 
     loadFeed(){}
@@ -49,7 +49,7 @@ class HomePage extends React.Component{
                 </div>
                 <br></br>
                 <div className = "center-container">
-                    {this.state.posts.map(post => (<PostSummary key={post.id} username={post.username} title={post.title} body={post.body} viewsCount={post.viewsCount}></PostSummary>))}
+                    {this.state.posts.map(post => (<PostSummary id={post.id} key={post.id} username={post.username} title={post.title} body={post.body} viewsCount={post.viewsCount}></PostSummary>))}
                 </div>
             </div>
         )

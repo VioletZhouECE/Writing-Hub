@@ -6,6 +6,7 @@ import HomePage from "./home/home_page";
 import MenuBar from "./reusable/menu_bar";
 import WriteEntry from "./write/write_entry";
 import PublishSuccess from "./write/publish_success";
+import PostDetails from "./home/post_details";
 
 class MainPage extends React.Component{
     constructor(props){
@@ -177,6 +178,7 @@ class MainPage extends React.Component{
               <PublishSuccess></PublishSuccess>
               <Switch>
                 <Route path = "/write" render = {(props)=><WriteEntry token = {this.state.token}></WriteEntry>}></Route>
+                <Route path = "/journal" render = {(props)=><PostDetails token = {this.state.token}></PostDetails>}></Route>
                 <Route path ="/" render = {(props)=><HomePage token = {this.state.token}></HomePage>}></Route>
               </Switch>
             </div>

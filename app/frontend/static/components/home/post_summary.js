@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from "react-router-dom";
 
 class PostSummary extends React.Component{
     render(){
@@ -9,9 +10,11 @@ class PostSummary extends React.Component{
                         {this.props.username}
                     </div>
                     <div className = "pl-2 col-sm-9 col-md-9 col-lg-10 d-flex flex-column">
-                        <div className = "post-wrap font-weight-bold pb-3">
-                            {this.props.title}
-                        </div>
+                        <Link to={`/journal/${this.props.id}`}>
+                            <div className = "post-wrap font-weight-bold pb-3">
+                                {this.props.title}
+                            </div>
+                        </Link>
                         <div className = "post-wrap" dangerouslySetInnerHTML={{ __html: this.props.body}}>
                         </div>
                     </div>
