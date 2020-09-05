@@ -13,6 +13,7 @@ class PostDetails extends React.Component{
     
     componentDidMount(){
         const postId = this.props.location.pathname.split('/')[2];
+        //fetch post details
         fetch(`/journals/${postId}`, {
             method: 'GET',
             headers: {
@@ -26,6 +27,15 @@ class PostDetails extends React.Component{
         })
         .catch(err=>{
             console.log(err.message);
+        })
+
+        //update ViewCount
+        fetch(`/journals/${postId}/updateViewsCount`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type' : 'application/json',
+                'Authorization' : 'Bearer ' + this.props.token
+            }
         })
     }
 

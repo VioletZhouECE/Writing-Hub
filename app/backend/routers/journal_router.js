@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {getJournalsByUser, getJournalsByLanguage, getJournal, postJournal, updateJournal, deleteJournal} = require('../controllers/journals_controller');
+const {getJournalsByUser, getJournalsByLanguage, getJournal, postJournal, updateJournal, deleteJournal, updateViewsCount} = require('../controllers/journals_controller');
 
 //GET /journals/all/langauge/:languageName
 router.get('/all/user/:userId', getJournalsByUser);
@@ -16,6 +16,8 @@ router.post('/', postJournal);
 
 //PUT /journals/:journalId
 router.put('/:journalId', updateJournal);
+
+router.patch('/:journalId/updateViewsCount', updateViewsCount);
 
 //DELETE /journals/:journalId
 router.delete('/:journalId', deleteJournal);
