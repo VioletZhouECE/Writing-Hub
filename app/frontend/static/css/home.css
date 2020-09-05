@@ -1,6 +1,12 @@
 *{
     margin:0px;
 } 
+
+hr{
+    margin: 0;
+    padding: 0;
+}
+
 .center-container{
     width: 60%;
     margin: auto;
@@ -27,7 +33,7 @@
 }
 
 .post-summary-container{
-    height: 100px;
+    height: 130px;
 }
 
 .tab-bar{
@@ -36,6 +42,14 @@
     height: auto;
     padding:15px;
     border: 1px solid black;
+}
+
+.post-wrap{
+    display: block;
+    height: 50px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 #success_message {

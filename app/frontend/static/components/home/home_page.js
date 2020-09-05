@@ -2,8 +2,6 @@ import React from "react";
 import PostSummary from "./post_summary";
 
 const languages = ["Simplified Chinese", "English", "Japanese"];
-const posts = [{id: "00001", username: "VioletZhou", title: "Today is a nice day", body:"I spent the whole day on my website", viewsCount:"0"},
-               {id: "00002", username: "Xinyi Zhou", title: "It is Friday already", body:"I am gonna spend the whole weekend on leetcoding + this simple website, yay!", viewsCount:"1"}];
 
 class HomePage extends React.Component{
     constructor(props){
