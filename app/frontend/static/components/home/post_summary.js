@@ -3,7 +3,7 @@ import React from "react";
 class PostSummary extends React.Component{
     render(){
         return (
-            <div className = "post-summary-container">
+            <div className = "pt-2">
                 <div className = "d-flex justify-content-between">
                     <div className = "p-0 col-sm-3 col-md-3 col-lg-2">
                         {this.props.username}
