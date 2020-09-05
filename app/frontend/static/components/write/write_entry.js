@@ -2,7 +2,7 @@ import React from "react";
 import {Route, Switch, Link} from "react-router-dom";
 import Journal from "./journal";
 import Question from "./question";
-import {displaySuccessMessage} from "../../scripts/display_messages";
+import {displaySuccessMessage, displayErrorMessage} from "../../scripts/display_messages";
 
 class WriteEntry extends React.Component{
     constructor(props){
@@ -25,12 +25,19 @@ class WriteEntry extends React.Component{
                 comment: data.comment
             })
         })
-        .then(res=> res.json())
-        .then(resData=>{
+        .then(res => {
+            if (res.status === 200){
+                return res.json();
+            } else {
+                return res.json().then((err) => {
+                    throw new Error(err.message);
+                })}
+        })
+        .then(resData =>{
             displaySuccessMessage(resData.msg);
         })
         .catch(err=>{
-            console.log(err.message);
+            displayErrorMessage(err.message)
         })
     }
 

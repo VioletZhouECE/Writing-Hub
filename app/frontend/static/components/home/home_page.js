@@ -1,5 +1,6 @@
 import React from "react";
 import PostSummary from "./post_summary";
+import {displayErrorMessage} from "../../scripts/display_messages";
 
 const languages = ["Simplified Chinese", "English", "Japanese"];
 
@@ -29,12 +30,23 @@ class HomePage extends React.Component{
                 'Authorization' : 'Bearer ' + this.props.token
             }
         })
-        .then(res=>res.json())
+        .then(res=>{
+            if (res.status === 204){
+                //to-do: render no post page
+                return Promise.resolve();
+            } else if (res.status === 200) {
+                return res.json();
+            } else {
+                return res.json().then((err) => {
+                    throw new Error("Server error: " + err.message);
+                });
+            }
+        })
         .then(resData=>{
             this.setState({posts: resData.posts});
         })
         .catch(err=>{
-            console.log(err.message);
+            displayErrorMessage(err.message);
         })
     }
 

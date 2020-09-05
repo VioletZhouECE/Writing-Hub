@@ -1,5 +1,6 @@
 import React from "react";
 import {withRouter} from 'react-router-dom';
+import { displayErrorMessage } from "../../scripts/display_messages";
 
 class PostDetails extends React.Component{
     constructor(props){
@@ -21,12 +22,19 @@ class PostDetails extends React.Component{
                 'Authorization' : 'Bearer ' + this.props.token
             }
         })
-        .then(res => res.json())
+        .then(res => {
+            if (res.status === 200){
+                return res.json();
+            } else {
+                return res.json().then((err) => {
+                    throw new Error(err.message);
+                })}
+        })
         .then(resData =>{
             this.setState({postData:resData});
         })
         .catch(err=>{
-            console.log(err.message);
+            displayErrorMessage(err.message)
         })
 
         //update ViewCount

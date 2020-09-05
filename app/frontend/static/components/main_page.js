@@ -5,7 +5,6 @@ import Signup from "./auth/signup";
 import HomePage from "./home/home_page";
 import MenuBar from "./reusable/menu_bar";
 import WriteEntry from "./write/write_entry";
-import PublishSuccess from "./write/publish_success";
 import PostDetails from "./home/post_details";
 
 class MainPage extends React.Component{
@@ -175,7 +174,8 @@ class MainPage extends React.Component{
         ) : (
             <div>
               <MenuBar handleLogout = {this.handleLogout}></MenuBar>
-              <PublishSuccess></PublishSuccess>
+              <div id = "success_message" className = "alert alert-success toast-message"></div>
+              <div id = "error_message" className = "alert alert-danger toast-message"></div>
               <Switch>
                 <Route path = "/write" render = {(props)=><WriteEntry token = {this.state.token}></WriteEntry>}></Route>
                 <Route path = "/journal" render = {(props)=><PostDetails token = {this.state.token}></PostDetails>}></Route>
