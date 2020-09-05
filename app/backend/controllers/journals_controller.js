@@ -41,7 +41,34 @@ exports.getJournalsByLanguage= (req, res, next) => {
         next(err));
 }
 
-exports.getJournal= (req, res, next) => {}
+//get a single journal by id
+exports.getJournal= (req, res, next) => {
+    const journalId = req.params.journalId;
+    models.Journal.findOne({where:{id: journalId}, include:[models.User, models.Language]})
+    .then(journal=>{
+        if (!journal){
+            let err = new Error(`the journal with journalId: ${journalId} does not exist in our database`);
+             err.statusCode = 500;
+             throw err;
+        }
+        res.statusCode = 200;
+        let response = {
+            id: journal.id,
+            createdAt: journal.createdAt,
+            updatedAt: journal.updatedAt,
+            username: journal.User.username,
+            language: journal.Language.name,
+            title: journal.title,
+            body: journal.body,
+            comment: journal.comment,
+            viewsCount: journal.viewsCount
+        }
+        res.json(response);
+    })
+    .catch(err=>{
+        next(err);
+    })
+}
 
 exports.postJournal= (req, res, next) => {
     const userId = req.userId;
