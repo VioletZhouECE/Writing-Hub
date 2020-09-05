@@ -7,6 +7,10 @@ hr{
     padding: 0;
 }
 
+.post-summary-body *,.post-details-body *,.post-details-comment *{
+    margin: 0;
+}
+
 .center-container{
     width: 60%;
     margin: auto;
@@ -40,9 +44,17 @@ hr{
     border: 1px solid black;
 }
 
-.post-wrap{
+.post-title-wrap{
     display: block;
     height: 50px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.post-wrap{
+    display: block;
+    height: 24px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;

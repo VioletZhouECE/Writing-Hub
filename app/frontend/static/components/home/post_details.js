@@ -4,6 +4,10 @@ import {withRouter} from 'react-router-dom';
 class PostDetails extends React.Component{
     constructor(props){
         super(props);
+
+        this.state = {
+            postData : {}
+        }
     }
 
     
@@ -18,7 +22,7 @@ class PostDetails extends React.Component{
         })
         .then(res => res.json())
         .then(resData =>{
-            console.log("resData is: " + resData.body);
+            this.setState({postData:resData});
         })
         .catch(err=>{
             console.log(err.message);
@@ -27,7 +31,28 @@ class PostDetails extends React.Component{
 
     render(){
         return(
-        <div>Post details</div>
+        <div className="center-container">
+            <div className = "d-flex flex-row">
+                <div className = "p-0 col-sm-3 col-md-3 col-lg-2">
+                    Profile
+                </div>
+                <div className="pl-2 col-sm-9 col-md-9 col-lg-10">
+                    <div>
+                        {this.state.postData.username}. Learning {this.state.postData.language}
+                    </div>
+                    <div>
+                        Written on {this.state.postData.createdAt}
+                    </div>
+                </div>
+            </div>
+            <div className="pt-3 font-weight-bold">
+                {this.state.postData.title}
+            </div>
+            <div className = "pt-2 post-details-body" dangerouslySetInnerHTML={{ __html: this.state.postData.body}}>
+            </div>
+            <div className = "pt-3 post-details-comment" dangerouslySetInnerHTML={{ __html: this.state.postData.comment}}>
+            </div>
+        </div>
         )
     }
 }

@@ -11,11 +11,11 @@ class PostSummary extends React.Component{
                     </div>
                     <div className = "pl-2 col-sm-9 col-md-9 col-lg-10 d-flex flex-column">
                         <Link to={`/journal/${this.props.id}`}>
-                            <div className = "post-wrap font-weight-bold pb-3">
+                            <div className = "post-title-wrap font-weight-bold pb-3">
                                 {this.props.title}
                             </div>
                         </Link>
-                        <div className = "post-wrap" dangerouslySetInnerHTML={{ __html: this.props.body}}>
+                        <div className = "post-wrap post-summary-body mb-3" dangerouslySetInnerHTML={{ __html: this.props.body}}>
                         </div>
                     </div>
                 </div>
