@@ -43,8 +43,8 @@ class Signup extends React.Component{
     render(){
         return (
         <div className='login-background'>
-            <div className='login-container container-border pt-4'>
-                <div className='container-center'>
+            <div className='login-container login-container-border pt-4'>
+                <div className='center'>
                     <div className='text-center'>
                         <h2>Signup</h2>
                     </div>
@@ -68,7 +68,7 @@ class Signup extends React.Component{
                         </div>
                     </form>
                         <div className="d-flex justify-content-center pt-4">
-                            <p className="pr-2">Do not have an account?</p>
+                            <p className="pr-2">Already have an account?</p>
                             <Link to="/">Login</Link>
                         </div>
                 </div>

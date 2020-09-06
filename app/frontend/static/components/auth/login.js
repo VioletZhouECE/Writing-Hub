@@ -42,9 +42,9 @@ class Login extends React.Component{
 
     render(){
         return (
-        <div className='login-background'>
-            <div className='login-container container-border pt-4'>
-                <div className='container-center'>
+        <div className='login-background'> 
+            <div className='login-container login-container-border pt-4'>
+                <div className='center'>
                     <div className='text-center'>
                         <h2>Login</h2>
                     </div>

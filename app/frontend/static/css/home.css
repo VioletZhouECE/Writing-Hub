@@ -2,9 +2,37 @@
     margin:0px;
 } 
 
+html, body, #root, #root, div.login-background, #auth-parent-component{
+    height: 100%;
+}
+
 hr{
     margin: 0;
     padding: 0;
+}
+
+.login-container {
+    width: 410px;
+    height: 500px;
+    margin: auto;
+    background-color:#fafafa;
+}
+
+.login-background {
+    background-image: url("../image/login_background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.login-container-border {
+    -webkit-box-shadow: 7px 7px 5px 0px rgba(61,92,138,1);
+    -moz-box-shadow: 7px 7px 5px 0px rgba(61,92,138,1);
+    box-shadow: 7px 7px 5px 0px rgba(61,92,138,1);
+}
+
+.center {
+    width: 60%; 
+    margin: auto;
 }
 
 .post-summary-body *,.post-details-body *,.post-details-comment *{

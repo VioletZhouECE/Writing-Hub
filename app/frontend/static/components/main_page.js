@@ -162,10 +162,10 @@ class MainPage extends React.Component{
         var handleLogin = this.handleLogin;
         var handleSignup = this.handleSignup;
         return !this.state.isAuth?(
-          <div>
-            <div className = "alert alert-danger toast-message" style={{display: this.state.error? "inline" : "none"}}>
+          <div id="auth-parent-component">
+            <div className = "float-right alert alert-danger toast-message" style={{display: this.state.error? "inline" : "none"}}>
                 {this.state.error}
-            </div> 
+            </div>
             <Switch>
                 <Route path = "/signup" render = {(props) => <Signup handleSumbitForm = {handleSignup}></Signup>}></Route>
                 <Route path = "/" render = {(props) => <Login handleSumbitForm = {handleLogin}></Login>}></Route>
