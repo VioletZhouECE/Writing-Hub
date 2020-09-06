@@ -6,6 +6,7 @@ import HomePage from "./home/home_page";
 import MenuBar from "./reusable/menu_bar";
 import WriteEntry from "./write/write_entry";
 import PostDetails from "./home/post_details";
+import LanguageSelect from "./reusable/language_select";
 
 class MainPage extends React.Component{
     constructor(props){
@@ -167,8 +168,8 @@ class MainPage extends React.Component{
                 {this.state.error}
             </div>
             <Switch>
-                <Route path = "/signup" render = {(props) => <Signup handleSumbitForm = {handleSignup}></Signup>}></Route>
-                <Route path = "/" render = {(props) => <Login handleSumbitForm = {handleLogin}></Login>}></Route>
+                <Route path = "/signup" render = {(props) => <Signup handleSubmitForm = {handleSignup}></Signup>}></Route>
+                <Route path = "/" render = {(props) => <Login handleSubmitForm = {handleLogin}></Login>}></Route>
             </Switch>
           </div>
         ) : (
