@@ -50,8 +50,7 @@ class MainPage extends React.Component{
         })
       }
     }
-
-    
+ 
     verifyUsername(username){
       //remove error from the previous signup request
       return new Promise((resolve, reject) =>{
@@ -95,17 +94,13 @@ class MainPage extends React.Component{
         },
         body: JSON.stringify({
           username: data.username,
-          password: data.password
+          password: data.password,
+          learnLanguage: data.learnLanguage,
+          firstLanguage: data.firstLanguage
         })
       })
       .then(res => {
-        if (res.status === 400) {
-            throw new Error('Please enter a valid username (2-10 characters long) and a valid password (6-12 characters long)');
-        }
-        if (res.status === 422) {
-          throw new Error("An user with this username already exists, please choose another username!");
-        }
-        if (res.status !== 200 && res.status !== 201) {
+        if (res.status !== 201) {
             throw new Error ("Create user failed due to an issue on the server, please try again later");
         }
         return res.json();

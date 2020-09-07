@@ -5,20 +5,20 @@ class LanguageForm extends React.Component{
         super(props);
 
         this.state = {
-            learnLanguage: "",
-            teachLanguage: ""
+            learnLanguage: "English",
+            firstLanguage: "English"
         }
 
         this.handleSelectLearnLanguage = this.handleSelectLearnLanguage.bind(this);
-        this.handleSelectTeachLanguage = this.handleSelectTeachLanguage.bind(this);
+        this.handleSelectFirstLanguage = this.handleSelectFirstLanguage.bind(this);
     }
 
     handleSelectLearnLanguage(e){
         this.setState({learnLanguage: e.target.value});
     }
 
-    handleSelectTeachLanguage(e){
-        this.setState({teachLanguage: e.target.value});
+    handleSelectFirstLanguage(e){
+        this.setState({firstLanguage: e.target.value});
     }
 
     handleSubmit(e){
@@ -59,7 +59,7 @@ class LanguageForm extends React.Component{
                             <div class="form-group py-4">
                                 <label for="teaching_language_select">Tell us the languages you are fluent in</label>
                                 <small id = "teaching_language_select_help" class = "form-text text-muted">Help others learn by teaching them your languages!</small>
-                                <select class="form-control" id="teaching_language_select" value= {this.state.teachLanguage} onChange={this.handleSelectTeachLanguage} required>
+                                <select class="form-control" id="teaching_language_select" value= {this.state.firstLanguage} onChange={this.handleSelectFirstLanguage} required>
                                     <option>English</option>
                                     <option>Simplified Chinese</option>
                                     <option>Traditional Chinese</option>

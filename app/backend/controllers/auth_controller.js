@@ -57,34 +57,62 @@ exports.verifyUsername = (req, res, next) => {
 }
 
 exports.signup = (req, res, next) => {
-   models.User.create({
-            username: req.body.username,
-            password: req.body.password
-            })
-            //send back response
-            .then(user =>{
-                res.statusCode = 201;
-                //generate json web token
-                const token = jwt.sign(
-                    { username: user.username,
-                      userId: user.id.toString()
-                    },
-                    'FVFSRHGUH3QD',
-                    { expiresIn: '3h' }
-                  );
+  let learnLanguageId;
+  let firstLanguageId;
+  let newUser;
+  //retrieve languageId 
+   models.Language.findOne({where: {name:req.body.learnLanguage}})
+        .then(result=>{
+                if (!result){
+                    let err = new Error(`The language ${req.body.learnLanguage} does not exist in our database`);
+                    err.statusCode = 422;
+                    throw err;
+                }
+                learnLanguageId = result.id;
+                return  models.Language.findOne({where: {name:req.body.firstLanguage}});
+        })
+        .then(result=>{
+                if (!result){
+                    let err = new Error(`The language ${req.body.firstLanguage} does not exist in our database`);
+                    err.statusCode = 422;
+                    throw err;
+                }
+                firstLanguageId = result.id;
+                return  models.User.create({
+                    username: req.body.username,
+                    password: req.body.password
+                });
+        })
+        .then(user => {
+            newUser = user;
+            return newUser.setFirstLanguage(firstLanguageId);
+        })
+        .then(()=> {
+            return newUser.setLearnLanguage(learnLanguageId);
+        })
+        .then(() =>{
+            res.statusCode = 201;
+            //generate json web token
+            const token = jwt.sign(
+                { username: newUser.username,
+                    userId: newUser.id.toString()
+                },
+                'FVFSRHGUH3QD',
+                { expiresIn: '3h' }
+                );
 
-                let response = {
-                    msg : 'User created successfully!',
-                    userId: user.id.toString(),
-                    token: token
-                }
-                res.json(response);
-            })
-            .catch(err =>{
-                if (!err.statusCode){
-                    err.statusCode = 500;
-                }
-                next(err);
-                }
-            );
+            let response = {
+                msg : 'User created successfully!',
+                userId: newUser.id.toString(),
+                token: token
+            }
+            res.json(response);
+        })
+        .catch(err =>{
+            if (!err.statusCode){
+                err.statusCode = 500;
+            }
+            next(err);
+            }
+        );
 };

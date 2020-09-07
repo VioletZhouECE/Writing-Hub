@@ -18,7 +18,7 @@ class Signup extends React.Component{
     }
 
     handleSubmitLanguage(data){
-        this.setState({lanuguageData: data}, ()=>{
+        this.setState({languageData: data}, ()=>{
             this.submitSignup();
         });
     }
@@ -30,7 +30,7 @@ class Signup extends React.Component{
             //display the language form
               this.props.history.push('/signup/language');
             }).catch(
-                //do nothing when the promise rejects
+            //do nothing when the promise rejects
             )
         });
     }
