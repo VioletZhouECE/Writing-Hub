@@ -20,6 +20,7 @@ class MainPage extends React.Component{
         }
 
         this.handleSignup = this.handleSignup.bind(this);
+        this.verifyUsername = this.verifyUsername.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
     }
@@ -48,6 +49,40 @@ class MainPage extends React.Component{
           userId : userId,
         })
       }
+    }
+
+    
+    verifyUsername(username){
+      //remove error from the previous signup request
+      return new Promise((resolve, reject) =>{
+        this.setState({error:null});
+        fetch(`/auth/signup/${username}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then(res => {
+          if (res.status === 400) {
+              throw new Error('Please enter a valid username (2-10 characters long) and a valid password (6-12 characters long)');
+          }
+          if (res.status === 422) {
+            throw new Error("A user with this username already exists, please choose another username!");
+          }
+          if (res.status !== 200) {
+            throw new Error ("Create user failed due to an issue on the server, please try again later");
+          }
+
+          resolve();
+        })
+        .catch(err => {
+          this.setState({
+            isAuth: false,
+            error: err.message
+          });
+          reject();
+        })
+      })
     }
 
     handleSignup(data){
@@ -160,16 +195,14 @@ class MainPage extends React.Component{
   }
 
     render(){
-        var handleLogin = this.handleLogin;
-        var handleSignup = this.handleSignup;
         return !this.state.isAuth?(
           <div id="auth-parent-component">
             <div className = "float-right alert alert-danger toast-message" style={{display: this.state.error? "inline" : "none"}}>
                 {this.state.error}
             </div>
             <Switch>
-                <Route path = "/signup" render = {(props) => <Signup handleSubmitForm = {handleSignup}></Signup>}></Route>
-                <Route path = "/" render = {(props) => <Login handleSubmitForm = {handleLogin}></Login>}></Route>
+                <Route path = "/signup" render = {(props) => <Signup handleSubmitForm = {this.handleSignup} verifyUsername = {this.verifyUsername}></Signup>}></Route>
+                <Route path = "/" render = {(props) => <Login handleSubmitForm = {this.handleLogin}></Login>}></Route>
             </Switch>
           </div>
         ) : (

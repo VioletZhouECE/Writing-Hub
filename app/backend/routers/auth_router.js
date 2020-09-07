@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const {signup} = require("../controllers/auth_controller");
-const {login} = require("../controllers/auth_controller");
+const {verifyUsername, signup, login} = require("../controllers/auth_controller");
+
+router.get('/signup/:username', verifyUsername);
 
 router.put('/signup', signup);
 

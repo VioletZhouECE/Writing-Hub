@@ -40,24 +40,26 @@ exports.login = (req, res, next) => {
 
 }
 
-exports.signup = (req, res, next) => {
-   //retrieve validator result
-   //skip for now
-   //retrieve user from db
-    models.User.findAll({where : {username:req.body.username}})
+exports.verifyUsername = (req, res, next) => {
+    models.User.findAll({where : {username:req.params.username}})
             .then(result => {
                 if (result.length !== 0){
                     let err = new Error('A user with that username already exists');
                     err.statusCode = 422;
                     throw err;
-                } else {
-                    //create a new user in db
-                    return models.User.create({
-                        username: req.body.username,
-                        //to-do: use bcrypt
-                        password: req.body.password
-                    })
                 }
+                res.statusCode = 200;
+                res.send();
+            })
+            .catch(err=>{
+                next(err);
+            })
+}
+
+exports.signup = (req, res, next) => {
+   models.User.create({
+            username: req.body.username,
+            password: req.body.password
             })
             //send back response
             .then(user =>{

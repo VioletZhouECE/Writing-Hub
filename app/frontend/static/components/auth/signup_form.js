@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {withRouter} from 'react-router-dom';
 import {Link} from "react-router-dom";
 
 class SignupForm extends React.Component{
@@ -40,9 +39,6 @@ class SignupForm extends React.Component{
 
         //submit data
         this.props.handleSubmitForm(this.state);
-
-        //display the language form
-        this.props.history.push('/signup/language');
     }
 
     render(){
@@ -83,4 +79,4 @@ class SignupForm extends React.Component{
     }
 }
 
-export default withRouter(SignupForm);
+export default SignupForm;

@@ -1,5 +1,6 @@
 import React from "react";
 import {Route, Switch} from "react-router-dom";
+import {withRouter} from 'react-router-dom';
 import LanguageForm from "./language_form";
 import SignupForm from "./signup_form";
 
@@ -17,13 +18,21 @@ class Signup extends React.Component{
     }
 
     handleSubmitLanguage(data){
-        this.setState({lanugaeData: data}, ()=>{
+        this.setState({lanuguageData: data}, ()=>{
             this.submitSignup();
         });
     }
 
     handleSubmitUserData(data){
-        this.setState({userData: data});
+        this.setState({userData: data}, ()=>{
+            this.props.verifyUsername(data.username)
+            .then(()=>{
+            //display the language form
+              this.props.history.push('/signup/language');
+            }).catch(
+                //do nothing when the promise rejects
+            )
+        });
     }
 
     //combine data from the two forms and submit
@@ -42,4 +51,4 @@ class Signup extends React.Component{
     }
 }
 
-export default Signup;
+export default withRouter(Signup);
