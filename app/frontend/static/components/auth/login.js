@@ -37,7 +37,7 @@ class Login extends React.Component{
             return;
         }
         
-        this.props.handleSumbitForm(this.state);
+        this.props.handleSubmitForm(this.state);
     }
 
     render(){
