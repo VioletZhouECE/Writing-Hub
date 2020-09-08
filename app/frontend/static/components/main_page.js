@@ -150,7 +150,7 @@ class MainPage extends React.Component{
       return res.json();
     })
     .then(resData => {
-      this.setLocalStorage(resData.userId, resData.token, resData.learnLangauge, resData.firstLanguage);
+      this.setLocalStorage(resData.userId, resData.token, resData.learnLanguage, resData.firstLanguage);
       //direct user to the home page
       this.setState({isAuth: true,
                      userId: resData.userId,
@@ -220,7 +220,7 @@ class MainPage extends React.Component{
               <Switch>
                 <Route path = "/write" render = {(props)=><WriteEntry token = {this.state.token}></WriteEntry>}></Route>
                 <Route path = "/journal" render = {(props)=><PostDetails token = {this.state.token}></PostDetails>}></Route>
-                <Route path ="/" render = {(props)=><HomePage token = {this.state.token} learnLangauge = {this.state.learnLanguage} firstLanguage={this.state.firstLanguage}></HomePage>}></Route>
+                <Route path ="/" render = {(props)=><HomePage token = {this.state.token} learnLanguage = {this.state.learnLanguage} firstLanguage={this.state.firstLanguage}></HomePage>}></Route>
               </Switch>
             </div>
         )

@@ -2,8 +2,6 @@ import React from "react";
 import PostSummary from "./post_summary";
 import {displayErrorMessage} from "../../scripts/display_messages";
 
-const languages = ["Simplified Chinese", "English", "Japanese"];
-
 class HomePage extends React.Component{
     constructor(props){
         super(props);
@@ -18,6 +16,9 @@ class HomePage extends React.Component{
 
     componentDidMount(){
         //load feed
+        //placeholder
+        this.loadPost(this.props.learnLanguage);
+        //for version I, this will load posts randomly in both languages
     }
 
     loadFeed(){}
@@ -55,7 +56,8 @@ class HomePage extends React.Component{
             <div>
                 <div className="tab-bar">
                     <div className = "tab-float-left"><a href="#" onClick = {(e) => this.loadFeed(e.target.value)}>Feed</a></div>
-                    {languages.map(language=>(<div className = "tab-float-left" key={language}><a href="javascript:;" onClick = {(e) => this.loadPost(language)}>{language}</a></div>))}
+                    <div className = "tab-float-left" key={this.props.learnLanguage}><a href="javascript:;" onClick = {(e) => this.loadPost(this.props.learnLanguage)}>{this.props.learnLanguage}</a></div>
+                    <div className = "tab-float-left" key={this.props.firstLanguage}><a href="javascript:;" onClick = {(e) => this.loadPost(this.props.firstLanguage)}>{this.props.firstLanguage}</a></div>
                     <div className = "tab-float-left"><a href="#">...</a></div>
                     <div className="clear-float"></div>
                 </div>
