@@ -16,7 +16,9 @@ class MainPage extends React.Component{
             isAuth: false,
             userId: null,
             token: null,
-            error: null
+            error: null,
+            learnLanguage: null,
+            firstLanguage: null
         }
 
         this.handleSignup = this.handleSignup.bind(this);
@@ -139,16 +141,20 @@ class MainPage extends React.Component{
           throw new Error('Wrong username or password');
       }
       if (res.status !== 200 && res.status !== 201) {
-          throw new Error ("Create user failed due to an issue on the server, please try again later");
+          throw new Error ("Login user failed due to an issue on the server, please try again later");
       }
       return res.json();
     })
     .then(resData => {
+      console.log("learnLanguage is: " + resData.learnLanguage);
+      console.log("firstLanguage is: " + resData.firstLanguage);
       this.setJwt(resData.userId, resData.token);
       //direct user to the home page
       this.setState({isAuth: true,
                      userId: resData.userId,
                      token : resData.token,
+                     learnLanguage: resData.learnLanguage,
+                     firstLanguage: resData.firstLanauage,
                      error: null});
     })
     .catch(err => {
@@ -208,7 +214,7 @@ class MainPage extends React.Component{
               <Switch>
                 <Route path = "/write" render = {(props)=><WriteEntry token = {this.state.token}></WriteEntry>}></Route>
                 <Route path = "/journal" render = {(props)=><PostDetails token = {this.state.token}></PostDetails>}></Route>
-                <Route path ="/" render = {(props)=><HomePage token = {this.state.token}></HomePage>}></Route>
+                <Route path ="/" render = {(props)=><HomePage token = {this.state.token} learnLangauge = {this.state.learnLanguage} firstLanguage={this.state.firstLanguage}></HomePage>}></Route>
               </Switch>
             </div>
         )
