@@ -4,14 +4,16 @@ const jwtkey = require('../config/jwtkey');
 
 exports.login = (req, res, next) => {
     //retrieve user from db 
-    models.User.findOne({where : {username:req.body.username}, include:[{model: models.Language, as:"FirstLanguage", through: { attributes: [] }, attributes: ['name']},{model: models.Language, as: "LearnLanguage", through: { attributes: [] }, attributes: ['name']}]})
-                .then(result => {
+    models.User.findOne({where : {username:req.body.username}})
+                .then(async (result) => {
                 if (!result){
                     let err = new Error('Wrong username or password');
                     err.statusCode = 401;
                     throw err;
                 } else {
                         let login_user = result;
+                        const firstLanguageData = await login_user.getFirstLanguage();
+                        const learnLanguageData = await login_user.getLearnLanguage();
                         //generate json web token
                         const token = jwt.sign(
                             { username: login_user.username,
@@ -25,8 +27,8 @@ exports.login = (req, res, next) => {
                             msg : 'authentication succeeded!',
                             userId: login_user.id.toString(),
                             token: token,
-                            firstLanguage: login_user.FirstLanguage.name,
-                            learnLanguage: login_user.LearnLanguage.name
+                            firstLanguage: firstLanguageData[0].name,
+                            learnLanguage: learnLanguageData[0].name
                         }
                         res.json(response);
                     }

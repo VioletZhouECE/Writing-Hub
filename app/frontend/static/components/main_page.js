@@ -38,9 +38,13 @@ class MainPage extends React.Component{
        localStorage.removeItem('expiryDate');
        localStorage.removeItem('token');
        localStorage.removeItem('userId');
+       localStorage.removeItem('learnLanguage');
+       localStorage.removeItem('firstLanguage');
       } else {
         const token = localStorage.getItem('token');
         const userId = localStorage.getItem('userId');
+        const learnLanguage = localStorage.getItem('learnLanguage');
+        const firstLanguage = localStorage.getItem('firstLanguage');
         const remainingMilliseconds = new Date(localStorage.getItem('expiryDate')) - new Date().getTime();
         //set autologout
         this.setAutoLogout(remainingMilliseconds);
@@ -49,6 +53,8 @@ class MainPage extends React.Component{
           isAuth : true,
           token: token,
           userId : userId,
+          learnLanguage: learnLanguage,
+          firstLanguage: firstLanguage
         })
       }
     }
@@ -110,8 +116,6 @@ class MainPage extends React.Component{
       .then(resData => {
         //direct user to the home page
         this.setState({ isAuth: false,
-                        userId: resData.userId,
-                        token : resData.token,
                         error: null});
         this.props.history.replace('/');
       })
@@ -146,15 +150,13 @@ class MainPage extends React.Component{
       return res.json();
     })
     .then(resData => {
-      console.log("learnLanguage is: " + resData.learnLanguage);
-      console.log("firstLanguage is: " + resData.firstLanguage);
-      this.setJwt(resData.userId, resData.token);
+      this.setLocalStorage(resData.userId, resData.token, resData.learnLangauge, resData.firstLanguage);
       //direct user to the home page
       this.setState({isAuth: true,
                      userId: resData.userId,
                      token : resData.token,
                      learnLanguage: resData.learnLanguage,
-                     firstLanguage: resData.firstLanauage,
+                     firstLanguage: resData.firstLanguage,
                      error: null});
     })
     .catch(err => {
@@ -165,10 +167,12 @@ class MainPage extends React.Component{
     });   
   }
 
-  setJwt(userId, token){
-    //store userId and token to local storage
+  setLocalStorage(userId, token, learnLanguage, firstLanguage){
     localStorage.setItem('userId', userId.toString());
     localStorage.setItem('token', token.toString());
+    localStorage.setItem('learnLanguage', learnLanguage);
+    localStorage.setItem('firstLanguage', firstLanguage);
+    
     //auto-logout: 3h
     const remainingMilliseconds = 3 * 60 * 60 * 1000;
     const expiryDate = new Date(
@@ -193,6 +197,8 @@ class MainPage extends React.Component{
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
     localStorage.removeItem('expiryDate');
+    localStorage.removeItem('learnLanguage');
+    localStorage.removeItem('firstLanguage');
   }
 
     render(){
