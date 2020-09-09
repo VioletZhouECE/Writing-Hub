@@ -26,7 +26,7 @@ class Journal extends React.Component{
     }
 
     handleLanguageChange(e){
-        this.setState({langaugeFlag : e.target.value});
+        this.setState({languageFlag : e.target.value});
     }
 
     handleTitleChange(e){

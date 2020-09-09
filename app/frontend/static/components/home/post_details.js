@@ -56,7 +56,7 @@ class PostDetails extends React.Component{
                 </div>
                 <div className="pl-2 col-sm-9 col-md-9 col-lg-10">
                     <div>
-                        {this.state.postData.username}. Learning {this.state.postData.language}
+                        {this.state.postData.username}. Learning {this.state.postData.learnLanguage}
                     </div>
                     <div>
                         Written on {this.state.postData.createdAt}

@@ -44,8 +44,9 @@ exports.getJournalsByLanguage= (req, res, next) => {
 //get a single journal by id
 exports.getJournal= (req, res, next) => {
     const journalId = req.params.journalId;
-    models.Journal.findOne({where:{id: journalId}, include:[models.User, models.Language]})
-    .then(journal=>{
+    models.Journal.findOne({where:{id: journalId}, include:[models.User]})
+    .then(async(journal)=>{
+        let learnLanguageData = await journal.User.getLearnLanguage();
         if (!journal){
             let err = new Error(`the journal with journalId: ${journalId} does not exist in our database`);
              err.statusCode = 500;
@@ -57,7 +58,7 @@ exports.getJournal= (req, res, next) => {
             createdAt: journal.createdAt,
             updatedAt: journal.updatedAt,
             username: journal.User.username,
-            language: journal.Language.name,
+            learnLanguage: learnLanguageData[0].name,
             title: journal.title,
             body: journal.body,
             comment: journal.comment,
