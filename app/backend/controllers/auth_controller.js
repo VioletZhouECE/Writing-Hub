@@ -1,16 +1,24 @@
 const models = require('../models/index');
 const jwt = require('jsonwebtoken');
 const jwtkey = require('../config/jwtkey');
+const {wrapper} = "../middleware/error_handling_wrapper";
 
 exports.login = (req, res, next) => {
     //retrieve user from db 
     models.User.findOne({where : {username:req.body.username}})
                 .then(async (result) => {
                 if (!result){
-                    let err = new Error('Wrong username or password');
+                    let err = new Error('Wrong username');
                     err.statusCode = 401;
                     throw err;
                 } else {
+                    //verify password
+                    const isValid = await wrapper(result.isValidPassword(req.body.password));
+                    if (!isValid){
+                        let err = new Error('Wrong password');
+                        err.statusCode = 401;
+                        throw err;
+                    }
                         let login_user = result;
                         const firstLanguageData = await login_user.getFirstLanguage();
                         const learnLanguageData = await login_user.getLearnLanguage();
@@ -43,6 +51,7 @@ exports.login = (req, res, next) => {
 
 }
 
+//db method 
 exports.verifyUsername = (req, res, next) => {
     models.User.findAll({where : {username:req.params.username}})
             .then(result => {
@@ -74,17 +83,19 @@ exports.signup = (req, res, next) => {
                 learnLanguageId = result.id;
                 return  models.Language.findOne({where: {name:req.body.firstLanguage}});
         })
-        .then(result=>{
+        .then(async (result)=>{
                 if (!result){
                     let err = new Error(`The language ${req.body.firstLanguage} does not exist in our database`);
                     err.statusCode = 422;
                     throw err;
                 }
                 firstLanguageId = result.id;
-                return  models.User.create({
+                let user = await models.User.build({
                     username: req.body.username,
                     password: req.body.password
                 });
+                await wrapper(user.storePasswordHash());
+                return await user.save();
         })
         .then(user => {
             newUser = user;

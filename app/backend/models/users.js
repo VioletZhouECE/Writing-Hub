@@ -1,6 +1,6 @@
-import { genSalt, hash, compare } from 'bcryptjs';
+const { genSalt, hash, compare } = 'bcryptjs';
 
-export default (sequelize, DataTypes) => {
+module.exports = (sequelize, DataTypes) => {
     const User = sequelize.define('User', {
       id: {
         type: DataTypes.UUID,
@@ -52,7 +52,7 @@ export default (sequelize, DataTypes) => {
               }
           },
             //verify password and return the validation result
-            async isValidPassword(password, next) {
+            async isValidPassword(password) {
               try{
                 const result = await compare(password, this.password);
                 return result;

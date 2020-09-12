@@ -1,5 +1,5 @@
 //async await error handling wrapper function
-export default wrapper = fn => {
+module.exports.wrapper = fn => {
     return async function(req, res, next){
         let e = null;
         try{
