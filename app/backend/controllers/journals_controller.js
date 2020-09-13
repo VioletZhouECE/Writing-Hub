@@ -10,7 +10,7 @@ exports.getJournalsByLanguage= async (req, res, next) => {
         if (journals.length==0){
             //no journal found - no content
             res
-            res.json(201).send();
+            res.json(204).send();
         } 
         let response;
         response = {
@@ -30,17 +30,15 @@ exports.getJournalsByLanguage= async (req, res, next) => {
 }
 
 //get a single journal by id
-exports.getJournal= (req, res, next) => {
-    const journalId = req.params.journalId;
-    models.Journal.findOne({where:{id: journalId}, include:[models.User]})
-    .then(async(journal)=>{
-        let learnLanguageData = await journal.User.getLearnLanguage();
+exports.getJournal= async (req, res, next) => {
+    try{
+        const journal = await models.Journal.findOne({where:{id: req.params.journalId}, include:[models.User]});
         if (!journal){
             let err = new Error(`the journal with journalId: ${journalId} does not exist in our database`);
-             err.statusCode = 500;
-             throw err;
+            err.statusCode = 500;
+            throw err;
         }
-        res.statusCode = 200;
+        let learnLanguageData = await journal.User.getLearnLanguage();
         let response = {
             id: journal.id,
             createdAt: journal.createdAt,
@@ -52,11 +50,10 @@ exports.getJournal= (req, res, next) => {
             comment: journal.comment,
             viewsCount: journal.viewsCount
         }
-        res.json(response);
-    })
-    .catch(err=>{
-        next(err);
-    })
+        res.status(200).json(response);
+    } catch(err){
+            next(err);
+    }
 }
 
 exports.postJournal= (req, res, next) => {
