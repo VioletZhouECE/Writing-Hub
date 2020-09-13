@@ -1,7 +1,7 @@
 const models = require('../models/index');
 const jwt = require('jsonwebtoken');
 const jwtkey = require('../config/jwtkey');
-const {wrapper} = require("../middleware/error_handling_wrapper");
+const {errorWrapper} = require("../middleware/error_wrapper");
 
 exports.login = async (req, res, next) => {
     try{
@@ -23,8 +23,7 @@ exports.login = async (req, res, next) => {
 
         //retrieve language data
         //to-do: use eager loading here
-        const firstLanguageData = await user.getFirstLanguage();
-        const learnLanguageData = await user.getLearnLanguage();
+        const [firstLanguageData, learnLanguageData] = await Promise.all([user.getFirstLanguage(), user.getLearnLanguage()]);
 
         //generate json web token
         const token = jwt.sign(
@@ -77,8 +76,7 @@ exports.signup = async (req, res, next) => {
             }
 
         //retrieve language data
-        const learnLanguage = await models.Language.getLanguageByName(req.body.learnLanguage);
-        const firstLanguage = await models.Language.getLanguageByName(req.body.firstLanguage);
+        const [learnLanguage, firstLanguage] = await Promise.all([models.Language.getLanguageByName(req.body.learnLanguage), models.Language.getLanguageByName(req.body.firstLanguage)]);
 
         //create user
         let user = await models.User.build({
@@ -89,8 +87,7 @@ exports.signup = async (req, res, next) => {
         await user.save();
 
         //set associations between user and language
-        await user.setFirstLanguage(firstLanguage.id);
-        await user.setLearnLanguage(learnLanguage.id);
+        await Promise.all(user.setFirstLanguage(firstLanguage.id), user.setLearnLanguage(learnLanguage.id));
 
         res.status(201).json(response);
     } catch (err){
