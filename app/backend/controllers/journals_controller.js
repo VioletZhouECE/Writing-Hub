@@ -3,42 +3,30 @@ const models = require('../models/index');
 exports.getJournalsByUser = (req, res, next) => {}
 
 //version I: return all journals written in the requested language
-exports.getJournalsByLanguage= (req, res, next) => {
-    const languageName = req.params.languageName;
-     //retrieve LanguageId 
-     models.Language.findOne({where: {name:languageName}})
-     .then(language=>{
-         //if language does not exist
-         if(!language){
-             let err = new Error(`the language: ${languageName} does not exist in our database`);
-             err.statusCode = 500;
-             throw err;
-         }
-         return models.Journal.findAll({where: {LanguageId:language.id}, include:models.User});
+exports.getJournalsByLanguage= async (req, res, next) => {
+    try{
+        const language = await models.Language.getLanguageByName(req.params.languageName);
+        const journals = await models.Journal.findAll({where: {LanguageId:language.id}, include:models.User});
+        if (journals.length==0){
+            //no journal found - no content
+            res
+            res.json(201).send();
+        } 
+        let response;
+        response = {
+            posts: journals.map(journal=>(
+                {id: journal.id,
+                    username: journal.User.username,
+                    title: journal.title,
+                    body: journal.body,
+                    viewsCount: journal.viewsCount
+                }
+            ))
         }
-     ).then(journals=>{
-         if (journals.length==0){
-             //no journal found - no content
-             res.statusCode = 204;
-             res.send();
-         } else {
-            res.statusCode = 200;
-            let response;
-            response = {
-                posts: journals.map(journal=>(
-                    {id: journal.id,
-                     username: journal.User.username,
-                     title: journal.title,
-                     body: journal.body,
-                     viewsCount: journal.viewsCount
-                    }
-                ))
-            }
-            res.json(response);      
-         }
-     })
-     .catch(err=>
-        next(err));
+        res.status(200).json(response); 
+    } catch(err) {
+        next(err);
+    };
 }
 
 //get a single journal by id
