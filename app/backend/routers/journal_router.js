@@ -6,7 +6,7 @@ const {getJournalsByUser, getJournalsByLanguage, getJournal, postJournal, update
 router.get('/all/user/:userId', getJournalsByUser);
 
 //GET /journals/all/langauge/:languageName
-router.get('/all/language/:languageName', getJournalsByLanguage);
+router.get('/all/language', getJournalsByLanguage);
 
 //GET /journals/:journalId
 router.get('/:journalId', getJournal);

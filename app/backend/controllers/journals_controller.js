@@ -2,18 +2,24 @@ const models = require('../models/index');
 
 exports.getJournalsByUser = (req, res, next) => {}
 
-//version I: return all journals written in the requested language
+//version I: return journals written in the requested language
 exports.getJournalsByLanguage= async (req, res, next) => {
     try{
-        const language = await models.Language.getLanguageByName(req.params.languageName);
-        const journals = await models.Journal.findAll({where: {LanguageId:language.id}, include:models.User});
-        if (journals.length==0){
-            //no journal found - no content
-            res
-            res.json(204).send();
-        } 
+        const pageNum = req.query.page || 1;
+        //move this to config later 
+        const perPage = 5;
+
+        //retrieve languageId
+        const language = await models.Language.getLanguageByName(req.query.languageName);
+
+        //retrieve post data
+        const {count, rows} = await models.Journal.findAndCountAll({offset: perPage*(pageNum-1), limit: perPage, where: {LanguageId:language.id}, include:models.User});
+        const journals = rows;
+
+        //send response
         let response;
         response = {
+            totalPosts: count,
             posts: journals.map(journal=>(
                 {id: journal.id,
                     username: journal.User.username,
