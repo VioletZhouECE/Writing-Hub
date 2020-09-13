@@ -3,53 +3,51 @@ const jwt = require('jsonwebtoken');
 const jwtkey = require('../config/jwtkey');
 const {wrapper} = require("../middleware/error_handling_wrapper");
 
-exports.login = (req, res, next) => {
-    //retrieve user from db 
-    models.User.findOne({where : {username:req.body.username}})
-                .then(async (result) => {
-                if (!result){
-                    let err = new Error('Wrong username');
-                    err.statusCode = 401;
-                    throw err;
-                } else {
-                    //verify password
-                    const isValid = await result.isValidPassword(req.body.password);
-                    console.log(isValid);
-                    if (!isValid){
-                        let err = new Error('Wrong password');
-                        err.statusCode = 401;
-                        throw err;
-                    }
-                        let login_user = result;
-                        const firstLanguageData = await login_user.getFirstLanguage();
-                        const learnLanguageData = await login_user.getLearnLanguage();
-                        //generate json web token
-                        const token = jwt.sign(
-                            { username: login_user.username,
-                              userId: login_user.id.toString()
-                            },
-                            jwtkey,
-                            { expiresIn: '3h' }
-                          );
-                        res.statusCode = 200;
-                        let response = {
-                            msg : 'authentication succeeded!',
-                            userId: login_user.id.toString(),
-                            token: token,
-                            firstLanguage: firstLanguageData[0].name,
-                            learnLanguage: learnLanguageData[0].name
-                        }
-                        res.json(response);
-                    }
-                })
-                .catch(err =>{
-                    if (!err.statusCode){
-                        err.statusCode = 500;
-                    }
-                    next(err);
-                    }
-                );
+exports.login = async (req, res, next) => {
+    try{
+        //verify username 
+        let user = await models.User.findOne({where : {username:req.body.username}})
+        if (!user) {
+            let err = new Error('Wrong username');
+            err.statusCode = 401;
+            throw err;
+        }
+        
+        //verify password 
+        const isValid = await user.isValidPassword(req.body.password);
+        if (!isValid){
+            let err = new Error('Wrong password');
+            err.statusCode = 401;
+            throw err;
+        }
 
+        //retrieve language data
+        //to-do: use eager loading here
+        const firstLanguageData = await user.getFirstLanguage();
+        const learnLanguageData = await user.getLearnLanguage();
+
+        //generate json web token
+        const token = jwt.sign(
+            { username: user.username,
+              userId: user.id
+            },
+            jwtkey,
+            { expiresIn: '3h' }
+        );
+
+        //send response
+        let response = {
+            msg : 'authentication succeeded!',
+            userId: user.id,
+            token: token,
+            firstLanguage: firstLanguageData[0].name,
+            learnLanguage: learnLanguageData[0].name
+        };
+        res.status(200).json(response);
+
+    } catch (err){
+        next (err);
+    }
 }
 
 exports.verifyUsernameNotExists = async (req, res, next) => {
