@@ -52,82 +52,50 @@ exports.login = (req, res, next) => {
 
 }
 
-//db method 
-exports.verifyUsername = (req, res, next) => {
-    models.User.findAll({where : {username:req.params.username}})
-            .then(result => {
-                if (result.length !== 0){
-                    let err = new Error('A user with that username already exists');
-                    err.statusCode = 422;
-                    throw err;
-                }
-                res.statusCode = 200;
-                res.send();
-            })
-            .catch(err=>{
-                next(err);
-            })
+exports.verifyUsernameNotExists = async (req, res, next) => {
+    try{
+        const userExists = await models.User.usernameExists(req.params.username);
+        console.log(userExists);
+        if (userExists){
+            let err = new Error('A user with the username already exists');
+                err.statusCode = 422;
+                throw err;
+            }
+        res.status(200).send();
+    } catch (err){
+        next(err);
+    }
 }
 
-exports.signup = (req, res, next) => {
-  let learnLanguageId;
-  let firstLanguageId;
-  let newUser;
-  //retrieve languageId 
-   models.Language.findOne({where: {name:req.body.learnLanguage}})
-        .then(result=>{
-                if (!result){
-                    let err = new Error(`The language ${req.body.learnLanguage} does not exist in our database`);
-                    err.statusCode = 422;
-                    throw err;
-                }
-                learnLanguageId = result.id;
-                return  models.Language.findOne({where: {name:req.body.firstLanguage}});
-        })
-        .then(async (result)=>{
-                if (!result){
-                    let err = new Error(`The language ${req.body.firstLanguage} does not exist in our database`);
-                    err.statusCode = 422;
-                    throw err;
-                }
-                firstLanguageId = result.id;
-                let user = await models.User.build({
-                    username: req.body.username,
-                    password: req.body.password
-                });
-                await user.storePasswordHash();
-                return await user.save();
-        })
-        .then(user => {
-            newUser = user;
-            return newUser.setFirstLanguage(firstLanguageId);
-        })
-        .then(()=> {
-            return newUser.setLearnLanguage(learnLanguageId);
-        })
-        .then(() =>{
-            res.statusCode = 201;
-            //generate json web token
-            const token = jwt.sign(
-                { username: newUser.username,
-                    userId: newUser.id.toString()
-                },
-                'FVFSRHGUH3QD',
-                { expiresIn: '3h' }
-                );
 
-            let response = {
-                msg : 'User created successfully!',
-                userId: newUser.id.toString(),
-                token: token
+exports.signup = async (req, res, next) => {
+    try{
+        //verify username does not exist
+        const userExists = await models.User.usernameExists(req.body.username);
+        if (userExists){
+            let err = new Error('A user with the username already exists');
+                err.statusCode = 422;
+                throw err;
             }
-            res.json(response);
-        })
-        .catch(err =>{
-            if (!err.statusCode){
-                err.statusCode = 500;
-            }
-            next(err);
-            }
-        );
+
+        //retrieve language data
+        const learnLanguage = await models.Language.getLanguageByName(req.body.learnLanguage);
+        const firstLanguage = await models.Language.getLanguageByName(req.body.firstLanguage);
+
+        //create user
+        let user = await models.User.build({
+            username: req.body.username,
+            password: req.body.password
+        });
+        await user.storePasswordHash();
+        await user.save();
+
+        //set associations between user and language
+        await user.setFirstLanguage(firstLanguage.id);
+        await user.setLearnLanguage(learnLanguage.id);
+
+        res.status(201).json(response);
+    } catch (err){
+        next(err);
+    }
 };

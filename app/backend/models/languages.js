@@ -25,6 +25,20 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       },
     });
+
+    Language.getLanguageByName = async (languageName) => {
+      try{
+        const language = await Language.findOne({where: {name: languageName}});
+        if (!language){
+          let err = new Error(`The language ${req.body.learnLanguage} does not exist in our database`);
+          err.statusCode = 422;
+          throw err;
+        }
+        return Promise.resolve(language);
+      } catch (err){
+        throw err;
+      }
+    }
   
     Language.associate = models => {
       Language.belongsToMany(models.User, {through: "FirstLanguageUsers", as: "FirstLanguage"});

@@ -39,6 +39,20 @@ module.exports = (sequelize, DataTypes) => {
       }
     });
 
+    
+    User.usernameExists = async (name) => {
+      try{
+        const user = await User.findOne({where:{username:name}});
+        if (!user){
+          return Promise.resolve(false);
+        } else {
+          return Promise.resolve(true);
+        }
+      } catch (err){
+        throw err;
+      }
+    }
+
     User.prototype.storePasswordHash = async function() { 
       try{
         const salt = await genSalt(10);
