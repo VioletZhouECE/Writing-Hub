@@ -87,9 +87,9 @@ exports.signup = async (req, res, next) => {
         await user.save();
 
         //set associations between user and language
-        await Promise.all(user.setFirstLanguage(firstLanguage.id), user.setLearnLanguage(learnLanguage.id));
+        await Promise.all([user.setFirstLanguage(firstLanguage.id), user.setLearnLanguage(learnLanguage.id)]);
 
-        res.status(201).json(response);
+        res.status(201).send();
     } catch (err){
         next(err);
     }

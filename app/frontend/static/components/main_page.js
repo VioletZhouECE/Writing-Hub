@@ -109,11 +109,8 @@ class MainPage extends React.Component{
       })
       .then(res => {
         if (res.status !== 201) {
-            throw new Error ("Create user failed due to an issue on the server, please try again later");
+          throw new Error ("Create user failed due to an issue on the server, please try again later");
         }
-        return res.json();
-      })
-      .then(resData => {
         //direct user to the home page
         this.setState({ isAuth: false,
                         error: null});
