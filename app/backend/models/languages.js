@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
       try{
         const language = await Language.findOne({where: {name: languageName}});
         if (!language){
-          let err = new Error(`The language ${req.body.learnLanguage} does not exist in our database`);
+          let err = new Error(`The language ${languageName} does not exist in our database`);
           err.statusCode = 422;
           throw err;
         }
