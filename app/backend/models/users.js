@@ -1,4 +1,4 @@
-const { genSalt, hash, compare } = 'bcryptjs';
+const { genSalt, hash, compare } = require('bcryptjs');
 
 module.exports = (sequelize, DataTypes) => {
     const User = sequelize.define('User', {
@@ -37,34 +37,31 @@ module.exports = (sequelize, DataTypes) => {
           allowNull: false,
           defaultValue: 0
       }
-    }, {
-          instanceMethods: {
-            //store the hashed password in db
-            async storePasswordHash() { 
-              try{
-                const salt = await genSalt(10);
-                const passwordHash = await hash(this.password, salt);
-                this.password = passwordHash;
-              } catch (err) {
-                let error = new Error(`Hashing Password Failed: ${err.message}`);
-                error.statusCode = 500;
-                throw error;
-              }
-          },
-            //verify password and return the validation result
-            async isValidPassword(password) {
-              try{
-                const result = await compare(password, this.password);
-                return result;
-              } catch (err){
-                let error = new Error(`Validating Password Failed: ${err.message}`);
-                error.statusCode = 500;
-                throw error;
-              }
-          }
-        }
+    });
+
+    User.prototype.storePasswordHash = async function() { 
+      try{
+        const salt = await genSalt(10);
+        const passwordHash = await hash(this.password, salt);
+        this.password = passwordHash;
+        return Promise.resolve();
+      } catch (err) {
+        let error = new Error(`Hashing Password Failed: ${err.message}`);
+        error.statusCode = 500;
+        throw error;
       }
-    );
+    }
+
+    User.prototype.isValidPassword = async function(password){
+      try{
+        const result = await compare(password, this.password);
+        return Promise.resolve(result);
+      } catch (err){
+        let error = new Error(`Validating Password Failed: ${err.message}`);
+        error.statusCode = 500;
+        throw error;
+      }
+    }
   
     User.associate = models => {
         User.belongsToMany(models.Language, {through: "FirstLanguageUsers", as: "FirstLanguage"});

@@ -1,9 +1,12 @@
+const express = require('express');
+
 //async await error handling wrapper function
-module.exports.wrapper = fn => {
-    return async function(req, res, next){
+//this does not work: req, res, next are undefined
+module.exports.wrapper = async (fn, params) => {
+    const func = async function(req, res, next){
         let e = null;
         try{
-            await fn(req, res, next);
+            await fn(params);
         } catch (err){
             e = err;
             next(e);
@@ -12,4 +15,5 @@ module.exports.wrapper = fn => {
             next();
         }
     }
+    return func(req, res, next);
 }

@@ -1,7 +1,7 @@
 const models = require('../models/index');
 const jwt = require('jsonwebtoken');
 const jwtkey = require('../config/jwtkey');
-const {wrapper} = "../middleware/error_handling_wrapper";
+const {wrapper} = require("../middleware/error_handling_wrapper");
 
 exports.login = (req, res, next) => {
     //retrieve user from db 
@@ -13,7 +13,8 @@ exports.login = (req, res, next) => {
                     throw err;
                 } else {
                     //verify password
-                    const isValid = await wrapper(result.isValidPassword(req.body.password));
+                    const isValid = await result.isValidPassword(req.body.password);
+                    console.log(isValid);
                     if (!isValid){
                         let err = new Error('Wrong password');
                         err.statusCode = 401;
@@ -94,7 +95,7 @@ exports.signup = (req, res, next) => {
                     username: req.body.username,
                     password: req.body.password
                 });
-                await wrapper(user.storePasswordHash());
+                await user.storePasswordHash();
                 return await user.save();
         })
         .then(user => {
