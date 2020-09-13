@@ -40,6 +40,10 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: 0
       }
     });
+
+    Journal.prototype.incrementViewsCount = function(){
+      this.viewsCount = this.viewsCount + 1;
+    }
   
     Journal.associate = models => {
         Journal.belongsTo(models.Language);

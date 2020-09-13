@@ -75,24 +75,20 @@ exports.postJournal= async (req, res, next) => {
 
 exports.updateJournal= (req, res, next) => {}
 
-exports.updateViewsCount = (req, res, next) => {
-    const journalId = req.params.journalId; 
-    models.Journal.findOne({where: {id:journalId}})
-    .then(journal=>{
+exports.incrementViewsCount = async (req, res, next) => {
+    try{
+        let journal = await models.Journal.findOne({where: {id:req.params.journalId}});
         if (!journal){
             let err = new Error(`the journal with journalId: ${journalId} does not exist in our database`);
-             err.statusCode = 500;
-             throw err;
+            err.statusCode = 500;
+            throw err;
         }
-        return journal.update({viewsCount:journal.viewsCount+1});
-    })
-    .then(result=>{
-        res.statusCode = 200;
-        res.send();
-    })
-    .catch(err=>{
+        journal.incrementViewsCount()
+        await journal.save();
+        res.status(200).send();
+    } catch (err) {
         next(err);
-    })
+    }
 }
 
 exports.deleteJournal= (req, res, next) => {}
