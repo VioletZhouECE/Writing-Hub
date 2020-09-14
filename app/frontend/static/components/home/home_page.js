@@ -9,7 +9,7 @@ class HomePage extends React.Component{
         this.state = {
            posts: [],
            totalPosts: 0,
-           page: 0,
+           loadedPosts: 0,
            //feed = all posts written in learnLanguage
            language: this.props.learnLanguage,
            isLoading: false,
@@ -53,7 +53,8 @@ class HomePage extends React.Component{
     loadPost(){
         return new Promise ((resolve, reject)=> {
             this.setState({isLoading: true, hasMorePost: true});
-            fetch(`/journals/all/language?languageName=${this.state.language}&page=${this.state.page + 1}`, {
+            const pageToLoad = Math.floor(this.state.loadedPosts/5) + 1;
+            fetch(`/journals/all/language?languageName=${this.state.language}&page=${pageToLoad}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type' : 'application/json',
@@ -63,12 +64,13 @@ class HomePage extends React.Component{
             .then(res=> res.json())
             .then(resData=>{
                 this.setState( prevState => {
+                    const postsToAppend = Math.min(resData.totalPosts-prevState.loadedPosts, 5);
                     return {
-                    posts: [...prevState.posts, ...resData.posts], 
+                    posts: [...prevState.posts, ...(resData.posts.slice(0, postsToAppend))], 
                     totalPosts: resData.totalPosts,
-                    page: prevState.page + 1,
+                    loadedPosts: prevState.loadedPosts + postsToAppend,
                     isLoading: false,
-                    hasMorePost: (prevState.page + 1)*5 < resData.totalPosts
+                    hasMorePost: (prevState.loadedPosts + postsToAppend) < resData.totalPosts
                 }}, ()=>{
                     resolve();
                 });
@@ -83,6 +85,7 @@ class HomePage extends React.Component{
         this.setState({
             posts : [],
             totalPosts : 0,
+            loadedPosts: 0,
             page : 0,
             language : language
         }, this.loadPost);
