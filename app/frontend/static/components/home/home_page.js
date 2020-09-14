@@ -93,8 +93,8 @@ class HomePage extends React.Component{
                 <div className = "center-container">
                     {this.state.posts.map(post => (<PostSummary id={post.id} key={post.id} username={post.username} title={post.title} body={post.body} viewsCount={post.viewsCount}></PostSummary>))}
                     <div ref={loadingRef => (this.loadingRef = loadingRef)}></div>
-                    <div className = "center" style={{display: this.state.isLoading? "inline" : "none"}}> Loading... </div>
-                    <div style={{display: this.state.hasMorePost? "none" : "inline"}}> All the posts have been loaded</div>
+                    <div className = "text-center" style={{display: this.state.isLoading? "block" : "none"}}> Loading... </div>
+                    <div className = "text-center" style={{display: this.state.hasMorePost? "none" : "block"}}> All posts have been loaded</div>
                 </div>
             </div>
         )
