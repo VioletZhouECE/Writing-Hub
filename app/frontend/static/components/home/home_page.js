@@ -10,17 +10,20 @@ class HomePage extends React.Component{
            posts: [],
            totalPosts: 0,
            page: 0,
+           //feed = all posts written in learnLanguage
+           language: this.props.learnLanguage,
            isLoading: false,
            hasMorePost: true
         }
 
         this.loadFeed = this.loadFeed.bind(this);
         this.loadPost = this.loadPost.bind(this);
+        this.switchLanguage = this.switchLanguage.bind(this);
     }
 
     componentDidMount(){
-        //for version I, this will load posts randomly in both languages
-        this.loadPost(this.props.learnLanguage);
+        //for simplification, feed = all posts written in learnLanguage
+        this.loadPost();
 
         //infinite scroll implemented with IntersectionObserver
         var options = {
@@ -37,12 +40,14 @@ class HomePage extends React.Component{
         observer.observe(this.loadingRef);
     }
 
-    loadFeed(){}
+    loadFeed(){
+        //for simplification, feed = all posts written in learnLanguage
+        this.switchLanguage(this.props.learnLanguage);
+    }
 
     loadPost(){
-        const language = "English";
         this.setState({isLoading: true, hasMorePost: true});
-        fetch(`/journals/all/language?languageName=${language}&page=${this.state.page + 1}`, {
+        fetch(`/journals/all/language?languageName=${this.state.language}&page=${this.state.page + 1}`, {
             method: 'GET',
             headers: {
                 'Content-Type' : 'application/json',
@@ -65,13 +70,22 @@ class HomePage extends React.Component{
         })
     }
 
+    switchLanguage(language){
+        this.setState({
+            posts : [],
+            totalPosts : 0,
+            page : 0,
+            language : language
+        }, this.loadPost);
+    }
+
     render(){
         return(
             <div>
                 <div className="tab-bar">
                     <div className = "tab-float-left"><a href="#" onClick = {(e) => this.loadFeed(e.target.value)}>Feed</a></div>
-                    <div className = "tab-float-left" key={this.props.learnLanguage}><a href="javascript:;" onClick = {(e) => this.loadPost(this.props.learnLanguage)}>{this.props.learnLanguage}</a></div>
-                    <div className = "tab-float-left" key={this.props.firstLanguage}><a href="javascript:;" onClick = {(e) => this.loadPost(this.props.firstLanguage)}>{this.props.firstLanguage}</a></div>
+                    <div className = "tab-float-left" key={this.props.learnLanguage}><a href="javascript:;" onClick = {(e) => this.switchLanguage(this.props.learnLanguage)}>{this.props.learnLanguage}</a></div>
+                    <div className = "tab-float-left" key={this.props.firstLanguage}><a href="javascript:;" onClick = {(e) => this.switchLanguage(this.props.firstLanguage)}>{this.props.firstLanguage}</a></div>
                     <div className = "tab-float-left"><a href="#">...</a></div>
                     <div className="clear-float"></div>
                 </div>
