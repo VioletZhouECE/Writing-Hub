@@ -7,7 +7,9 @@ class HomePage extends React.Component{
         super(props);
 
         this.state = {
-           posts: []
+           posts: [],
+           totalPosts: 0,
+           page: 0
         }
 
         this.loadFeed = this.loadFeed.bind(this);
@@ -24,27 +26,22 @@ class HomePage extends React.Component{
     loadFeed(){}
 
     loadPost(language){
-        fetch(`/journals/all/language/${language}`, {
+        console.log(this.state.page);
+        fetch(`/journals/all/language?languageName=${language}&page=${this.state.page + 1}`, {
             method: 'GET',
             headers: {
                 'Content-Type' : 'application/json',
                 'Authorization' : 'Bearer ' + this.props.token
             }
         })
-        .then(res=>{
-            if (res.status === 204){
-                //to-do: render no post page
-                return Promise.resolve();
-            } else if (res.status === 200) {
-                return res.json();
-            } else {
-                return res.json().then((err) => {
-                    throw new Error("Server error: " + err.message);
-                });
-            }
-        })
+        .then(res=> res.json())
         .then(resData=>{
-            this.setState({posts: resData.posts});
+            this.setState( prevState => {
+                return {
+                posts: [...prevState.posts, ...resData.posts], 
+                totalPosts: resData.totalPosts,
+                page: prevState.page + 1
+            }});
         })
         .catch(err=>{
             displayErrorMessage(err.message);
