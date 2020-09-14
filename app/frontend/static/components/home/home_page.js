@@ -9,7 +9,9 @@ class HomePage extends React.Component{
         this.state = {
            posts: [],
            totalPosts: 0,
-           page: 0
+           page: 0,
+           isLoading: false,
+           hasMorePost: true
         }
 
         this.loadFeed = this.loadFeed.bind(this);
@@ -17,16 +19,29 @@ class HomePage extends React.Component{
     }
 
     componentDidMount(){
-        //load feed
-        //placeholder
-        this.loadPost(this.props.learnLanguage);
         //for version I, this will load posts randomly in both languages
+        this.loadPost(this.props.learnLanguage);
+
+        //infinite scroll implemented with IntersectionObserver
+        var options = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 1.0
+        };
+
+        let observer = new IntersectionObserver(
+            this.loadPost,
+            options
+        );
+        
+        observer.observe(this.loadingRef);
     }
 
     loadFeed(){}
 
-    loadPost(language){
-        console.log(this.state.page);
+    loadPost(){
+        const language = "English";
+        this.setState({isLoading: true, hasMorePost: true});
         fetch(`/journals/all/language?languageName=${language}&page=${this.state.page + 1}`, {
             method: 'GET',
             headers: {
@@ -40,7 +55,9 @@ class HomePage extends React.Component{
                 return {
                 posts: [...prevState.posts, ...resData.posts], 
                 totalPosts: resData.totalPosts,
-                page: prevState.page + 1
+                page: prevState.page + 1,
+                isLoading: false,
+                hasMorePost: (prevState.page + 1)*5 < resData.totalPosts
             }});
         })
         .catch(err=>{
@@ -61,6 +78,9 @@ class HomePage extends React.Component{
                 <br></br>
                 <div className = "center-container">
                     {this.state.posts.map(post => (<PostSummary id={post.id} key={post.id} username={post.username} title={post.title} body={post.body} viewsCount={post.viewsCount}></PostSummary>))}
+                    <div ref={loadingRef => (this.loadingRef = loadingRef)}></div>
+                    <div className = "center" style={{display: this.state.isLoading? "inline" : "none"}}> Loading... </div>
+                    <div style={{display: this.state.hasMorePost? "none" : "inline"}}> All the posts have been loaded</div>
                 </div>
             </div>
         )
