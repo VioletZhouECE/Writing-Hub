@@ -19,12 +19,17 @@ class HomePage extends React.Component{
         this.loadFeed = this.loadFeed.bind(this);
         this.loadPost = this.loadPost.bind(this);
         this.switchLanguage = this.switchLanguage.bind(this);
+        this.setUpIntersectionObserver = this.setUpIntersectionObserver.bind(this);
     }
 
     componentDidMount(){
         //for simplification, feed = all posts written in learnLanguage
-        this.loadPost();
+        this.loadPost()
+        .then(()=>{
+            this.setUpIntersectionObserver();})
+    }
 
+    setUpIntersectionObserver(){
         //infinite scroll implemented with IntersectionObserver
         var options = {
             root: null,
@@ -46,27 +51,31 @@ class HomePage extends React.Component{
     }
 
     loadPost(){
-        this.setState({isLoading: true, hasMorePost: true});
-        fetch(`/journals/all/language?languageName=${this.state.language}&page=${this.state.page + 1}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type' : 'application/json',
-                'Authorization' : 'Bearer ' + this.props.token
-            }
-        })
-        .then(res=> res.json())
-        .then(resData=>{
-            this.setState( prevState => {
-                return {
-                posts: [...prevState.posts, ...resData.posts], 
-                totalPosts: resData.totalPosts,
-                page: prevState.page + 1,
-                isLoading: false,
-                hasMorePost: (prevState.page + 1)*5 < resData.totalPosts
-            }});
-        })
-        .catch(err=>{
-            displayErrorMessage(err.message);
+        return new Promise ((resolve, reject)=> {
+            this.setState({isLoading: true, hasMorePost: true});
+            fetch(`/journals/all/language?languageName=${this.state.language}&page=${this.state.page + 1}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type' : 'application/json',
+                    'Authorization' : 'Bearer ' + this.props.token
+                }
+            })
+            .then(res=> res.json())
+            .then(resData=>{
+                this.setState( prevState => {
+                    return {
+                    posts: [...prevState.posts, ...resData.posts], 
+                    totalPosts: resData.totalPosts,
+                    page: prevState.page + 1,
+                    isLoading: false,
+                    hasMorePost: (prevState.page + 1)*5 < resData.totalPosts
+                }}, ()=>{
+                    resolve();
+                });
+            })
+            .catch(err=>{
+                displayErrorMessage(err.message);
+            })
         })
     }
 
