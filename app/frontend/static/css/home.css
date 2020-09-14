@@ -40,7 +40,7 @@ hr{
 }
 
 .center-container{
-    width: 60%;
+    width: 750px;
     margin: auto;
     padding: 30px;
     border: 1px solid black;
@@ -65,7 +65,7 @@ hr{
 }
 
 .tab-bar{
-    width: 60%;
+    width: 750px;
     margin: auto;
     height: auto;
     padding:15px;
