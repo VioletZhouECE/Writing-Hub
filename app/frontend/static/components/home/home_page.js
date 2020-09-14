@@ -66,7 +66,7 @@ class HomePage extends React.Component{
                 this.setState( prevState => {
                     const postsToAppend = Math.min(resData.totalPosts-prevState.loadedPosts, 5);
                     return {
-                    posts: [...prevState.posts, ...(resData.posts.slice(0, postsToAppend))], 
+                    posts: [...prevState.posts, ...(resData.posts.slice(resData.posts.length-postsToAppend, resData.posts.length))], 
                     totalPosts: resData.totalPosts,
                     loadedPosts: prevState.loadedPosts + postsToAppend,
                     isLoading: false,

@@ -2,7 +2,7 @@ const models = require('../models/index');
 
 exports.getJournalsByUser = (req, res, next) => {}
 
-//version I: return journals written in the requested language
+//version I: return journals written in the requested language in chronological order 
 exports.getJournalsByLanguage= async (req, res, next) => {
     try{
         const pageNum = req.query.page || 1;
@@ -13,7 +13,7 @@ exports.getJournalsByLanguage= async (req, res, next) => {
         const language = await models.Language.getLanguageByName(req.query.languageName);
 
         //retrieve post data
-        const {count, rows} = await models.Journal.findAndCountAll({offset: perPage*(pageNum-1), limit: perPage, where: {LanguageId:language.id}, include:models.User});
+        const {count, rows} = await models.Journal.findAndCountAll({order : [['createdAt', 'ASC']], offset: perPage*(pageNum-1), limit: perPage, where: {LanguageId:language.id}, include:models.User});
         const journals = rows;
 
         //send response
