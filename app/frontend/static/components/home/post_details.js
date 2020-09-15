@@ -54,12 +54,11 @@ class PostDetails extends React.Component{
 
     initAnotation(){ 
         //annotation settings        
-        const settings = {
-            apiKey : {tiny_editor},
-            selector: 'textarea#annotations',
+        const postSettings = {
+            selector: '#editbox_post',
             toolbar: ['annotate-alpha'],
             menubar: false,
-            height: '750px',
+            height: '300px',
             content_style: '.mce-annotation { background-color: darkgreen; color: white; } ' + 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
         
             setup: function (editor) {
@@ -97,8 +96,16 @@ class PostDetails extends React.Component{
             }
         };
 
+        const commentSettings = {
+            selector: '#editbox_comment',
+            toolbar: false,
+            menubar: false,
+            height: '300px'
+        }
+
         //init annotations
-        tinymce.init(settings);
+        tinymce.init(postSettings);
+        tinymce.init(commentSettings);
 }
 
 
@@ -129,7 +136,14 @@ class PostDetails extends React.Component{
             <div className = "post-details-comment" dangerouslySetInnerHTML={{ __html: this.state.postData.comment}}>
             </div>
             <br></br>
-            <textarea id="annotations"></textarea>
+            <div className="pb-2">Edit the journal:</div>
+            <div id = "editbox_post_container">
+                <div id="editbox_post" dangerouslySetInnerHTML={{ __html: this.state.postData.body}}></div>
+            </div>
+            <div id = "editbox_comment_container">
+                <div id="editbox_comment"></div>
+            </div>
+            <div className = "clear-float"></div>
         </div>
         )
     }

@@ -103,3 +103,8 @@ hr{
     z-index: 2;
     display: none;
 }
+
+#editbox_post_container {
+    width: 60%;
+    float: left
+}
