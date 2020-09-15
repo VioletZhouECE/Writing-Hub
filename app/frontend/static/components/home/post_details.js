@@ -1,6 +1,7 @@
 import React from "react";
 import {withRouter} from 'react-router-dom';
 import { displayErrorMessage } from "../../scripts/display_messages";
+import {tiny_editor} from "../../../config/api_keys";
 
 class PostDetails extends React.Component{
     constructor(props){
@@ -9,6 +10,8 @@ class PostDetails extends React.Component{
         this.state = {
             postData : {}
         }
+
+        this.initAnotation = this.initAnotation.bind(this);
     }
 
     
@@ -45,7 +48,59 @@ class PostDetails extends React.Component{
                 'Authorization' : 'Bearer ' + this.props.token
             }
         })
+
+        this.initAnotation();
     }
+
+    initAnotation(){ 
+        //annotation settings        
+        const settings = {
+            apiKey : {tiny_editor},
+            selector: 'textarea#annotations',
+            toolbar: ['annotate-alpha'],
+            menubar: false,
+            height: '750px',
+            content_style: '.mce-annotation { background-color: darkgreen; color: white; } ' + 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+        
+            setup: function (editor) {
+            editor.ui.registry.addButton('annotate-alpha', {
+                text: 'Annotate',
+                onAction: function() {
+                var comment = prompt('Comment with?');
+                editor.annotator.annotate('alpha', {
+                    uid: 'custom-generated-id',
+                    comment: comment
+                });
+                editor.focus();
+                },
+                onSetup: function (btnApi) {
+                editor.annotator.annotationChanged('alpha', function (state, name, obj) {
+                    console.log('Current selection has an annotation: ', state);
+                    btnApi.setDisabled(state);
+                });
+                }
+            });
+        
+            editor.on('init', function () {
+                editor.annotator.register('alpha', {
+                persistent: true,
+                decorate: function (uid, data) {
+                    return {
+                    attributes: {
+                        'data-mce-comment': data.comment ? data.comment : '',
+                        'data-mce-author': data.author ? data.author : 'anonymous'
+                        }
+                    };
+                }
+                });
+            });
+            }
+        };
+
+        //init annotations
+        tinymce.init(settings);
+}
+
 
     render(){
         return(
@@ -63,13 +118,18 @@ class PostDetails extends React.Component{
                     </div>
                 </div>
             </div>
-            <div className="pt-3 font-weight-bold">
+            <br></br>
+            <div className="font-weight-bold">
                 {this.state.postData.title}
             </div>
-            <div className = "pt-2 post-details-body" dangerouslySetInnerHTML={{ __html: this.state.postData.body}}>
+            <br></br>
+            <div className = "post-details-body" dangerouslySetInnerHTML={{ __html: this.state.postData.body}}>
             </div>
-            <div className = "pt-3 post-details-comment" dangerouslySetInnerHTML={{ __html: this.state.postData.comment}}>
+            <br></br>
+            <div className = "post-details-comment" dangerouslySetInnerHTML={{ __html: this.state.postData.comment}}>
             </div>
+            <br></br>
+            <textarea id="annotations"></textarea>
         </div>
         )
     }
