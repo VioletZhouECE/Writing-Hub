@@ -7,7 +7,7 @@ class PostComment extends React.Component{
         super(props);
 
         this.state = {
-            isNewComment: false,
+            isNewComment: true,
             selectedComment: {
                 comment: null,
                 author: null
@@ -54,7 +54,11 @@ class PostComment extends React.Component{
                                 comment: annotationData.mceComment,
                                 author: annotationData.mceAuthor
                             }
-                            self.setState({selectedComment: selectedComment});
+                            self.setState({
+                                isNewComment: false,
+                                selectedComment: selectedComment});
+                        } else {
+                            self.setState({isNewComment: true});
                         }
                     });
                 });
@@ -66,13 +70,18 @@ class PostComment extends React.Component{
     }
 
     handleSaveComment(comment){
-        //verify the comment is not empty
+        //verify the comment and annotation is not empty
         this.state.editor.annotator.annotate('alpha', {
             uid: this.state.id,
             comment: comment
         }); 
 
-        this.setState((prevState)=> {return {id: prevState.id + 1}});
+        this.setState((prevState)=> {
+            return {
+                id: prevState.id + 1,
+                isNewComment: false
+            }
+        });
     }
 
     render(){
@@ -84,7 +93,7 @@ class PostComment extends React.Component{
                 </div>
                 <div id = "editbox_comment_container">
                     <div id="editbox_comment">
-                        <SelectedComment selectedComment = {this.state.selectedComment}></SelectedComment>
+                        {!this.state.isNewComment && <SelectedComment selectedComment = {this.state.selectedComment}></SelectedComment>}
                         <NewComment handleSave = {this.handleSaveComment.bind(this)}></NewComment>
                     </div>
                 </div>

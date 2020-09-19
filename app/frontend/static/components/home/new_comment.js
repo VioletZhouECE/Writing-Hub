@@ -11,6 +11,7 @@ class NewComment extends React.Component{
 
     handleClickSave(){
         this.props.handleSave(this.state.comment);
+        this.setState({comment: ""});
     }
 
     handleClickClear(){
