@@ -1,19 +1,16 @@
 import React from "react";
 import {withRouter} from 'react-router-dom';
 import { displayErrorMessage } from "../../scripts/display_messages";
-import {tiny_editor} from "../../../config/api_keys";
+import PostComment from "./post_comment";
 
-class PostDetails extends React.Component{
+class PostDetails extends React.Component {
     constructor(props){
         super(props);
 
         this.state = {
             postData : {}
         }
-
-        this.initAnotation = this.initAnotation.bind(this);
     }
-
     
     componentDidMount(){
         const postId = this.props.location.pathname.split('/')[2];
@@ -48,66 +45,7 @@ class PostDetails extends React.Component{
                 'Authorization' : 'Bearer ' + this.props.token
             }
         })
-
-        this.initAnotation();
     }
-
-    initAnotation(){ 
-        //annotation settings        
-        const postSettings = {
-            selector: '#editbox_post',
-            toolbar: ['annotate-alpha'],
-            menubar: false,
-            height: '300px',
-            content_style: '.mce-annotation { background-color: darkgreen; color: white; } ' + 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
-        
-            setup: function (editor) {
-            editor.ui.registry.addButton('annotate-alpha', {
-                text: 'Annotate',
-                onAction: function() {
-                var comment = prompt('Comment with?');
-                editor.annotator.annotate('alpha', {
-                    uid: 'custom-generated-id',
-                    comment: comment
-                });
-                editor.focus();
-                },
-                onSetup: function (btnApi) {
-                editor.annotator.annotationChanged('alpha', function (state, name, obj) {
-                    console.log('Current selection has an annotation: ', state);
-                    btnApi.setDisabled(state);
-                });
-                }
-            });
-        
-            editor.on('init', function () {
-                editor.annotator.register('alpha', {
-                persistent: true,
-                decorate: function (uid, data) {
-                    return {
-                    attributes: {
-                        'data-mce-comment': data.comment ? data.comment : '',
-                        'data-mce-author': data.author ? data.author : 'anonymous'
-                        }
-                    };
-                }
-                });
-            });
-            }
-        };
-
-        const commentSettings = {
-            selector: '#editbox_comment',
-            toolbar: false,
-            menubar: false,
-            height: '300px'
-        }
-
-        //init annotations
-        tinymce.init(postSettings);
-        tinymce.init(commentSettings);
-}
-
 
     render(){
         return(
@@ -136,14 +74,7 @@ class PostDetails extends React.Component{
             <div className = "post-details-comment" dangerouslySetInnerHTML={{ __html: this.state.postData.comment}}>
             </div>
             <br></br>
-            <div className="pb-2">Edit the journal:</div>
-            <div id = "editbox_post_container">
-                <div id="editbox_post" dangerouslySetInnerHTML={{ __html: this.state.postData.body}}></div>
-            </div>
-            <div id = "editbox_comment_container">
-                <div id="editbox_comment"></div>
-            </div>
-            <div className = "clear-float"></div>
+            <PostComment postData = {this.state.postData}></PostComment>
         </div>
         )
     }

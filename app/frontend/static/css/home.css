@@ -108,3 +108,10 @@ hr{
     width: 60%;
     float: left
 }
+
+#editbox_comment_container {
+    width: 40%;
+    float: right;
+    border: 1px, solid,#222F3EB3;
+    padding: 14px;
+}
