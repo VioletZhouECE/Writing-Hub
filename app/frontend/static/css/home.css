@@ -116,3 +116,25 @@ hr{
     border: 1px solid #b8bec5b3;
     padding: 14px;
 }
+
+.displayed-comment-box {
+    padding: 16px;
+    border: 1px solid #b8bec5b3;
+}
+
+.comment-username {
+    font-family: -apple-system, BlinkMacSystemFont,
+    "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.comment-time {
+    font-family: -apple-system, BlinkMacSystemFont,
+    "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif;
+    font-size: 12px;
+}

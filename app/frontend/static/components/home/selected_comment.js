@@ -7,10 +7,14 @@ class SelectedComment extends React.Component{
 
     render(){
         return (
-            <div class="form-group round-box">
-                <div>{this.props.selectedComment.author}</div>
-                <hr></hr>
-                <textarea class="form-control mb-2" rows="3" value={this.props.selectedComment.comment}></textarea>
+            <div className="form-group displayed-comment-box">
+                <span className="float-left mr-2"><i className="fas fa-user-circle fa-2x"></i></span>
+                <div className="float-left mb-2">
+                    <div className="comment-username">{this.props.selectedComment.author}</div>
+                    <div className="comment-time">Placeholder for time</div>
+                </div>
+                <div className="clear-float"></div>
+                <div>{this.props.selectedComment.comment}</div>
             </div>
         )
     }
