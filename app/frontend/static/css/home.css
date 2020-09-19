@@ -118,8 +118,10 @@ hr{
 }
 
 .displayed-comment-box {
-    padding: 16px;
-    border: 1px solid #b8bec5b3;
+    height: 86px;
+    width: "245.2px";
+    word-break: break-all;
+    overflow-y: scroll;
 }
 
 .comment-username {
