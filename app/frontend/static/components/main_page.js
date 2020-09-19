@@ -14,11 +14,13 @@ class MainPage extends React.Component{
 
         this.state = {
             isAuth: false,
-            userId: null,
+            userInfo: {
+              username: null,
+              learnLanguage: null,
+              firstLanguage: null
+            },
             token: null,
-            error: null,
-            learnLanguage: null,
-            firstLanguage: null
+            error: null
         }
 
         this.handleSignup = this.handleSignup.bind(this);
@@ -37,12 +39,12 @@ class MainPage extends React.Component{
       new Date().getTime() - localStorage.getItem('expiryDate')>0){
        localStorage.removeItem('expiryDate');
        localStorage.removeItem('token');
-       localStorage.removeItem('userId');
+       localStorage.removeItem('username');
        localStorage.removeItem('learnLanguage');
        localStorage.removeItem('firstLanguage');
       } else {
         const token = localStorage.getItem('token');
-        const userId = localStorage.getItem('userId');
+        const username = localStorage.getItem('username');
         const learnLanguage = localStorage.getItem('learnLanguage');
         const firstLanguage = localStorage.getItem('firstLanguage');
         const remainingMilliseconds = new Date(localStorage.getItem('expiryDate')) - new Date().getTime();
@@ -52,9 +54,11 @@ class MainPage extends React.Component{
         this.setState({
           isAuth : true,
           token: token,
-          userId : userId,
-          learnLanguage: learnLanguage,
-          firstLanguage: firstLanguage
+          userInfo: {
+            username: username,
+            learnLanguage: learnLanguage,
+            firstLanguage: firstLanguage
+          }
         })
       }
     }
@@ -147,13 +151,15 @@ class MainPage extends React.Component{
       return res.json();
     })
     .then(resData => {
-      this.setLocalStorage(resData.userId, resData.token, resData.learnLanguage, resData.firstLanguage);
+      this.setLocalStorage(resData.username, resData.token, resData.learnLanguage, resData.firstLanguage);
       //direct user to the home page
       this.setState({isAuth: true,
-                     userId: resData.userId,
                      token : resData.token,
-                     learnLanguage: resData.learnLanguage,
-                     firstLanguage: resData.firstLanguage,
+                     userInfo: {
+                       username: resData.username,
+                       learnLanguage: resData.learnLanguage,
+                       firstLanguage: resData.firstLanguage
+                     },
                      error: null});
     })
     .catch(err => {
@@ -164,9 +170,9 @@ class MainPage extends React.Component{
     });   
   }
 
-  setLocalStorage(userId, token, learnLanguage, firstLanguage){
-    localStorage.setItem('userId', userId.toString());
-    localStorage.setItem('token', token.toString());
+  setLocalStorage(username, token, learnLanguage, firstLanguage){
+    localStorage.setItem('username', username);
+    localStorage.setItem('token', token);
     localStorage.setItem('learnLanguage', learnLanguage);
     localStorage.setItem('firstLanguage', firstLanguage);
     
@@ -192,7 +198,7 @@ class MainPage extends React.Component{
     })
     //remove items from the local storage
     localStorage.removeItem('token');
-    localStorage.removeItem('userId');
+    localStorage.removeItem('username');
     localStorage.removeItem('expiryDate');
     localStorage.removeItem('learnLanguage');
     localStorage.removeItem('firstLanguage');
@@ -216,8 +222,8 @@ class MainPage extends React.Component{
               <div id = "error_message" className = "alert alert-danger toast-message"></div>
               <Switch>
                 <Route path = "/write" render = {(props)=><WriteEntry token = {this.state.token}></WriteEntry>}></Route>
-                <Route path = "/journal" render = {(props)=><PostDetails token = {this.state.token}></PostDetails>}></Route>
-                <Route path ="/" render = {(props)=><HomePage token = {this.state.token} learnLanguage = {this.state.learnLanguage} firstLanguage={this.state.firstLanguage}></HomePage>}></Route>
+                <Route path = "/journal" render = {(props)=><PostDetails token = {this.state.token} userInfo = {this.state.userInfo}></PostDetails>}></Route>
+                <Route path ="/" render = {(props)=><HomePage token = {this.state.token} learnLanguage = {this.state.userInfo.learnLanguage} firstLanguage={this.state.userInfo.firstLanguage}></HomePage>}></Route>
               </Switch>
             </div>
         )

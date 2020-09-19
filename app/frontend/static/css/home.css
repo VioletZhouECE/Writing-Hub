@@ -112,6 +112,7 @@ hr{
 #editbox_comment_container {
     width: 40%;
     float: right;
-    border: 1px, solid,#222F3EB3;
+    height: 300px;
+    border: 1px solid #b8bec5b3;
     padding: 14px;
 }

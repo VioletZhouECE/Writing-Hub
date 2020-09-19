@@ -73,7 +73,8 @@ class PostComment extends React.Component{
         //apply annotation
         this.state.editor.annotator.annotate('alpha', {
             uid: this.state.id,
-            comment: comment
+            comment: comment,
+            author: this.props.userInfo.username
         }); 
 
         this.setState((prevState)=> {
@@ -88,16 +89,18 @@ class PostComment extends React.Component{
         return(
             <>
                 <div className="pb-2">Edit the journal:</div>
-                <div id = "editbox_post_container">
-                    <div id="editbox_post" dangerouslySetInnerHTML={{ __html: this.props.postData.body}}></div>
-                </div>
-                <div id = "editbox_comment_container">
-                    <div id="editbox_comment">
-                        {!this.state.isNewComment && <SelectedComment selectedComment = {this.state.selectedComment}></SelectedComment>}
-                        <NewComment handleSave = {this.handleSaveComment.bind(this)} editor = {this.state.editor? this.state.editor: null}></NewComment>
+                <div id = "editbox_container">
+                    <div id = "editbox_post_container">
+                        <div id="editbox_post" dangerouslySetInnerHTML={{ __html: this.props.postData.body}}></div>
                     </div>
+                    <div id = "editbox_comment_container">
+                        <div id="editbox_comment">
+                            {!this.state.isNewComment && <SelectedComment selectedComment = {this.state.selectedComment}></SelectedComment>}
+                            <NewComment handleSave = {this.handleSaveComment.bind(this)} editor = {this.state.editor? this.state.editor: null}></NewComment>
+                        </div>
+                    </div>
+                    <div className = "clear-float"></div>
                 </div>
-                <div className = "clear-float"></div>
             </>
         )
     }
