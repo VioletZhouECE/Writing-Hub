@@ -94,7 +94,7 @@ class PostComment extends React.Component{
                 <div id = "editbox_comment_container">
                     <div id="editbox_comment">
                         {!this.state.isNewComment && <SelectedComment selectedComment = {this.state.selectedComment}></SelectedComment>}
-                        <NewComment handleSave = {this.handleSaveComment.bind(this)} hasSelectedText = {this.state.editor && this.state.editor.selection && this.state.editor.selection.getContent({format : 'text'})}></NewComment>
+                        <NewComment handleSave = {this.handleSaveComment.bind(this)} editor = {this.state.editor? this.state.editor: null}></NewComment>
                     </div>
                 </div>
                 <div className = "clear-float"></div>

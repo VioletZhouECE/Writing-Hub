@@ -18,7 +18,7 @@ class NewComment extends React.Component{
         }
 
         //check if selected text is empty
-        if(!this.props.hasSelectedText){
+        if(!this.props.editor.selection.getContent({format: "text"})){
             displayErrorMessage("please select the text associated with this comment");
             return;
         }
