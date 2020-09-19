@@ -1,5 +1,6 @@
 import React from "react";
 import NewComment from "./new_comment";
+import SelectedComment from "./selected_comment"
 
 class PostComment extends React.Component{
     constructor(props){
@@ -7,9 +8,13 @@ class PostComment extends React.Component{
 
         this.state = {
             isNewComment: false,
-            selectedText: "",
+            selectedComment: {
+                comment: null,
+                author: null
+            },
             //editor instance
-            editor: null
+            editor: null,
+            id: 1
         }
     }
 
@@ -43,7 +48,14 @@ class PostComment extends React.Component{
                     });
 
                     editor.annotator.annotationChanged('alpha', function (state, name, obj) {
-                        console.log('Current selection has an annotation: ', state);
+                        if (state){
+                            const annotationData = obj.nodes[0].dataset;
+                            let selectedComment = {
+                                comment: annotationData.mceComment,
+                                author: annotationData.mceAuthor
+                            }
+                            self.setState({selectedComment: selectedComment});
+                        }
                     });
                 });
             }
@@ -56,9 +68,11 @@ class PostComment extends React.Component{
     handleSaveComment(comment){
         //verify the comment is not empty
         this.state.editor.annotator.annotate('alpha', {
-            uid: 'custom-generated-id',
+            uid: this.state.id,
             comment: comment
         }); 
+
+        this.setState((prevState)=> {return {id: prevState.id + 1}});
     }
 
     render(){
@@ -70,6 +84,7 @@ class PostComment extends React.Component{
                 </div>
                 <div id = "editbox_comment_container">
                     <div id="editbox_comment">
+                        <SelectedComment selectedComment = {this.state.selectedComment}></SelectedComment>
                         <NewComment handleSave = {this.handleSaveComment.bind(this)}></NewComment>
                     </div>
                 </div>
