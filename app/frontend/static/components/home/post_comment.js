@@ -7,7 +7,9 @@ class PostComment extends React.Component{
 
         this.state = {
             isNewComment: false,
-            selectedText: ""
+            selectedText: "",
+            //editor instance
+            editor: null
         }
     }
 
@@ -16,6 +18,7 @@ class PostComment extends React.Component{
     }
 
     initAnotation(){ 
+        let self = this;
         //annotation settings        
         const postSettings = {
             selector: '#editbox_post',
@@ -25,42 +28,38 @@ class PostComment extends React.Component{
             content_style: '.mce-annotation { background-color: darkgreen; color: white; } ' + 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
         
             setup: function (editor) {
-            editor.ui.registry.addButton('annotate-alpha', {
-                text: 'Comment',
-                onAction: function() {
-                editor.annotator.annotate('alpha', {
-                    uid: 'custom-generated-id',
-                    comment: comment
+                self.setState({editor: editor});
+                editor.on('init', function () {
+                    editor.annotator.register('alpha', {
+                    persistent: true,
+                    decorate: function (uid, data) {
+                        return {
+                        attributes: {
+                            'data-mce-comment': data.comment ? data.comment : '',
+                            'data-mce-author': data.author ? data.author : 'anonymous'
+                            }
+                        };
+                    }
+                    });
+
+                    editor.annotator.annotationChanged('alpha', function (state, name, obj) {
+                        console.log('Current selection has an annotation: ', state);
+                    });
                 });
-                editor.focus();
-                },
-                onSetup: function (btnApi) {
-                editor.annotator.annotationChanged('alpha', function (state, name, obj) {
-                    console.log('Current selection has an annotation: ', state);
-                    btnApi.setDisabled(state);
-                });
-                }
-            });
-        
-            editor.on('init', function () {
-                editor.annotator.register('alpha', {
-                persistent: true,
-                decorate: function (uid, data) {
-                    return {
-                    attributes: {
-                        'data-mce-comment': data.comment ? data.comment : '',
-                        'data-mce-author': data.author ? data.author : 'anonymous'
-                        }
-                    };
-                }
-                });
-            });
             }
         };
 
         //init annotations
         tinymce.init(postSettings);
-}
+    }
+
+    handleSaveComment(comment){
+        //verify the comment is not empty
+        this.state.editor.annotator.annotate('alpha', {
+            uid: 'custom-generated-id',
+            comment: comment
+        }); 
+    }
 
     render(){
         return(
@@ -71,7 +70,7 @@ class PostComment extends React.Component{
                 </div>
                 <div id = "editbox_comment_container">
                     <div id="editbox_comment">
-                        <NewComment></NewComment>
+                        <NewComment handleSave = {this.handleSaveComment.bind(this)}></NewComment>
                     </div>
                 </div>
                 <div className = "clear-float"></div>
