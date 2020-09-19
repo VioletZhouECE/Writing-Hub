@@ -90,10 +90,10 @@ class PostComment extends React.Component{
             <>
                 <div className="pb-2">Edit the journal:</div>
                 <div id = "editbox_container">
-                    <div id = "editbox_post_container">
+                    <div className = "editbox_post_container">
                         <div id="editbox_post" dangerouslySetInnerHTML={{ __html: this.props.postData.body}}></div>
                     </div>
-                    <div id = "editbox_comment_container">
+                    <div className = "editbox_comment_container">
                         <div id="editbox_comment">
                             {!this.state.isNewComment && <SelectedComment selectedComment = {this.state.selectedComment}></SelectedComment>}
                             <NewComment handleSave = {this.handleSaveComment.bind(this)} editor = {this.state.editor? this.state.editor: null}></NewComment>
