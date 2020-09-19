@@ -1,6 +1,6 @@
 import React from "react";
 import NewComment from "./new_comment";
-import SelectedComment from "./selected_comment"
+import SelectedComment from "./selected_comment";
 
 class PostComment extends React.Component{
     constructor(props){
@@ -70,7 +70,7 @@ class PostComment extends React.Component{
     }
 
     handleSaveComment(comment){
-        //verify the comment and annotation is not empty
+        //apply annotation
         this.state.editor.annotator.annotate('alpha', {
             uid: this.state.id,
             comment: comment
@@ -94,7 +94,7 @@ class PostComment extends React.Component{
                 <div id = "editbox_comment_container">
                     <div id="editbox_comment">
                         {!this.state.isNewComment && <SelectedComment selectedComment = {this.state.selectedComment}></SelectedComment>}
-                        <NewComment handleSave = {this.handleSaveComment.bind(this)}></NewComment>
+                        <NewComment handleSave = {this.handleSaveComment.bind(this)} hasSelectedText = {this.state.editor && this.state.editor.selection && this.state.editor.selection.getContent({format : 'text'})}></NewComment>
                     </div>
                 </div>
                 <div className = "clear-float"></div>

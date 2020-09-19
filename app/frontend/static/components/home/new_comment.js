@@ -1,4 +1,5 @@
 import React from "react";
+import {displayErrorMessage} from "../../scripts/display_messages";
 
 class NewComment extends React.Component{
     constructor(props){
@@ -10,6 +11,18 @@ class NewComment extends React.Component{
     }
 
     handleClickSave(){
+        //verify the comment is not empty
+        if (!this.state.comment){
+            displayErrorMessage("comment cannot be empty");
+            return;
+        }
+
+        //check if selected text is empty
+        if(!this.props.hasSelectedText){
+            displayErrorMessage("please select the text associated with this comment");
+            return;
+        }
+
         this.props.handleSave(this.state.comment);
         this.setState({comment: ""});
     }
