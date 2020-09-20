@@ -1,5 +1,9 @@
 *{
     margin:0px;
+    font-family: -apple-system, BlinkMacSystemFont,
+    "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif;
 } 
 
 html, body, #root, #root, div.login-background, #auth-parent-component{
@@ -104,6 +108,26 @@ hr{
     display: none;
 }
 
+.post-details-user-profile {
+    color: #495057;
+}
+
+.post-details-username {
+    color: #495057;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.post-details-language {
+    color: #636466;
+    font-size: 14px;
+}
+
+.post-details-time {
+    color: #636466;
+    font-size: 12px;
+}
+
 .editbox_post_container {
     width: 60%;
     float: left
@@ -124,18 +148,10 @@ hr{
 }
 
 .comment-username {
-    font-family: -apple-system, BlinkMacSystemFont,
-    "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans",
-    "Droid Sans", "Helvetica Neue", sans-serif;
     font-weight: bold;
     font-size: 12px;
 }
 
 .comment-time {
-    font-family: -apple-system, BlinkMacSystemFont,
-    "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans",
-    "Droid Sans", "Helvetica Neue", sans-serif;
     font-size: 12px;
 }

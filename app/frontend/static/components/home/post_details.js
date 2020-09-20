@@ -51,19 +51,22 @@ class PostDetails extends React.Component {
     render(){
         return(
         <div className="center-container">
-            <div className = "d-flex flex-row">
-                <div className = "p-0 col-sm-3 col-md-3 col-lg-2">
-                    Profile
+                <div className = "post-details-user-profile float-left">
+                    <i className="fas fa-user-circle fa-3x"></i>
                 </div>
-                <div className="pl-2 col-sm-9 col-md-9 col-lg-10">
-                    <div>
-                        {this.state.postData.username}. Learning {this.state.postData.learnLanguage}
+                <div className="float-left pl-4">
+                    <div className = "post-details-username float-left">
+                        {this.state.postData.username}
                     </div>
-                    <div>
+                    <div className="post-details-language float-left pl-2"> 
+                        <span>&#183;</span> Learning {this.state.postData.learnLanguage}
+                    </div>
+                    <div className= "clear-float"></div>
+                    <div className="post-details-time">
                         Written on {this.state.postData.createdAt? datetimeConversion(this.state.postData.createdAt) : null}
                     </div>
                 </div>
-            </div>
+                <div className="clear-float"></div>
             <br></br>
             <div className="font-weight-bold">
                 {this.state.postData.title}
