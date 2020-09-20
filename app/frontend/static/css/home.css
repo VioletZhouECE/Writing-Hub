@@ -36,8 +36,12 @@ hr{
 }
 
 .main-container {
-    width: 80%;
+    width: 75%;
     margin: auto;
+}
+
+.menubar-background {
+    background-color: #e3f2fd
 }
 
 .center {
@@ -160,8 +164,4 @@ hr{
 
 .comment-time {
     font-size: 12px;
-}
-
-.menu-bar{
-    background-color: #aad5f3;
 }
