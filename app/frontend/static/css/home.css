@@ -35,6 +35,11 @@ hr{
     box-shadow: 7px 7px 5px 0px rgba(61,92,138,1);
 }
 
+.main-container {
+    width: 80%;
+    margin: auto;
+}
+
 .center {
     width: 60%; 
     margin: auto;
@@ -155,4 +160,8 @@ hr{
 
 .comment-time {
     font-size: 12px;
+}
+
+.menu-bar{
+    background-color: #aad5f3;
 }
