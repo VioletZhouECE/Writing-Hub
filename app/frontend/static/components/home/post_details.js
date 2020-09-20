@@ -2,6 +2,7 @@ import React from "react";
 import {withRouter} from 'react-router-dom';
 import { displayErrorMessage } from "../../scripts/display_messages";
 import PostComment from "./post_comment";
+import datetimeConversion from "../../scripts/date_conversion";
 
 class PostDetails extends React.Component {
     constructor(props){
@@ -59,7 +60,7 @@ class PostDetails extends React.Component {
                         {this.state.postData.username}. Learning {this.state.postData.learnLanguage}
                     </div>
                     <div>
-                        Written on {this.state.postData.createdAt}
+                        Written on {this.state.postData.createdAt? datetimeConversion(this.state.postData.createdAt) : null}
                     </div>
                 </div>
             </div>

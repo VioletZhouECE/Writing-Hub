@@ -1,6 +1,7 @@
 import React from "react";
 import NewComment from "./new_comment";
 import SelectedComment from "./selected_comment";
+import moment from "moment";
 
 class PostComment extends React.Component{
     constructor(props){
@@ -10,7 +11,8 @@ class PostComment extends React.Component{
             isNewComment: true,
             selectedComment: {
                 comment: null,
-                author: null
+                author: null,
+                time: null
             },
             //editor instance
             editor: null,
@@ -41,7 +43,8 @@ class PostComment extends React.Component{
                         return {
                         attributes: {
                             'data-mce-comment': data.comment ? data.comment : '',
-                            'data-mce-author': data.author ? data.author : 'anonymous'
+                            'data-mce-author': data.author ? data.author : 'anonymous',
+                            'data-mce-time': data.time ? data.time  : ''
                             }
                         };
                     }
@@ -52,7 +55,8 @@ class PostComment extends React.Component{
                             const annotationData = obj.nodes[0].dataset;
                             let selectedComment = {
                                 comment: annotationData.mceComment,
-                                author: annotationData.mceAuthor
+                                author: annotationData.mceAuthor,
+                                time: annotationData.mceTime
                             }
                             self.setState({
                                 isNewComment: false,
@@ -74,7 +78,8 @@ class PostComment extends React.Component{
         this.state.editor.annotator.annotate('alpha', {
             uid: this.state.id,
             comment: comment,
-            author: this.props.userInfo.username
+            author: this.props.userInfo.username,
+            time: moment().format('MMM Do YYYY, h:mm:ss a')
         }); 
 
         this.setState((prevState)=> {
