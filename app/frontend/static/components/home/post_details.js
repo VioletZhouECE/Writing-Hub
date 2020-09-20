@@ -51,7 +51,7 @@ class PostDetails extends React.Component {
     render(){
         return(
         <div className="center-container">
-                <div className = "post-details-user-profile float-left">
+                <div className = "float-left">
                     <i className="fas fa-user-circle fa-3x"></i>
                 </div>
                 <div className="float-left pl-4">
@@ -68,10 +68,9 @@ class PostDetails extends React.Component {
                 </div>
                 <div className="clear-float"></div>
             <br></br>
-            <div className="font-weight-bold">
+            <div className="font-weight-bold pb-2">
                 {this.state.postData.title}
             </div>
-            <br></br>
             <div className = "post-details-body" dangerouslySetInnerHTML={{ __html: this.state.postData.body}}>
             </div>
             <br></br>

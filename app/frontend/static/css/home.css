@@ -1,9 +1,10 @@
 *{
-    margin:0px;
+    margin: 0px;
     font-family: -apple-system, BlinkMacSystemFont,
     "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans",
-    "Droid Sans", "Helvetica Neue", sans-serif;
+    "Droid Sans", "Helvetica Neue", sans-serif; 
+    color: #495057;
 } 
 
 html, body, #root, #root, div.login-background, #auth-parent-component{
@@ -46,8 +47,8 @@ hr{
 .center-container{
     width: 750px;
     margin: auto;
-    padding: 30px;
-    border: 1px solid black;
+    padding: 35px;
+    border: 1px solid #b8bec5b3;
 }
 
 .form-spacing{
@@ -73,7 +74,7 @@ hr{
     margin: auto;
     height: auto;
     padding:15px;
-    border: 1px solid black;
+    border: 1px solid #b8bec5b3;
 }
 
 .post-title-wrap{
@@ -108,12 +109,7 @@ hr{
     display: none;
 }
 
-.post-details-user-profile {
-    color: #495057;
-}
-
 .post-details-username {
-    color: #495057;
     font-weight: bold;
     font-size: 16px;
 }
@@ -126,6 +122,11 @@ hr{
 .post-details-time {
     color: #636466;
     font-size: 12px;
+}
+
+.post-edit-header {
+    font-weight: bold;
+    font-size: 16px;
 }
 
 .editbox_post_container {

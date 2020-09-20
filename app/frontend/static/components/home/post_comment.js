@@ -93,7 +93,7 @@ class PostComment extends React.Component{
     render(){
         return(
             <>
-                <div className="pb-2">Edit the journal:</div>
+                <div className="pb-2 post-edit-header">Edit this journal:</div>
                 <div id = "editbox_container">
                     <div className = "editbox_post_container">
                         <div id="editbox_post" dangerouslySetInnerHTML={{ __html: this.props.postData.body}}></div>
