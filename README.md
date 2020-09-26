@@ -3,6 +3,19 @@ A Q&amp;A website that allows people learning a second language to improve their
 A friendly platform for learners to help each other by sharing expertise in their native language.
 
 # Demo
+Homepage:
+<br>
+![Homepage](/app/Demo/Homepage.png)
+<br>
+<br>
+Write a journal:
+<br>
+![Homepage](/app/Demo/Writing.png)
+<br>
+<br>
+Comment on journal:
+<br>
+![Homepage](/app/Demo/Comment.png)
 
 # Key feautures
 * Writing & reviewing journals; Asking & answering questions (of course!).
@@ -20,5 +33,5 @@ This is an on-going individual project. More feautures will be relased as the de
 - [ ] Custom user avatar
 - [ ] Search post functionality
 - [ ] Implement a better algorithm for user's feed
-And more ...!
+- [ ] And more ...!
 
