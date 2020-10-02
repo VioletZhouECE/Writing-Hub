@@ -25,6 +25,7 @@ Comment on journal:
 # Tech Stack
 * Frontend: React, bootstrap, jquery, webpack.
 * Backend: Node, Express, Sequelize.js (ORM), MySQL.
+* Packaging & Transpiling: Webpack, Babel.
 
 # Development
 This is an on-going individual project. More feautures will be relased as the development goes:):
