@@ -6,8 +6,8 @@ import moment from "moment";
 class PostComment extends React.Component{
     constructor(props){
         super(props);
-
         this.state = {
+            body: this.props.body,
             isNewComment: true,
             selectedComment: {
                 comment: null,
@@ -21,17 +21,20 @@ class PostComment extends React.Component{
     }
 
     componentDidMount(){
+        $("#editbox_post").html(this.props.body);
         this.initAnotation();
+        //this.state.editor.setContent(this.props.body);
     }
 
     initAnotation(){ 
         let self = this;
         //annotation settings        
         const postSettings = {
-            selector: '#editbox_post',
+            selector : "#editbox_post",
             toolbar: ['annotate-alpha'],
             menubar: false,
-            height: '300px',
+            height: "200",
+            width: "300",
             content_style: '.mce-annotation { background-color: darkgreen; color: white; } ' + 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
         
             setup: function (editor) {
@@ -90,13 +93,18 @@ class PostComment extends React.Component{
         });
     }
 
+    handleSubmit(){
+        //store comment to the db
+    }
+
     render(){
         return(
             <>
                 <div className="pb-2 post-edit-header">Edit this journal:</div>
                 <div id = "editbox_container">
                     <div className = "editbox_post_container">
-                        <div id="editbox_post" dangerouslySetInnerHTML={{ __html: this.props.postData.body}}></div>
+                        <textarea id="editbox_post" className="mceEditor">
+                        </textarea>
                     </div>
                     <div className = "editbox_comment_container">
                         <div id="editbox_comment">
@@ -105,6 +113,9 @@ class PostComment extends React.Component{
                         </div>
                     </div>
                     <div className = "clear-float"></div>
+                </div>
+                <div className = "pt-3">
+                    <button type= "button" className="btn-primary" onClick = {this.handleSubmit.bind(this)}>Post Your Comment</button>
                 </div>
             </>
         )
