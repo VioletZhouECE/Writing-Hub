@@ -7,7 +7,6 @@ class PostComment extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            body: this.props.body,
             isNewComment: true,
             selectedComment: {
                 comment: null,
@@ -21,22 +20,31 @@ class PostComment extends React.Component{
     }
 
     componentDidMount(){
-        $("#editbox_post").html(this.props.body);
         this.initAnotation();
-        //this.state.editor.setContent(this.props.body);
+        this.setEditorHtml(this.props.body);
+    }
+
+    componentDidUpdate(prevProps, prevState){
+        //if body has been loaded 
+        if (this.props.body !== prevProps.body) {
+            this.setEditorHtml(this.props.body)
+          }
+    }
+
+    setEditorHtml(html){
+        var $ = tinymce.dom.DomQuery;
+        $('#editbox_post').attr('attr', 'value').html(html);
     }
 
     initAnotation(){ 
         let self = this;
         //annotation settings        
         const postSettings = {
-            selector : "#editbox_post",
+            selector: "#editbox_post",
             toolbar: ['annotate-alpha'],
             menubar: false,
-            height: "200",
-            width: "300",
+            height: 300,
             content_style: '.mce-annotation { background-color: darkgreen; color: white; } ' + 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
-        
             setup: function (editor) {
                 self.setState({editor: editor});
                 editor.on('init', function () {
@@ -103,7 +111,7 @@ class PostComment extends React.Component{
                 <div className="pb-2 post-edit-header">Edit this journal:</div>
                 <div id = "editbox_container">
                     <div className = "editbox_post_container">
-                        <textarea id="editbox_post" className="mceEditor">
+                        <textarea id="editbox_post" className = "mceEditor">
                         </textarea>
                     </div>
                     <div className = "editbox_comment_container">
