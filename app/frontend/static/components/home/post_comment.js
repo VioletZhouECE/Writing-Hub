@@ -21,19 +21,17 @@ class PostComment extends React.Component{
 
     componentDidMount(){
         this.initAnotation();
-        this.setEditorHtml(this.props.body);
     }
 
     componentDidUpdate(prevProps, prevState){
         //if body has been loaded 
-        if (this.props.body !== prevProps.body) {
-            this.setEditorHtml(this.props.body)
+        if (this.props.body !== prevProps.body && this.props.body) {
+            tinymce.activeEditor.setContent(this.props.body);
           }
     }
 
-    setEditorHtml(html){
-        var $ = tinymce.dom.DomQuery;
-        $('#editbox_post').attr('attr', 'value').html(html);
+    componentWillUnmount(){
+        tinymce.remove();
     }
 
     initAnotation(){ 
