@@ -24,9 +24,14 @@ class PostComment extends React.Component{
     }
 
     componentDidUpdate(prevProps, prevState){
-        //if body has been loaded 
+        //to-do: look for a more elegant solution
         if (this.props.body !== prevProps.body && this.props.body) {
+            //set content when the page is loaded the first time
             tinymce.activeEditor.setContent(this.props.body);
+            //set content upon page refresh
+            if (!tinymce.get("editbox_post").getContent({ format: 'raw' })){
+                $("#editbox_post").html(this.props.body);
+            }
           }
     }
 
