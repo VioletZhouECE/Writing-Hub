@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const Journal = sequelize.define('Journal', {
+    const EditedJournal = sequelize.define('EditedJournal', {
       id: {
         type: DataTypes.UUID,
         primaryKey: true,
@@ -19,37 +19,21 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       },
 
-      title: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-
       body: {
         type: DataTypes.TEXT,
         allowNull: false
       },
 
-      comment: {
-          type: DataTypes.TEXT,
-          allowNull: true
-      },
-
-      viewsCount: {
+      numOfContributors: {
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 0
       }
     });
-
-    Journal.prototype.incrementViewsCount = function(){
-      this.viewsCount = this.viewsCount + 1;
-    }
   
-    Journal.associate = models => {
-        Journal.belongsTo(models.Language);
-        Journal.belongsTo(models.User);
-        Journal.hasOne(models.EditedJournal);
+    EditedJournal.associate = models => {
+        EditedJournal.belongsTo(models.Journal);
     };
   
-    return Journal;
+    return EditedJournal;
   };
