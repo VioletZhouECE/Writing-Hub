@@ -41,7 +41,7 @@ class PostDetails extends React.Component {
         })
 
         //fetch editedJournal
-        fetch(`/journals/editedJournal/${postId}`, {
+        fetch(`/editedJournals/${postId}`, {
             method: 'GET',
             headers: {
                 'Content-Type' : 'application/json',
@@ -59,7 +59,7 @@ class PostDetails extends React.Component {
                 })}
         })
         .then(resData =>{
-            this.setState({editedPost:resData});
+            this.setState({editedPost:resData.editedJournal});
         })
         .catch(err=>{
             displayErrorMessage(err.message)
@@ -105,7 +105,7 @@ class PostDetails extends React.Component {
             </div>
             <br></br>
             <EditedPost editedPost={this.state.editedPost}></EditedPost>
-            <PostComment body = {this.state.postData.body} userInfo = {this.props.userInfo}></PostComment>
+            <PostComment postData = {this.state.postData} userInfo = {this.props.userInfo} token={this.props.token}></PostComment>
         </div>
         )
     }

@@ -2,6 +2,7 @@ import React from "react";
 import NewComment from "./new_comment";
 import SelectedComment from "./selected_comment";
 import moment from "moment";
+import {displaySuccessMessage, displayErrorMessage} from "../../scripts/display_messages";
 
 class PostComment extends React.Component{
     constructor(props){
@@ -25,12 +26,12 @@ class PostComment extends React.Component{
 
     componentDidUpdate(prevProps, prevState){
         //to-do: look for a more elegant solution
-        if (this.props.body !== prevProps.body && this.props.body) {
+        if (this.props.postData.body !== prevProps.postData.body && this.props.postData.body) {
             //set content when the page is loaded the first time
-            tinymce.activeEditor.setContent(this.props.body);
+            tinymce.activeEditor.setContent(this.props.postData.body);
             //set content upon page refresh
             if (!tinymce.get("editbox_post").getContent({ format: 'raw' })){
-                $("#editbox_post").html(this.props.body);
+                $("#editbox_post").html(this.props.postData.body);
             }
           }
     }
@@ -105,7 +106,32 @@ class PostComment extends React.Component{
     }
 
     handleSubmit(){
-        //store comment to the db
+        //store editedJournal to the db
+        fetch('/editedJournals', {
+            method: 'POST',
+            headers: {
+                'Content-Type' : 'application/json',
+                'Authorization' : 'Bearer ' + this.props.token
+            },
+            body: JSON.stringify({
+                journalId: this.props.postData.id,
+                body: tinymce.get("editbox_post").getContent({ format: 'raw' })
+            })
+        })
+        .then(res => {
+            if (res.status === 200){
+                return res.json();
+            } else {
+                return res.json().then((err) => {
+                    throw new Error(err.message);
+                })}
+        })
+        .then(resData =>{
+            displaySuccessMessage(resData.msg);
+        })
+        .catch(err=>{
+            displayErrorMessage(err.message)
+        })
         
     }
 

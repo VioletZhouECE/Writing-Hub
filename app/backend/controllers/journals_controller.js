@@ -35,21 +35,6 @@ exports.getJournalsByLanguage= async (req, res, next) => {
     };
 }
 
-//get editedJournal by journalId 
-exports.getEditedJournalByJournalId = async (req, res, next) => {
-    try{
-        const editedJournal = await models.EditedJournal.findOne({where: {JournalId: req.params.journalId}});
-
-        if(!editedJournal){
-            return res.status(204).send();
-        }
-        const response = {editedJournal: editedJournal};
-        return res.status(200).json(response); 
-    } catch (err) {
-        next(err);
-    }
-}
-
 //get a single journal by id
 exports.getJournal= async (req, res, next) => {
     try{

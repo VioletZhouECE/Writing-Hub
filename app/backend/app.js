@@ -3,6 +3,7 @@ const bodyparser = require('body-parser');
 const path = require('path');
 const authRouter = require('./routers/auth_router');
 const journalRouter = require('./routers/journal_router');
+const editedJournalRouter = require('./routers/editedJournal_router');
 const questionRouter = require('./routers/question_router');
 const replyRouter = require('./routers/reply_router');
 const jwtValidator = require('./middleware/jwt_validation');
@@ -33,7 +34,7 @@ app.use((req, res, next) => {
 
 app.use('/auth', authRouter);
 app.use('/journals', jwtValidator, journalRouter);
-//app.use('/questions', questionRouter);
+app.use('/editedJournals', jwtValidator, editedJournalRouter);
 
 app.get('*/', (req, res) => {
     res.render('index');
