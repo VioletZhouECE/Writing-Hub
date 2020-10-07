@@ -106,6 +106,7 @@ class PostComment extends React.Component{
 
     handleSubmit(){
         //store comment to the db
+        
     }
 
     render(){

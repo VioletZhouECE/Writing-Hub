@@ -8,7 +8,7 @@ class EditedPost extends React.Component{
     render(){
         return (
         <>
-            <div>{this.props.editedPost.body}</div>
+            <div>{this.props.editedPost && this.props.editedPost.body}</div>
         </>
         )
     }

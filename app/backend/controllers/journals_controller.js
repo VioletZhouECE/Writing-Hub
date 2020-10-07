@@ -41,10 +41,10 @@ exports.getEditedJournalByJournalId = async (req, res, next) => {
         const editedJournal = await models.EditedJournal.findOne({where: {JournalId: req.params.journalId}});
 
         if(!editedJournal){
-            res.status(204).send();
+            return res.status(204).send();
         }
         const response = {editedJournal: editedJournal};
-        res.status(200).json(response); 
+        return res.status(200).json(response); 
     } catch (err) {
         next(err);
     }
