@@ -2,6 +2,7 @@ import React from "react";
 import {withRouter} from 'react-router-dom';
 import { displayErrorMessage } from "../../scripts/display_messages";
 import PostComment from "./post_comment";
+import EditedPost from "./edited_post";
 import datetimeConversion from "../../scripts/date_conversion";
 
 class PostDetails extends React.Component {
@@ -9,6 +10,7 @@ class PostDetails extends React.Component {
         super(props);
 
         this.state = {
+            editedPost : {},
             postData : {}
         }
     }
@@ -33,6 +35,31 @@ class PostDetails extends React.Component {
         })
         .then(resData =>{
             this.setState({postData:resData});
+        })
+        .catch(err=>{
+            displayErrorMessage(err.message)
+        })
+
+        //fetch editedJournal
+        fetch(`/journals/editedJournal/${postId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type' : 'application/json',
+                'Authorization' : 'Bearer ' + this.props.token
+            }
+        })
+        .then(res => {
+            if (res.status === 200){
+                return res.json();
+            } else if (res.status == 204){
+                //do something for now 
+            } else {
+                return res.json().then((err) => {
+                    throw new Error(err.message);
+                })}
+        })
+        .then(resData =>{
+            this.setState({editedPost:resData});
         })
         .catch(err=>{
             displayErrorMessage(err.message)
@@ -77,6 +104,7 @@ class PostDetails extends React.Component {
             <div className = "post-details-comment" dangerouslySetInnerHTML={{ __html: this.state.postData.comment}}>
             </div>
             <br></br>
+            <EditedPost editedPost={this.state.editedPost}></EditedPost>
             <PostComment body = {this.state.postData.body} userInfo = {this.props.userInfo}></PostComment>
         </div>
         )
