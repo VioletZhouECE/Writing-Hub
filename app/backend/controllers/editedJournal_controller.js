@@ -15,6 +15,7 @@ exports.getEditedJournalByJournalId = async (req, res, next) => {
     }
 }
 
+//create or update
 exports.updateEditedJournal = async (req, res, next) => {
     try {
         const editedJournal = await models.EditedJournal.findOne({ where: { JournalId:  req.params.journalId}});
