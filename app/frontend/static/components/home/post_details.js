@@ -2,7 +2,6 @@ import React from "react";
 import {withRouter} from 'react-router-dom';
 import { displayErrorMessage } from "../../scripts/display_messages";
 import PostComment from "./post_comment";
-import EditedPost from "./edited_post";
 import datetimeConversion from "../../scripts/date_conversion";
 
 class PostDetails extends React.Component {
@@ -104,8 +103,7 @@ class PostDetails extends React.Component {
             <div className = "post-details-comment" dangerouslySetInnerHTML={{ __html: this.state.postData.comment}}>
             </div>
             <br></br>
-            <EditedPost editedPost={this.state.editedPost}></EditedPost>
-            <PostComment postData = {this.state.postData} userInfo = {this.props.userInfo} token={this.props.token} postId={this.props.location.pathname.split('/')[2]}></PostComment>
+            <PostComment editedPost={this.state.editedPost} userInfo = {this.props.userInfo} token={this.props.token} postId={this.props.location.pathname.split('/')[2]}></PostComment>
         </div>
         )
     }

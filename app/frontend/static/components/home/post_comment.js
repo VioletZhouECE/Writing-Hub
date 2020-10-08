@@ -26,12 +26,12 @@ class PostComment extends React.Component{
 
     componentDidUpdate(prevProps, prevState){
         //to-do: look for a more elegant solution
-        if (this.props.postData.body !== prevProps.postData.body && this.props.postData.body) {
+        if (this.props.editedPost.body !== prevProps.editedPost.body && this.props.editedPost.body) {
             //set content when the page is loaded the first time
-            tinymce.activeEditor.setContent(this.props.postData.body);
+            tinymce.activeEditor.setContent(this.props.editedPost.body);
             //set content upon page refresh
             if (!tinymce.get("editbox_post").getContent({ format: 'raw' })){
-                $("#editbox_post").html(this.props.postData.body);
+                $("#editbox_post").html(this.props.editedPost.body);
             }
           }
     }
@@ -114,7 +114,7 @@ class PostComment extends React.Component{
                 'Authorization' : 'Bearer ' + this.props.token
             },
             body: JSON.stringify({
-                journalId: this.props.postData.id,
+                journalId: this.props.postId,
                 body: tinymce.get("editbox_post").getContent({ format: 'raw' })
             })
         })
