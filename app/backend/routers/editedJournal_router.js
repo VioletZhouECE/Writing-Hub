@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const {getEditedJournalByJournalId, postEditedJournal} = require('../controllers/editedJournal_controller');
+const {getEditedJournalByJournalId, updateEditedJournal} = require('../controllers/editedJournal_controller');
 
 //GET /editedtJournals/:journalId
 router.get('/:journalId', getEditedJournalByJournalId);
 
-//POST /editedtJournals
-router.post('/', postEditedJournal);
+//PUT /editedtJournals/:journalId
+router.put('/:journalId', updateEditedJournal);
 
 module.exports = router;

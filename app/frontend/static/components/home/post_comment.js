@@ -107,8 +107,8 @@ class PostComment extends React.Component{
 
     handleSubmit(){
         //store editedJournal to the db
-        fetch('/editedJournals', {
-            method: 'POST',
+        fetch(`/editedJournals/${this.props.postId}`, {
+            method: 'PUT',
             headers: {
                 'Content-Type' : 'application/json',
                 'Authorization' : 'Bearer ' + this.props.token

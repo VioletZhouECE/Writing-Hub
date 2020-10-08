@@ -105,7 +105,7 @@ class PostDetails extends React.Component {
             </div>
             <br></br>
             <EditedPost editedPost={this.state.editedPost}></EditedPost>
-            <PostComment postData = {this.state.postData} userInfo = {this.props.userInfo} token={this.props.token}></PostComment>
+            <PostComment postData = {this.state.postData} userInfo = {this.props.userInfo} token={this.props.token} postId={this.props.location.pathname.split('/')[2]}></PostComment>
         </div>
         )
     }
