@@ -9,7 +9,7 @@ class PostDetails extends React.Component {
         super(props);
 
         this.state = {
-            editedPost : {},
+            editedPost : null,
             postData : {}
         }
     }
@@ -51,14 +51,18 @@ class PostDetails extends React.Component {
             if (res.status === 200){
                 return res.json();
             } else if (res.status == 204){
-                //do something for now 
+                return;
             } else {
                 return res.json().then((err) => {
                     throw new Error(err.message);
                 })}
         })
         .then(resData =>{
-            this.setState({editedPost:resData.editedJournal});
+            if(resData){
+                this.setState({editedPost:resData.editedJournal});
+            } else {
+                //do nothing
+            }
         })
         .catch(err=>{
             displayErrorMessage(err.message)
@@ -103,7 +107,7 @@ class PostDetails extends React.Component {
             <div className = "post-details-comment" dangerouslySetInnerHTML={{ __html: this.state.postData.comment}}>
             </div>
             <br></br>
-            <PostComment editedPost={this.state.editedPost} userInfo = {this.props.userInfo} token={this.props.token} postId={this.props.location.pathname.split('/')[2]}></PostComment>
+            <PostComment editedPost={this.state.editedPost?this.state.editedPost:this.state.postData} userInfo = {this.props.userInfo} token={this.props.token} postId={this.props.location.pathname.split('/')[2]}></PostComment>
         </div>
         )
     }

@@ -17,7 +17,15 @@ exports.getEditedJournalByJournalId = async (req, res, next) => {
 
 exports.updateEditedJournal = async (req, res, next) => {
     try {
-        await models.EditedJournal.update({ body: req.body.body },{ where: { JournalId: req.params.journalId }});
+        const editedJournal = await models.EditedJournal.findOne({ where: { JournalId:  req.params.journalId}});
+        if(editedJournal){
+            await editedJournal.update({body: req.body.body});
+        } else {
+            await models.EditedJournal.create({
+                body: req.body.body,
+                JournalId:  req.params.journalId
+            })
+        }
         let response = {msg: "publish success"};
         res.status(200).json(response);
     } catch (err) {
