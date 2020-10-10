@@ -10,6 +10,7 @@ class PostComment extends React.Component{
         super(props);
         this.state = {
             isNewComment: true,
+            comments: [],
             selectedComment: {
                 comment: null,
                 author: null,
@@ -25,13 +26,21 @@ class PostComment extends React.Component{
     }
 
     componentDidUpdate(prevProps, prevState){
-        //to-do: look for a more elegant solution
+        //issue: cannot access any attribute of tinymce.activeEditor after page refresh even though attributes are all present
         if (this.props.editedPost.body !== prevProps.editedPost.body && this.props.editedPost.body) {
             //set content when the page is loaded the first time
             tinymce.activeEditor.setContent(this.props.editedPost.body);
             //set content upon page refresh
             if (!tinymce.get("editbox_post").getContent({ format: 'raw' })){
                 $("#editbox_post").html(this.props.editedPost.body);
+            }
+
+            //init this.state.comments 
+            if (tinymce.activeEditor.annotator){
+                const annotations = tinymce.activeEditor.annotator.getAll("alpha");
+                this.setState({comments : annotations});
+            } else {
+                //doesn't work after refreshing the page
             }
           }
     }
