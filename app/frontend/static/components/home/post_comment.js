@@ -2,7 +2,7 @@ import React from "react";
 import NewComment from "./new_comment";
 import SelectedComment from "./selected_comment";
 import moment from "moment";
-import uniqueid from "uniqueid";
+import uniqid from "uniqid";
 import {displaySuccessMessage, displayErrorMessage} from "../../scripts/display_messages";
 
 class PostComment extends React.Component{
@@ -108,7 +108,7 @@ class PostComment extends React.Component{
 
         this.setState((prevState)=> {
             return {
-                id: uniqueid(),
+                id: uniqid(),
                 isNewComment: false
             }
         });

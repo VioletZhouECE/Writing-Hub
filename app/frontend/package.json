@@ -21,7 +21,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
-    "uniqueid": "^1.0.0",
+    "uniqid": "^5.2.0",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12"
   }
