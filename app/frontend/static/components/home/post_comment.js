@@ -1,16 +1,26 @@
 import React from "react";
 import NewComment from "./new_comment";
-import SelectedComment from "./selected_comment";
+import Comment from "./comment";
 import moment from "moment";
 import uniqid from "uniqid";
 import {displaySuccessMessage, displayErrorMessage} from "../../scripts/display_messages";
+
+// {!this.state.isNewComment && <SelectedComment selectedComment = {this.state.selectedComment}></SelectedComment>}
+//                             <NewComment handleSave = {this.handleSaveComment.bind(this)} editor = {this.state.editor? this.state.editor: null}></NewComment>
+// {this.state.comments.map(comment=><Comment commentInfo = {comment}></Comment>)}
+const comments = [
+    <span class="mce-annotation" data-mce-annotation-uid="mce-annotation_36583796121602364743988" data-mce-annotation="alpha" data-mce-comment="development" data-mce-author="Violet18" data-mce-time="Oct 11th 2020, 5:19:03 am">developing</span>,
+    <span class="mce-annotation" data-mce-annotation-uid="kg46lhdv" data-mce-annotation="alpha" data-mce-comment="another one?" data-mce-author="Violet18" data-mce-time="Oct 11th 2020, 5:19:11 am">journal</span>,
+    <span class="mce-annotation" data-mce-annotation-uid="kg46lnbl" data-mce-annotation="alpha" data-mce-comment="Here we go again!" data-mce-author="Violet18" data-mce-time="Oct 11th 2020, 5:19:22 am">Go</span>
+]
 
 class PostComment extends React.Component{
     constructor(props){
         super(props);
         this.state = {
             isNewComment: true,
-            comments: [],
+            //comments : []
+            comments: comments,
             selectedComment: {
                 comment: null,
                 author: null,
@@ -37,7 +47,14 @@ class PostComment extends React.Component{
 
             //init this.state.comments 
             if (tinymce.activeEditor.annotator){
-                const annotations = tinymce.activeEditor.annotator.getAll("alpha");
+                const annotationNodes = tinymce.activeEditor.annotator.getAll("alpha");
+                
+                //take the outerHTML
+                const annotations = [];
+                for (const node in annotationNodes){
+                    annotations.push(annotationNodes[node][0].outerHTML);
+                }
+
                 this.setState({comments : annotations});
             } else {
                 //doesn't work after refreshing the page
@@ -155,8 +172,6 @@ class PostComment extends React.Component{
                     </div>
                     <div className = "editbox_comment_container">
                         <div id="editbox_comment">
-                            {!this.state.isNewComment && <SelectedComment selectedComment = {this.state.selectedComment}></SelectedComment>}
-                            <NewComment handleSave = {this.handleSaveComment.bind(this)} editor = {this.state.editor? this.state.editor: null}></NewComment>
                         </div>
                     </div>
                     <div className = "clear-float"></div>
