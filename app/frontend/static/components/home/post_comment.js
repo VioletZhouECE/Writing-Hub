@@ -65,7 +65,6 @@ class PostComment extends React.Component{
         const annotations = [];
         for (const comment of comments){
             const annotation = this.extractComments(this.stringToDomNode(comment));
-            console.log(annotation);
             annotations.push(annotation);
         }
 
@@ -200,6 +199,7 @@ class PostComment extends React.Component{
                     </div>
                     <div className = "editbox_comment_container">
                         <div id="editbox_comment">
+                            {this.state.comments.map(comment=><Comment key={comment.uid} commentInfo = {comment}></Comment>)}
                         </div>
                     </div>
                     <div className = "clear-float"></div>

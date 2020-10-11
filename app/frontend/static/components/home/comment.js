@@ -15,7 +15,7 @@ class Comment extends React.Component{
                         <div className="comment-time">{this.props.commentInfo.time}</div>
                     </div>
                     <div className="clear-float"></div>
-                    <div>{this.props.selectedComment.comment}</div>
+                    <div>{this.props.commentInfo.content}</div>
                 </div>
             </div>
         )
