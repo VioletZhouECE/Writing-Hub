@@ -9,9 +9,9 @@ import {displaySuccessMessage, displayErrorMessage} from "../../scripts/display_
 //                             <NewComment handleSave = {this.handleSaveComment.bind(this)} editor = {this.state.editor? this.state.editor: null}></NewComment>
 // {this.state.comments.map(comment=><Comment commentInfo = {comment}></Comment>)}
 const comments = [
-    <span class="mce-annotation" data-mce-annotation-uid="mce-annotation_36583796121602364743988" data-mce-annotation="alpha" data-mce-comment="development" data-mce-author="Violet18" data-mce-time="Oct 11th 2020, 5:19:03 am">developing</span>,
-    <span class="mce-annotation" data-mce-annotation-uid="kg46lhdv" data-mce-annotation="alpha" data-mce-comment="another one?" data-mce-author="Violet18" data-mce-time="Oct 11th 2020, 5:19:11 am">journal</span>,
-    <span class="mce-annotation" data-mce-annotation-uid="kg46lnbl" data-mce-annotation="alpha" data-mce-comment="Here we go again!" data-mce-author="Violet18" data-mce-time="Oct 11th 2020, 5:19:22 am">Go</span>
+    "<span class=\"mce-annotation\" data-mce-annotation-uid=\"mce-annotation_36583796121602364743988\" data-mce-annotation=\"alpha\" data-mce-comment=\"development\" data-mce-author=\"Violet18\" data-mce-time=\"Oct 11th 2020, 5:19:03 am\">developing</span>",
+    "<span class=\"mce-annotation\" data-mce-annotation-uid=\"kg46lhdv\" data-mce-annotation=\"alpha\" data-mce-comment=\"another one?\" data-mce-author=\"Violet18\" data-mce-time=\"Oct 11th 2020, 5:19:11 am\">journal</span>",
+    "<span class=\"mce-annotation\" data-mce-annotation-uid=\"kg46lnbl\" data-mce-annotation=\"alpha\" data-mce-comment=\"Here we go again!\" data-mce-author=\"Violet18\" data-mce-time=\"Oct 11th 2020, 5:19:22 am\">Go</span>"
 ]
 
 class PostComment extends React.Component{
@@ -19,8 +19,7 @@ class PostComment extends React.Component{
         super(props);
         this.state = {
             isNewComment: true,
-            //comments : []
-            comments: comments,
+            comments : [],
             selectedComment: {
                 comment: null,
                 author: null,
@@ -45,21 +44,52 @@ class PostComment extends React.Component{
                 $("#editbox_post").html(this.props.editedPost.body);
             }
 
-            //init this.state.comments 
-            if (tinymce.activeEditor.annotator){
-                const annotationNodes = tinymce.activeEditor.annotator.getAll("alpha");
+        //     //init this.state.comments 
+        //     if (tinymce.activeEditor.annotator){
+        //         const annotationNodes = tinymce.activeEditor.annotator.getAll("alpha");
                 
-                //take the outerHTML
-                const annotations = [];
-                for (const node in annotationNodes){
-                    annotations.push(annotationNodes[node][0].outerHTML);
-                }
+        //         //take the outerHTML
+        //         const annotations = [];
+        //         for (const node in annotationNodes){
+        //             annotation = this.extractComments(annotationNodes[node][0].outerHTML);
+        //             console.log(annotation);
+        //             annotations.push(annotation);
+        //         }
 
-                this.setState({comments : annotations});
-            } else {
-                //doesn't work after refreshing the page
-            }
-          }
+        //         this.setState({comments : annotations});
+        //     } else {
+        //         //doesn't work after refreshing the page
+        //     }
+        //   }
+
+        const annotations = [];
+        for (const comment of comments){
+            const annotation = this.extractComments(comment);
+            console.log(annotation);
+            annotations.push(annotation);
+        }
+
+        this.setState({comments : annotations});
+    }
+}
+
+    extractComments(commentHTML){
+        const regxUid = /data-mce-annotation-uid=\"(.*)\" data-mce-annotation/;
+        const regxAuthor = /data-mce-author=\"(.*)\" data-mce-time/;
+        const regxTime = /data-mce-time=\"(.*)\">/;
+        const regxContent = />(.*)/;
+
+        const uid = commentHTML.match(regxUid)[1];
+        const author = commentHTML.match(regxAuthor)[1];
+        const time = commentHTML.match(regxTime)[1];
+        const content = commentHTML.match(regxContent)[1];
+        
+        return {
+            uid : uid,
+            author: author,
+            time: time,
+            content: content
+        }
     }
 
     componentWillUnmount(){
