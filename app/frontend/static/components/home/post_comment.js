@@ -64,31 +64,29 @@ class PostComment extends React.Component{
 
         const annotations = [];
         for (const comment of comments){
-            const annotation = this.extractComments(comment);
+            const annotation = this.extractComments(this.stringToDomNode(comment));
             console.log(annotation);
             annotations.push(annotation);
         }
 
         this.setState({comments : annotations});
+        }
     }
-}
 
-    extractComments(commentHTML){
-        const regxUid = /data-mce-annotation-uid=\"(.*)\" data-mce-annotation/;
-        const regxAuthor = /data-mce-author=\"(.*)\" data-mce-time/;
-        const regxTime = /data-mce-time=\"(.*)\">/;
-        const regxContent = />(.*)/;
+    //helper function to convert a string to a dom node
+    stringToDomNode(string){
+        let wrapper= document.createElement('div');
+        wrapper.innerHTML= string;
+        return wrapper.firstChild;    
+    }
 
-        const uid = commentHTML.match(regxUid)[1];
-        const author = commentHTML.match(regxAuthor)[1];
-        const time = commentHTML.match(regxTime)[1];
-        const content = commentHTML.match(regxContent)[1];
-        
+    //return an object that contains comment components
+    extractComments(node){
         return {
-            uid : uid,
-            author: author,
-            time: time,
-            content: content
+            uid : node.getAttribute("data-mce-annotation-uid"),
+            author: node.getAttribute("data-mce-author"),
+            time: node.getAttribute("data-mce-time"),
+            content: node.getAttribute("data-mce-comment")
         }
     }
 
