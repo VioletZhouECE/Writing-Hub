@@ -16,6 +16,14 @@ hr{
     padding: 0;
 }
 
+.position-relative{
+    position: relative
+}
+
+.position-absolute{
+    position: absolute
+}
+
 .login-container {
     width: 410px;
     height: 500px;
@@ -142,7 +150,7 @@ hr{
     float: left
 }
 
-.editbox_comment_container {
+#editbox_comment_container {
     width: 40%;
     float: right;
     height: 300px;

@@ -18,13 +18,7 @@ class PostComment extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            isNewComment: true,
             comments : [],
-            selectedComment: {
-                comment: null,
-                author: null,
-                time: null
-            },
             //editor instance
             editor: null
         }
@@ -121,16 +115,8 @@ class PostComment extends React.Component{
                     editor.annotator.annotationChanged('alpha', function (state, name, obj) {
                         if (state){
                             const annotationData = obj.nodes[0].dataset;
-                            let selectedComment = {
-                                comment: annotationData.mceComment,
-                                author: annotationData.mceAuthor,
-                                time: annotationData.mceTime
-                            }
-                            self.setState({
-                                isNewComment: false,
-                                selectedComment: selectedComment});
+                            self.moveToSelectedComment(annotationData.mceAnnotationUid);
                         } else {
-                            self.setState({isNewComment: true});
                         }
                     });
                 });
@@ -141,20 +127,29 @@ class PostComment extends React.Component{
         tinymce.init(postSettings);
     }
 
+    moveToSelectedComment(uid){
+        const mouseYPos = tinymce.activeEditor.selection.getNode().getBoundingClientRect().top;
+        const commentYPos = document.getElementById( `${uid}`).getBoundingClientRect().top;
+        const commentboxYPos = document.getElementById("editbox_comment_container").getBoundingClientRect().top;
+        const relativecommentPos = commentYPos - commentboxYPos; 
+        const difference = relativecommentPos - mouseYPos;
+        console.log("start: comment_y_pos is" + relativecommentPos);
+        console.log("start: mouse position is" + mouseYPos);
+        console.log("start: difference is:" + difference);
+        $("#editbox_comment").animate({
+            bottom: difference>=0?`+=${Math.abs(difference)}px` : `-=${Math.abs(difference)}px`
+          }, 300, () => {
+            // Animation complete
+          });
+    }
+
     handleSaveComment(comment){
         //apply annotation
         this.state.editor.annotator.annotate('alpha', {
-            uid: this.state.id,
+            uid:  uniqid(),
             comment: comment,
             author: this.props.userInfo.username,
             time: moment().format('MMM Do YYYY, h:mm:ss a')
-        }); 
-
-        this.setState((prevState)=> {
-            return {
-                id: uniqid(),
-                isNewComment: false
-            }
         });
     }
 
@@ -197,9 +192,9 @@ class PostComment extends React.Component{
                         <textarea id="editbox_post" className = "mceEditor">
                         </textarea>
                     </div>
-                    <div className = "editbox_comment_container">
-                        <div id="editbox_comment">
-                            {this.state.comments.map(comment=><Comment key={comment.uid} commentInfo = {comment}></Comment>)}
+                    <div className = "position-relative" id="editbox_comment_container">
+                        <div id="editbox_comment" className="position-absolute">
+                            {this.state.comments.map(comment=><Comment commentId={comment.uid} key={comment.uid} commentInfo = {comment}></Comment>)}
                         </div>
                     </div>
                     <div className = "clear-float"></div>

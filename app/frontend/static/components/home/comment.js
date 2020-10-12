@@ -7,7 +7,7 @@ class Comment extends React.Component{
 
     render(){
         return (
-            <div className="form-group">
+            <div id={this.props.commentId} className="form-group position-relative">
                 <div className="form-control displayed-comment-box">
                     <span className="float-left mr-2"><i className="fas fa-user-circle fa-2x"></i></span>
                     <div className="float-left mb-2">
