@@ -98,6 +98,14 @@ class PostComment extends React.Component{
             content_style: '.mce-annotation { background-color: darkgreen; color: white; } ' + 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
             setup: function (editor) {
                 self.setState({editor: editor});
+
+                editor.ui.registry.addButton('annotate-alpha', {
+                    text: 'Annotate',
+                    onAction: () => {
+                      self.setState({isNewComment: true})
+                    }
+                  });
+
                 editor.on('init', function () {
                     editor.annotator.register('alpha', {
                     persistent: true,
@@ -114,6 +122,7 @@ class PostComment extends React.Component{
 
                     editor.annotator.annotationChanged('alpha', function (state, name, obj) {
                         if (state){
+                            self.setState({isNewComment:false});
                             const annotationData = obj.nodes[0].dataset;
                             self.moveToSelectedComment(annotationData.mceAnnotationUid);
                         } else {
@@ -193,7 +202,9 @@ class PostComment extends React.Component{
                         <div id="editbox_comment" className="position-absolute">
                             {this.state.comments.map(comment=><Comment commentId={comment.uid} key={comment.uid} commentInfo = {comment}></Comment>)}
                         </div>
-                        {this.state.isNewComment?<NewComment handleSave={this.handleSaveComment.bind(this)} editor={this.state.editor}></NewComment> : null}
+                        <div className="position-absolute">
+                            {this.state.isNewComment?<NewComment handleSave={this.handleSaveComment.bind(this)} editor={this.state.editor}></NewComment> : null}
+                        </div>
                     </div>
                     <div className = "clear-float"></div>
                 </div>
