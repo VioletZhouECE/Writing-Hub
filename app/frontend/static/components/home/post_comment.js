@@ -193,6 +193,7 @@ class PostComment extends React.Component{
                         <div id="editbox_comment" className="position-absolute">
                             {this.state.comments.map(comment=><Comment commentId={comment.uid} key={comment.uid} commentInfo = {comment}></Comment>)}
                         </div>
+                        {this.state.isNewComment?<NewComment handleSave={this.handleSaveComment.bind(this)} editor={this.state.editor}></NewComment> : null}
                     </div>
                     <div className = "clear-float"></div>
                 </div>
