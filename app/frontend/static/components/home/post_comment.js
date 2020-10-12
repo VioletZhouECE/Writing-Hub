@@ -133,11 +133,8 @@ class PostComment extends React.Component{
         const commentboxYPos = document.getElementById("editbox_comment_container").getBoundingClientRect().top;
         const relativecommentPos = commentYPos - commentboxYPos; 
         const difference = relativecommentPos - mouseYPos;
-        console.log("start: comment_y_pos is" + relativecommentPos);
-        console.log("start: mouse position is" + mouseYPos);
-        console.log("start: difference is:" + difference);
         $("#editbox_comment").animate({
-            bottom: difference>=0?`+=${Math.abs(difference)}px` : `-=${Math.abs(difference)}px`
+            bottom: difference>=0?`+=${Math.abs(difference)-2}px` : `-=${Math.abs(difference)+2}px`
           }, 300, () => {
             // Animation complete
           });
