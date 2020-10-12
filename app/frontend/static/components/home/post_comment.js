@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import NewComment from "./new_comment";
 import Comment from "./comment";
 import moment from "moment";
@@ -102,7 +103,8 @@ class PostComment extends React.Component{
                 editor.ui.registry.addButton('annotate-alpha', {
                     text: 'Annotate',
                     onAction: () => {
-                      self.setState({isNewComment: true})
+                      self.appendNewComment();
+                      self.setState({hasNewComment: true});
                     }
                   });
 
@@ -122,7 +124,8 @@ class PostComment extends React.Component{
 
                     editor.annotator.annotationChanged('alpha', function (state, name, obj) {
                         if (state){
-                            self.setState({isNewComment:false});
+                            self.removeNewComment();
+                            self.setState({hasNewComment : false});
                             const annotationData = obj.nodes[0].dataset;
                             self.moveToSelectedComment(annotationData.mceAnnotationUid);
                         } else {
@@ -147,6 +150,25 @@ class PostComment extends React.Component{
           }, 300, () => {
             // Animation complete
           });
+    }
+
+    appendNewComment(){
+        if(!this.state.hasNewComment){
+            const prevComment = document.getElementById("kg46lnbl");
+            const newComment =  this.stringToDomNode("<div id=\"new_comment_container\"><NewComment handleSave={this.handleSaveComment.bind(this)} editor={this.state.editor}></NewComment></div>");
+
+            if (prevComment.nextsibling){
+                prevComment.parentNode.insertBefore(newComment, prevComment.nextSibling);
+            } else {
+                prevComment.parentNode.appendChild(newComment);
+            }
+        }
+    }
+
+    removeNewComment(){
+        if(this.state.hasNewComment){
+            ReactDOM.unmountComponentAtNode(document.getElementById("new_comment_container"));
+        }
     }
 
     handleSaveComment(comment){
@@ -203,7 +225,7 @@ class PostComment extends React.Component{
                             {this.state.comments.map(comment=><Comment commentId={comment.uid} key={comment.uid} commentInfo = {comment}></Comment>)}
                         </div>
                         <div className="position-absolute">
-                            {this.state.isNewComment?<NewComment handleSave={this.handleSaveComment.bind(this)} editor={this.state.editor}></NewComment> : null}
+                            {this.state.hasNewComment?<NewComment handleSave={this.handleSaveComment.bind(this)} editor={this.state.editor}></NewComment> : null}
                         </div>
                     </div>
                     <div className = "clear-float"></div>
