@@ -80,7 +80,8 @@ class PostComment extends React.Component{
             uid : node.getAttribute("data-mce-annotation-uid"),
             author: node.getAttribute("data-mce-author"),
             time: node.getAttribute("data-mce-time"),
-            content: node.getAttribute("data-mce-comment")
+            content: node.getAttribute("data-mce-comment"),
+            isNewComment: false
         }
     }
 
@@ -154,20 +155,17 @@ class PostComment extends React.Component{
 
     appendNewComment(){
         if(!this.state.hasNewComment){
-            const prevComment = document.getElementById("kg46lnbl");
-            const newComment =  this.stringToDomNode("<div id=\"new_comment_container\"><NewComment handleSave={this.handleSaveComment.bind(this)} editor={this.state.editor}></NewComment></div>");
-
-            if (prevComment.nextsibling){
-                prevComment.parentNode.insertBefore(newComment, prevComment.nextSibling);
-            } else {
-                prevComment.parentNode.appendChild(newComment);
-            }
+            this.setState(prevState=>{ 
+                return {comments: [...prevState.comments, {isNewComment: true}]}
+            });
         }
     }
 
     removeNewComment(){
         if(this.state.hasNewComment){
-            ReactDOM.unmountComponentAtNode(document.getElementById("new_comment_container"));
+            this.setState(prevState=>{
+                return {comments: prevState.comments.filter((comment)=>comment.isNewComment==false)}
+            })
         }
     }
 
@@ -221,11 +219,15 @@ class PostComment extends React.Component{
                         </textarea>
                     </div>
                     <div className = "position-relative" id="editbox_comment_container">
-                        <div id="editbox_comment" className="position-absolute">
-                            {this.state.comments.map(comment=><Comment commentId={comment.uid} key={comment.uid} commentInfo = {comment}></Comment>)}
-                        </div>
-                        <div className="position-absolute">
-                            {this.state.hasNewComment?<NewComment handleSave={this.handleSaveComment.bind(this)} editor={this.state.editor}></NewComment> : null}
+                        <div id="editbox_comment" className="position-relative">
+                            {this.state.comments.map(comment=>{
+                                if(!comment.isNewComment){
+                                    return <Comment commentId={comment.uid} key={comment.uid} commentInfo = {comment}></Comment>;
+                                } else {
+                                    //new comment
+                                    return (<NewComment handleSave={this.handleSaveComment.bind(this)} editor={this.state.editor}></NewComment>)
+                                }
+                            })}
                         </div>
                     </div>
                     <div className = "clear-float"></div>
