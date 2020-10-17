@@ -154,11 +154,63 @@ class PostComment extends React.Component{
     }
 
     appendNewComment(){
-        if(!this.state.hasNewComment){
-            this.setState(prevState=>{ 
-                return {comments: [...prevState.comments, {isNewComment: true}]}
-            });
+        //assuming that getContent is not empty
+        //assuming that users don't add annotation to existing annotations
+
+        if(this.state.hasNewComment){
+            return;
         }
+
+        if(!this.state.editor.selection.getContent()){
+            console.log("No selected text");
+            return;
+        }
+        
+        const selectionNode = this.stringToDomNode("<mark class=\"marker\">" + tinymce.activeEditor.selection.getContent() + "</mark>")
+        tinymce.activeEditor.selection.setNode(selectionNode);
+        const domSelectionNode = tinymce.activeEditor.dom.select(".marker")[0];
+        let curr = domSelectionNode;
+        let prevUid;
+
+        while (curr.previousSibling) {
+            if (!curr.previousSibling.outerHTML) {
+                curr = curr.previousSibling;
+                continue;
+            }
+            const nodeOuterHTML = curr.previousSibling.outerHTML;
+            const node = this.stringToDomNode(nodeOuterHTML);
+            let uid = node.getAttribute("data-mce-annotation-uid");
+            if (uid){
+                prevUid = uid;
+                break;
+            }
+            curr = curr.previousSibling;
+        }
+
+        console.log(prevUid);
+
+        if (prevUid){
+            this.setState(prevState=>{
+                let newComments = [];
+                prevState.comments.forEach(comment=>{
+                    newComments.push(comment);
+                    if (comment.uid == prevUid){
+                        newComments.push({isNewComment: true});
+                    }
+                });
+                return {comments: newComments}; 
+            })
+        } else {
+            this.setState(prevState=>{
+                return {comments: [{isNewComment: true}, ...prevState.comments]};
+            })
+        }
+
+        tinymce.activeEditor.selection.setNode(selectionNode);
+    }
+
+    getClosestAnnotationId(){
+        
     }
 
     removeNewComment(){
