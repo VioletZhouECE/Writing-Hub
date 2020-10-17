@@ -97,7 +97,7 @@ class PostComment extends React.Component{
             toolbar: ['annotate-alpha'],
             menubar: false,
             height: 300,
-            content_style: '.mce-annotation { background-color: darkgreen; color: white; } ' + 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+            content_style: '.mce-annotation { background-color: #ffe0b3} ' + 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
             setup: function (editor) {
                 self.setState({editor: editor});
 
@@ -122,16 +122,26 @@ class PostComment extends React.Component{
                         };
                     }
                     });
+                
+                editor.on('click', function(e) {
+                    if(e.target.id == "marker"  || e.target.className=="mce-annotation"){
+                        return;
+                    } else {
+                        self.removeNewComment();
+                        self.setState({hasNewComment : false});
+                    }
+                })
 
-                    editor.annotator.annotationChanged('alpha', function (state, name, obj) {
-                        if (state){
-                            self.removeNewComment();
-                            self.setState({hasNewComment : false});
-                            const annotationData = obj.nodes[0].dataset;
-                            self.moveToSelectedComment(annotationData.mceAnnotationUid);
-                        } else {
-                        }
-                    });
+
+                editor.annotator.annotationChanged('alpha', function (state, name, obj) {
+                    if (state){
+                        self.removeNewComment();
+                        self.setState({hasNewComment : false});
+                        const annotationData = obj.nodes[0].dataset;
+                        self.moveToSelectedComment(annotationData.mceAnnotationUid);
+                    } else {
+                    }
+                });
                 });
             }
         };
@@ -166,9 +176,9 @@ class PostComment extends React.Component{
             return;
         }
         
-        const selectionNode = this.stringToDomNode("<mark class=\"marker\">" + tinymce.activeEditor.selection.getContent() + "</mark>")
+        const selectionNode = this.stringToDomNode("<mark id=\"marker\" style=\"background-color:#ffa64d\">" + tinymce.activeEditor.selection.getContent() + "</mark>")
         tinymce.activeEditor.selection.setNode(selectionNode);
-        const domSelectionNode = tinymce.activeEditor.dom.select(".marker")[0];
+        const domSelectionNode = tinymce.activeEditor.dom.select("#marker")[0];
         let curr = domSelectionNode;
         let prevUid;
 
@@ -199,25 +209,24 @@ class PostComment extends React.Component{
                     }
                 });
                 return {comments: newComments}; 
+            }, ()=>{
+                this.moveToSelectedComment("newComment");
             })
         } else {
             this.setState(prevState=>{
                 return {comments: [{isNewComment: true}, ...prevState.comments]};
+            }, ()=>{
+                this.moveToSelectedComment("newComment");
             })
         }
-
-        tinymce.activeEditor.selection.setNode(selectionNode);
-    }
-
-    getClosestAnnotationId(){
-        
     }
 
     removeNewComment(){
         if(this.state.hasNewComment){
             this.setState(prevState=>{
                 return {comments: prevState.comments.filter((comment)=>comment.isNewComment==false)}
-            })
+            });
+            tinymce.activeEditor.dom.setOuterHTML('marker', tinymce.activeEditor.dom.select("#marker")[0].innerHTML);
         }
     }
 
