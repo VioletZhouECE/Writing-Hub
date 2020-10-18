@@ -173,3 +173,8 @@ hr{
 .comment-time {
     font-size: 12px;
 }
+
+.right-button {
+    z-index: 99;
+    float: right;
+}

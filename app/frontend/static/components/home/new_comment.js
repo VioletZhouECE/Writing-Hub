@@ -17,12 +17,6 @@ class NewComment extends React.Component{
             return;
         }
 
-        //check if selected text is empty
-        if(!this.props.editor.selection.getContent({format: "text"})){
-            displayErrorMessage("please select the text associated with this comment");
-            return;
-        }
-
         this.props.handleSave(this.state.comment);
         this.setState({comment: ""});
     }
@@ -40,7 +34,8 @@ class NewComment extends React.Component{
             <div id = "newComment" className="form-group round-box" style={{width:"220px"}}>
                 <textarea className="form-control mb-2" rows="3" value={this.state.comment} onChange = {this.handleCommentChange.bind(this)}></textarea>
                 <button type="button" className="btn btn-primary mb-2 float-right" role="button" onClick = {this.handleClickSave.bind(this)}>Save</button>
-                <button type="button" className="btn btn-secondary mb-2 mr-2 float-right" role="button" onClick = {this.handleClickClear.bind(this)}>Clear</button>
+                <button type="button" className="btn btn-secondary mb-2 float-right mr-2" role="button" onClick = {this.handleClickClear.bind(this)}>Clear</button>
+                <div className="clear-float"></div>
             </div>
         )
     }

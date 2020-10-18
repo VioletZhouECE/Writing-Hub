@@ -230,13 +230,44 @@ class PostComment extends React.Component{
         }
     }
 
+    //to-do: save edited journal to the backend
     handleSaveComment(comment){
-        //apply annotation
-        this.state.editor.annotator.annotate('alpha', {
+        //create tinymce selection
+        tinymce.activeEditor.selection.select(tinymce.activeEditor.dom.select("#marker")[0]);
+
+        const annotationFields = {
             uid:  uniqid(),
             comment: comment,
             author: this.props.userInfo.username,
             time: moment().format('MMM Do YYYY, h:mm:ss a')
+        };
+
+        //apply annotation
+        tinymce.activeEditor.annotator.annotate('alpha', annotationFields);
+
+        //remove marker wrapper
+        tinymce.activeEditor.dom.setOuterHTML('marker', tinymce.activeEditor.dom.select("#marker")[0].innerHTML);
+
+        //update comment list
+        this.setState(prevState=>{
+            return {
+                hasNewComment : false,
+                comments: prevState.comments.map(comment=>{
+                    if (comment.isNewComment){
+                        return {
+                            uid: annotationFields.uid,
+                            author: annotationFields.author,
+                            time: annotationFields.time,
+                            content: annotationFields.comment,
+                            isNewComment: false
+                        }
+                    } else {
+                        return comment;
+                    }
+                })
+            }
+        }, ()=>{
+            this.moveToSelectedComment(annotationFields.uid);
         });
     }
 
