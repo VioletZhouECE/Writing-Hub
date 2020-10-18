@@ -230,7 +230,7 @@ class PostComment extends React.Component{
         }
     }
 
-    //to-do: save edited journal to the backend
+    //to-do: error handling when SaveComment failed
     handleSaveComment(comment){
         //create tinymce selection
         tinymce.activeEditor.selection.select(tinymce.activeEditor.dom.select("#marker")[0]);
@@ -266,9 +266,10 @@ class PostComment extends React.Component{
                     }
                 })
             }
-        }, ()=>{
-            this.moveToSelectedComment(annotationFields.uid);
         });
+
+        //save the edited-journal to the backend
+        this.handleSubmit();
     }
 
     handleSubmit(){
