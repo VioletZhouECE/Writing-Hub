@@ -11,7 +11,15 @@ class Comment extends React.Component{
                 <div className="form-control displayed-comment-box">
                     <span className="float-left mr-2"><i className="fas fa-user-circle fa-2x"></i></span>
                     <div className="float-left mb-2">
-                        <div className="comment-username">{this.props.commentInfo.author}</div>
+                        <div className="comment-username float-left">{this.props.commentInfo.author}</div>
+                        <div className="float-right">
+                            <i className="fas fa-ellipsis-h" href="#" role="button" data-toggle="dropdown"></i>
+                                <div className="dropdown-menu dropdown-menu-left">
+                                    <a href="#" className="dropdown-item">Edit</a>
+                                    <a href="#" className="dropdown-item">Delete</a>
+                                </div> 
+                        </div>
+                        <div className="clear-float"></div>
                         <div id={this.props.commentId} className="comment-time">{this.props.commentInfo.time}</div>
                     </div>
                     <div className="clear-float"></div>
