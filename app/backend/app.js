@@ -18,7 +18,7 @@ app.use(bodyparser.json());
 
 app.set('view engine', 'jade');
 
-app.use(express.static("/Users/VioletZhou/Desktop/Writing hub/app/frontend"));
+app.use(express.static("../frontend"));
 
 //allow cross domain access
 app.use((req, res, next) => {

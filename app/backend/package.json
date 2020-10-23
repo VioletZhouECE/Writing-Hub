@@ -10,6 +10,8 @@
   "author": "Violet Zhou",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.0",
+    "bcryptjs": "^2.4.3",
     "express": "^4.17.1",
     "jade": "^1.11.0",
     "jsonwebtoken": "^8.5.1",
