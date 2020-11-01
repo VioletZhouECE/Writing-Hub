@@ -1,6 +1,5 @@
 const models = require('../models/index');
 const jwt = require('jsonwebtoken');
-const jwtkey = require('../config/jwtkey');
 const {errorWrapper} = require("../middleware/error_wrapper");
 
 exports.login = async (req, res, next) => {
@@ -30,7 +29,7 @@ exports.login = async (req, res, next) => {
             { username: user.username,
               userId: user.id
             },
-            jwtkey,
+            process.env.JWT_KEY,
             { expiresIn: '3h' }
         );
 

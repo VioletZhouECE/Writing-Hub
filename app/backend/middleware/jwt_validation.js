@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const jwtkey = require('../config/jwtkey');
 
 module.exports = (req, res, next) => {
     let authHeader = req.get('Authorization');
@@ -15,7 +14,7 @@ module.exports = (req, res, next) => {
     let decodedToken;
     //decode failed
     try {
-        decodedToken = jwt.verify(token, jwtkey);
+        decodedToken = jwt.verify(token, process.env.JWT_KEY);
     } catch(err){
         err.statusCode = 500;
         throw err;
