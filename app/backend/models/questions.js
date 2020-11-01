@@ -9,13 +9,13 @@ module.exports = (sequelize, DataTypes) => {
 
       createdAt: {
         type: DataTypes.DATE,
-        defaultValue: sequelize.fn('NOW'),
+        defaultValue: sequelize.fn('GETDATE'),
         allowNull: false
       },
 
       updatedAt: {
         type: DataTypes.DATE,
-        defaultValue: sequelize.fn('NOW'),
+        defaultValue: sequelize.fn('GETDATE'),
         allowNull: false
       },
 

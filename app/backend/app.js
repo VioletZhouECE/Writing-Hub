@@ -8,9 +8,20 @@ const questionRouter = require('./routers/question_router');
 const replyRouter = require('./routers/reply_router');
 const jwtValidator = require('./middleware/jwt_validation');
 const errorHandler = require('./middleware/error_handler');
+const { Sequelize } = require('sequelize');
 
-// sequelize.sync();
-// console.log("All models were synchronized successfully.");
+const sequelize = new Sequelize('writing-hub-server', 'zhouxin', 'NJlymlym72!', {
+  host: 'writing-hub.database.windows.net',
+  dialect: 'mssql'
+});
+
+try {
+  sequelize.authenticate().then(()=>{
+    console.log('Connection has been established successfully.');
+  })
+} catch (error) {
+  console.error('Unable to connect to the database:', error);
+}
 
 app = express();
 

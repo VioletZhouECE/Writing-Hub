@@ -3,12 +3,12 @@ module.exports = {
     return queryInterface.createTable('learnLanguageUsers', {
       createdAt: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.fn('NOW'),
+        defaultValue: Sequelize.fn('GETDATE'),
         allowNull: false
       },
       updatedAt: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.fn('NOW'),
+        defaultValue: Sequelize.fn('GETDATE'),
         allowNull: false
       },
       UserId: {
