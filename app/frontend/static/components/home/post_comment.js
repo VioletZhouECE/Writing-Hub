@@ -10,9 +10,9 @@ import {displaySuccessMessage, displayErrorMessage} from "../../scripts/display_
 //                             <NewComment handleSave = {this.handleSaveComment.bind(this)} editor = {this.state.editor? this.state.editor: null}></NewComment>
 // {this.state.comments.map(comment=><Comment commentInfo = {comment}></Comment>)}
 const comments = [
-    "<span class=\"mce-annotation\" data-mce-annotation-uid=\"mce-annotation_36583796121602364743988\" data-mce-annotation=\"alpha\" data-mce-comment=\"development\" data-mce-author=\"Violet18\" data-mce-time=\"Oct 11th 2020, 5:19:03 am\">developing</span>",
-    "<span class=\"mce-annotation\" data-mce-annotation-uid=\"kg46lhdv\" data-mce-annotation=\"alpha\" data-mce-comment=\"another one?\" data-mce-author=\"Violet18\" data-mce-time=\"Oct 11th 2020, 5:19:11 am\">journal</span>",
-    "<span class=\"mce-annotation\" data-mce-annotation-uid=\"kg46lnbl\" data-mce-annotation=\"alpha\" data-mce-comment=\"Here we go again!\" data-mce-author=\"Violet18\" data-mce-time=\"Oct 11th 2020, 5:19:22 am\">Go</span>"
+    "<span class=\"mce-annotation\" data-mce-annotation-uid=\"kgzhuf41\" data-mce-annotation=\"alpha\" data-mce-comment=\"Hooray! To the cloud we go!\" data-mce-author=\"Violet\" data-mce-time=\"Nov 1st 2020, 2:14:48 pm\" data-mce-selected=\"inline-boundary\">cloud</span>",
+    "<span class=\"mce-annotation\" data-mce-annotation-uid=\"kgzhuuuj\" data-mce-annotation=\"alpha\" data-mce-comment=\"Yes! Sequelize is great!\" data-mce-author=\"Violet\" data-mce-time=\"Nov 1st 2020, 2:15:08 pm\" data-mce-selected=\"inline-boundary\">sequelize ORM</span>",
+    "<span class=\"mce-annotation\" data-mce-annotation-uid=\"kgzhwa5u\" data-mce-annotation=\"alpha\" data-mce-comment=\"Definitely have a happy Halloween weekend\" data-mce-author=\"Violet\" data-mce-time=\"Nov 1st 2020, 2:16:15 pm\" data-mce-selected=\"inline-boundary\">So happy :)</span>"
 ]
 
 class PostComment extends React.Component{
@@ -159,7 +159,7 @@ class PostComment extends React.Component{
         $("#editbox_comment").animate({
             bottom: difference>=0?`+=${Math.abs(difference)-2}px` : `-=${Math.abs(difference)+2}px`
           }, 300, () => {
-            // Animation complete
+            // Animation complete 
           });
     }
 
