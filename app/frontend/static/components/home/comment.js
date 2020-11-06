@@ -31,6 +31,8 @@ class Comment extends React.Component{
         });
 
         //actually save the comment 
+        this.props.handleEditComment(newComment, this.props.commentId);
+
         this.currentCommentBox.current.style.height = "86px";
     }
 

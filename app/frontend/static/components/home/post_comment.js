@@ -272,6 +272,12 @@ class PostComment extends React.Component{
         this.handleSubmit();
     }
 
+    handleEditComment(comment, commentId){
+        const commentNode = tinymce.activeEditor.dom.select(`span[data-mce-annotation-uid=${commentId}]`)[0];
+        commentNode.setAttribute("data-mce-comment", comment);
+        this.handleSubmit();
+    }
+
     handleSubmit(){
         //store editedJournal to the db
         fetch(`/editedJournals/${this.props.postId}`, {
@@ -315,7 +321,7 @@ class PostComment extends React.Component{
                         <div id="editbox_comment" className="position-relative">
                             {this.state.comments.map(comment=>{
                                 if(!comment.isNewComment){
-                                    return <Comment commentId={comment.uid} key={comment.uid} commentInfo = {comment}></Comment>;
+                                    return <Comment commentId={comment.uid} key={comment.uid} commentInfo = {comment} handleEditComment = {this.handleEditComment.bind(this)}></Comment>;
                                 } else {
                                     //new comment
                                     return (<NewComment handleSave={this.handleSaveComment.bind(this)} editor={this.state.editor}></NewComment>)
