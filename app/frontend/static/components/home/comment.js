@@ -1,11 +1,11 @@
 import React from "react";
 import CommentEdit from "./comment_edit"
-import { userInfo } from "os";
 
 class Comment extends React.Component{
     constructor(props){
         super(props);
         this.currentCommentBox = React.createRef();
+        this.UserInfo = UserInfo;
 
         this.state = {
             isEditing: false,
