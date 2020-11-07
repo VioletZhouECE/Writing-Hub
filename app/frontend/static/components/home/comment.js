@@ -1,5 +1,6 @@
 import React from "react";
 import CommentEdit from "./comment_edit"
+import { userInfo } from "os";
 
 class Comment extends React.Component{
     constructor(props){
@@ -50,13 +51,15 @@ class Comment extends React.Component{
                         <div className="clear-float"></div>
                         <div id={this.props.commentId} className="comment-time">{this.props.commentInfo.time}</div>
                     </div>
-                    <div className="float-right">
-                        <i className="fas fa-ellipsis-h" href="#" role="button" data-toggle="dropdown"></i>
-                            <div className="dropdown-menu dropdown-menu-left">
-                                <a href="#" className="dropdown-item" onClick={this.handleClickEdit.bind(this)}>Edit</a>
-                                <a href="#" className="dropdown-item">Delete</a>
-                            </div> 
-                    </div>
+                    {this.UserInfo.username == this.props.commentInfo.author && <div className="editMenu">
+                        <div className="float-right">
+                            <i className="fas fa-ellipsis-h" href="#" role="button" data-toggle="dropdown"></i>
+                                <div className="dropdown-menu dropdown-menu-left">
+                                    <a href="#" className="dropdown-item" onClick={this.handleClickEdit.bind(this)}>Edit</a>
+                                    <a href="#" className="dropdown-item">Delete</a>
+                                </div> 
+                        </div>
+                    </div>}
                     <div className="clear-float"></div>
                     {this.state.isEditing? <CommentEdit comment = {this.state.comment} handleSaveComment={this.handleSaveComment.bind(this)} handleSaveCancel={this.handleSaveCancel.bind(this)}></CommentEdit> : <div>{this.state.comment}</div>}
                     <div className="clear-float"></div>

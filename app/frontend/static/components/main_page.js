@@ -150,16 +150,16 @@ class MainPage extends React.Component{
     })
     .then(resData => {
       this.setLocalStorage(resData.username, resData.userId, resData.token, resData.learnLanguage, resData.firstLanguage);
+
+      UserInfo.username = resData.username;
+      UserInfo.userId = resData.userId;
+      UserInfo.learnLanguage = resData.learnLanguage;
+      UserInfo.firstLanguage = resData.firstLanguage;
+      
       //direct user to the home page
       this.setState({isAuth: true,
                      token : resData.token,
                      error: null});
-
-      UserInfo.username = resData.username;
-      UserInfo.userid = resData.userId;
-      UserInfo.learnLanguage = resData.learnLanguage;
-      UserInfo.firstLanguage = resData.firstLanguage;
-      
     })
     .catch(err => {
       this.setState({
