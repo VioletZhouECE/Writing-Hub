@@ -1,6 +1,6 @@
 import React from 'react'
 
-class Editbox extends React.Component{
+class CommentEdit extends React.Component{
 
     constructor(props){
         super(props)
@@ -27,4 +27,4 @@ class Editbox extends React.Component{
     }
 }
 
-export default Editbox
+export default CommentEdit

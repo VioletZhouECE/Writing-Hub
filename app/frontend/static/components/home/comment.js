@@ -1,5 +1,5 @@
 import React from "react";
-import Editbox from "./editbox"
+import CommentEdit from "./comment_edit"
 
 class Comment extends React.Component{
     constructor(props){
@@ -58,7 +58,7 @@ class Comment extends React.Component{
                             </div> 
                     </div>
                     <div className="clear-float"></div>
-                    {this.state.isEditing? <Editbox comment = {this.state.comment} handleSaveComment={this.handleSaveComment.bind(this)} handleSaveCancel={this.handleSaveCancel.bind(this)}></Editbox> : <div>{this.state.comment}</div>}
+                    {this.state.isEditing? <CommentEdit comment = {this.state.comment} handleSaveComment={this.handleSaveComment.bind(this)} handleSaveCancel={this.handleSaveCancel.bind(this)}></CommentEdit> : <div>{this.state.comment}</div>}
                     <div className="clear-float"></div>
                 </div>
             </div>
