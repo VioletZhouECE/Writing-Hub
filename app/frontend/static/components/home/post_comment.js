@@ -238,7 +238,7 @@ class PostComment extends React.Component{
         const annotationFields = {
             uid:  uniqid(),
             comment: comment,
-            author: this.props.userInfo.username,
+            author: UserInfo.username,
             time: moment().format('MMM Do YYYY, h:mm:ss a')
         };
 

@@ -107,7 +107,7 @@ class PostDetails extends React.Component {
             <div className = "post-details-comment" dangerouslySetInnerHTML={{ __html: this.state.postData.comment}}>
             </div>
             <br></br>
-            <PostComment editedPost={this.state.editedPost?this.state.editedPost:this.state.postData} userInfo = {this.props.userInfo} token={this.props.token} postId={this.props.location.pathname.split('/')[2]}></PostComment>
+            <PostComment editedPost={this.state.editedPost?this.state.editedPost:this.state.postData} token={this.props.token} postId={this.props.location.pathname.split('/')[2]}></PostComment>
         </div>
         )
     }

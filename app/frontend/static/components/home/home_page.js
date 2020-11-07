@@ -11,7 +11,7 @@ class HomePage extends React.Component{
            totalPosts: 0,
            loadedPosts: 0,
            //feed = all posts written in learnLanguage
-           language: this.props.learnLanguage,
+           language: UserInfo.learnLanguage,
            isLoading: false,
            hasMorePost: true
         }
@@ -47,7 +47,7 @@ class HomePage extends React.Component{
 
     loadFeed(){
         //for simplification, feed = all posts written in learnLanguage
-        this.switchLanguage(this.props.learnLanguage);
+        this.switchLanguage(UserInfo.learnLanguage);
     }
 
     loadPost(){
@@ -107,10 +107,10 @@ class HomePage extends React.Component{
                                 <a className="nav-link" href="javascript:;" onClick = {(e) => this.loadFeed(e.target.value)}>Feed</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="javascript:;" key={this.props.learnLanguage} onClick = {(e) => this.switchLanguage(this.props.learnLanguage)}>{this.props.learnLanguage}</a>
+                                <a className="nav-link" href="javascript:;" key={UserInfo.learnLanguage} onClick = {(e) => this.switchLanguage(UserInfo.learnLanguage)}>{UserInfo.learnLanguage}</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="javascript:;" key={this.props.firstLanguage} onClick = {(e) => this.switchLanguage(this.props.firstLanguage)}>{this.props.firstLanguage}</a>
+                                <a className="nav-link" href="javascript:;" key={UserInfo.firstLanguage} onClick = {(e) => this.switchLanguage(UserInfo.firstLanguage)}>{UserInfo.firstLanguage}</a>
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link" href="javascript:;">...</a>
