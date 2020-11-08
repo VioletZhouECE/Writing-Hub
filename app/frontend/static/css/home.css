@@ -62,7 +62,7 @@ hr{
 }
 
 .center-container{
-    width: 750px;
+    width: 770px;
     margin: auto;
     padding: 35px;
     border: 1px solid #b8bec5b3;
@@ -87,7 +87,7 @@ hr{
 }
 
 .tab-bar{
-    width: 750px;
+    width: 770px;
     margin: auto;
     height: auto;
     border: 1px solid #b8bec5b3; 
@@ -146,20 +146,21 @@ hr{
 }
 
 .editbox_post_container {
-    width: 60%;
+    width: 62%;
     float: left
 }
 
 #editbox_comment_container {
-    width: 40%;
+    width: 38%;
     float: right;
     height: 300px;
     border: 1px solid #b8bec5b3;
-    padding: 12px;
+    padding: 15px;
     overflow-y: scroll;
 }
 
 .displayed-comment-box {
+    padding: 10px; 
     height: 86px;
     word-break: break-all;
     overflow-y: scroll;
