@@ -309,9 +309,6 @@ class PostComment extends React.Component{
                     </div>
                     <div className = "clear-float"></div>
                 </div>
-                <div className = "pt-3">
-                    <button type= "button" className="btn-primary" onClick = {this.handleSubmit.bind(this)}>Post Your Comment</button>
-                </div>
             </>
         )
     }

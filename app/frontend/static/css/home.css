@@ -175,13 +175,13 @@ hr{
     font-size: 12px;
 }
 
+.comment-text {
+    font-size: 14px;
+}
+
 .right-button {
     z-index: 99;
     float: right;
-}
-
-.top-layer {
-    z-index: 99
 }
 
 .editmenu {

@@ -48,7 +48,7 @@ class Comment extends React.Component{
             <div className="form-group position-relative">
                 <div className="form-control displayed-comment-box position-relative" ref={this.currentCommentBox}>
                     <span className="float-left mr-2"><i className="fas fa-user-circle fa-2x"></i></span>
-                    <div className ="float-left">
+                    <div className ="float-left mb-1">
                         <div className="float-left comment-username">
                             {this.props.commentInfo.author}
                         </div>
@@ -66,7 +66,7 @@ class Comment extends React.Component{
                         <div id={this.props.commentId} className="comment-time">{this.props.commentInfo.time}</div>
                     </div>
                     <div className="clear-float"></div>
-                    {this.state.isEditing? <CommentEdit comment = {this.state.comment} handleSaveComment={this.handleSaveComment.bind(this)} handleSaveCancel={this.handleSaveCancel.bind(this)}></CommentEdit> : <div>{this.state.comment}</div>}
+                        {this.state.isEditing? <CommentEdit comment = {this.state.comment} handleSaveComment={this.handleSaveComment.bind(this)} handleSaveCancel={this.handleSaveCancel.bind(this)}></CommentEdit> : <div className="comment-text">{this.state.comment}</div>}
                     <div className="clear-float"></div>
                 </div>
             </div>

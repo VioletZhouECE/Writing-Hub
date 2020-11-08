@@ -16,7 +16,7 @@ class CommentEdit extends React.Component{
     render(){
         return (
             <>
-                <textarea className="form-control mb-2" rows="2" value={this.state.comment} 
+                <textarea className="form-control mb-2 comment-text" rows="2" value={this.state.comment} 
                 onChange = {this.handleCommentChange.bind(this)}></textarea>
                 <div className = "mt-2">
                     <button type="button" className="btn btn-sm btn-primary mb-1 float-right" role="button" onClick={() => this.props.handleSaveComment(this.state.comment)}>Save</button>
