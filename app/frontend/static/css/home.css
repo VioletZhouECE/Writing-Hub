@@ -146,16 +146,16 @@ hr{
 }
 
 .editbox_post_container {
-    width: 62%;
+    width: 60%;
     float: left
 }
 
 #editbox_comment_container {
-    width: 38%;
+    width: 40%;
     float: right;
     height: 300px;
     border: 1px solid #b8bec5b3;
-    padding: 15px;
+    padding: 12px;
     overflow-y: scroll;
 }
 
@@ -178,4 +178,15 @@ hr{
 .right-button {
     z-index: 99;
     float: right;
+}
+
+.top-layer {
+    z-index: 99
+}
+
+.editmenu {
+    height: "16px";
+    position: absolute;
+    top: 8px;
+    right: 12px;
 }
