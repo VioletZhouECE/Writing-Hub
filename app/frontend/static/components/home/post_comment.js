@@ -6,15 +6,6 @@ import moment from "moment";
 import uniqid from "uniqid";
 import {displaySuccessMessage, displayErrorMessage} from "../../scripts/display_messages";
 
-// {!this.state.isNewComment && <SelectedComment selectedComment = {this.state.selectedComment}></SelectedComment>}
-//                             <NewComment handleSave = {this.handleSaveComment.bind(this)} editor = {this.state.editor? this.state.editor: null}></NewComment>
-// {this.state.comments.map(comment=><Comment commentInfo = {comment}></Comment>)}
-const comments = [
-    "<span class=\"mce-annotation\" data-mce-annotation-uid=\"kgzhuf41\" data-mce-annotation=\"alpha\" data-mce-comment=\"Hooray! To the cloud we go!\" data-mce-author=\"Violet\" data-mce-time=\"Nov 1st 2020, 2:14:48 pm\" data-mce-selected=\"inline-boundary\">cloud</span>",
-    "<span class=\"mce-annotation\" data-mce-annotation-uid=\"kgzhuuuj\" data-mce-annotation=\"alpha\" data-mce-comment=\"Yes! Sequelize is great!\" data-mce-author=\"Violet\" data-mce-time=\"Nov 1st 2020, 2:15:08 pm\" data-mce-selected=\"inline-boundary\">sequelize ORM</span>",
-    "<span class=\"mce-annotation\" data-mce-annotation-uid=\"kgzhwa5u\" data-mce-annotation=\"alpha\" data-mce-comment=\"Definitely have a happy Halloween weekend\" data-mce-author=\"Violet\" data-mce-time=\"Nov 1st 2020, 2:16:15 pm\" data-mce-selected=\"inline-boundary\">So happy :)</span>"
-]
-
 class PostComment extends React.Component{
     constructor(props){
         super(props);
@@ -39,35 +30,22 @@ class PostComment extends React.Component{
                 $("#editbox_post").html(this.props.editedPost.body);
             }
 
-        //     //init this.state.comments 
-        //     if (tinymce.activeEditor.annotator){
-        //         const annotationNodes = tinymce.activeEditor.annotator.getAll("alpha");
-                
-        //         //take the outerHTML
-        //         const annotations = [];
-        //         for (const node in annotationNodes){
-        //             annotation = this.extractComments(annotationNodes[node][0].outerHTML);
-        //             console.log(annotation);
-        //             annotations.push(annotation);
-        //         }
+            //wrap document in one node: <div>...</div> 
+            const documentNode = this.stringToDomNode(`<div> ${this.props.editedPost.body}</div>`);
+            const annotationNodes = documentNode.querySelectorAll(`span[class=mce-annotation]`);
+            
+            const annotations = [];
+            for (const node of annotationNodes){
+                const annotation = this.extractComments(node);
+                annotations.push(annotation);
+            }
 
-        //         this.setState({comments : annotations});
-        //     } else {
-        //         //doesn't work after refreshing the page
-        //     }
-        //   }
-
-        const annotations = [];
-        for (const comment of comments){
-            const annotation = this.extractComments(this.stringToDomNode(comment));
-            annotations.push(annotation);
-        }
-
-        this.setState({comments : annotations});
+            this.setState({comments : annotations});
         }
     }
 
     //helper function to convert a string to a dom node
+    //if there are multiple nodes, only return the first one
     stringToDomNode(string){
         let wrapper= document.createElement('div');
         wrapper.innerHTML= string;
