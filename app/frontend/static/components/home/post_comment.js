@@ -130,12 +130,12 @@ class PostComment extends React.Component{
 
     moveToSelectedComment(uid){
         const mouseYPos = tinymce.activeEditor.selection.getNode().getBoundingClientRect().top;
-        const commentYPos = document.getElementById( `${uid}`).getBoundingClientRect().top;
+        const commentYPos = document.getElementById( `${uid}`).getBoundingClientRect().top-40;
         const commentboxYPos = document.getElementById("editbox_comment_container").getBoundingClientRect().top;
         const relativecommentPos = commentYPos - commentboxYPos; 
         const difference = relativecommentPos - mouseYPos;
         $("#editbox_comment").animate({
-            bottom: difference>=0?`+=${Math.abs(difference)-2}px` : `-=${Math.abs(difference)+2}px`
+            bottom: difference>=0?`+=${Math.abs(difference)}px` : `-=${Math.abs(difference)}px`
           }, 300, () => {
             // Animation complete 
           });
