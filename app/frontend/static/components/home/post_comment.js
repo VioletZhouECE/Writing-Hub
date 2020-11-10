@@ -11,6 +11,8 @@ class PostComment extends React.Component{
         super(props);
         this.state = {
             comments : [],
+            hasNewComment: false,
+            selectedComment: null,
             //editor instance
             editor: null
         }
@@ -102,11 +104,16 @@ class PostComment extends React.Component{
                     });
                 
                 editor.on('click', function(e) {
-                    if(e.target.id == "marker"  || e.target.className=="mce-annotation"){
+                    //remove selected comment
+                    if (e.target.id != self.state.selectedComment && e.target.className !="mce-annotation"){
+                        self.removeSelectedComment();
+                    } 
+
+                    //remove new comment
+                    if(e.target.id =="marker" || e.target.className =="mce-annotation"){
                         return;
                     } else {
                         self.removeNewComment();
-                        self.setState({hasNewComment : false});
                     }
                 })
 
@@ -114,8 +121,8 @@ class PostComment extends React.Component{
                 editor.annotator.annotationChanged('alpha', function (state, name, obj) {
                     if (state){
                         self.removeNewComment();
-                        self.setState({hasNewComment : false});
                         const annotationData = obj.nodes[0].dataset;
+                        self.removeSelectedComment();
                         self.moveToSelectedComment(annotationData.mceAnnotationUid);
                     } else {
                     }
@@ -128,6 +135,17 @@ class PostComment extends React.Component{
         tinymce.init(postSettings);
     }
 
+    removeSelectedComment(){
+        if (this.state.selectedComment){
+            $(`#commentbox-${this.state.selectedComment}`).animate({
+                right: "-=15px"
+            }, 300, () => {
+                // Animation complete 
+            });
+        }
+        this.setState({selectedComment: null});
+    }
+
     moveToSelectedComment(uid){
         const mouseYPos = tinymce.activeEditor.selection.getNode().getBoundingClientRect().top;
         const commentYPos = document.getElementById( `${uid}`).getBoundingClientRect().top-40;
@@ -138,7 +156,15 @@ class PostComment extends React.Component{
             bottom: difference>=0?`+=${Math.abs(difference)}px` : `-=${Math.abs(difference)}px`
           }, 300, () => {
             // Animation complete 
-          });
+        });
+
+        $(`#commentbox-${uid}`).animate({
+            right: "+=15px"
+        }, 300, () => {
+            // Animation complete 
+        });
+
+        this.setState({selectedComment: uid});
     }
 
     appendNewComment(){
@@ -205,6 +231,7 @@ class PostComment extends React.Component{
                 return {comments: prevState.comments.filter((comment)=>comment.isNewComment==false)}
             });
             tinymce.activeEditor.dom.setOuterHTML('marker', tinymce.activeEditor.dom.select("#marker")[0].innerHTML);
+            this.setState({hasNewComment : false});
         }
     }
 
