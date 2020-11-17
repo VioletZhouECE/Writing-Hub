@@ -1,0 +1,13 @@
+{
+    "name": "frontend",
+    "version": "1.0.0",
+    "description": "writing hub frontend",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "start": "cd frontend&&npm start&&cd ../backend&&npm start"
+    },
+    "author": "Violet Zhou",
+    "license": "ISC",
+    "dependencies": []
+  }

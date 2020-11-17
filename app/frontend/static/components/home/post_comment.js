@@ -110,9 +110,7 @@ class PostComment extends React.Component{
                     } 
 
                     //remove new comment
-                    if(e.target.id =="marker" || e.target.className =="mce-annotation"){
-                        return;
-                    } else {
+                    if(e.target.id !="marker" && e.target.className !="mce-annotation"){
                         self.removeNewComment();
                     }
                 })
@@ -152,11 +150,11 @@ class PostComment extends React.Component{
         const commentboxYPos = document.getElementById("editbox_comment_container").getBoundingClientRect().top;
         const relativecommentPos = commentYPos - commentboxYPos; 
         const difference = relativecommentPos - mouseYPos;
-        $("#editbox_comment").animate({
-            bottom: difference>=0?`+=${Math.abs(difference)}px` : `-=${Math.abs(difference)}px`
-          }, 300, () => {
-            // Animation complete 
-        });
+
+        document.getElementById("editbox_comment_container").scrollBy({
+            top: difference,
+            behavior: 'smooth'
+          });
 
         $(`#commentbox-${uid}`).animate({
             right: "+=15px"
@@ -322,7 +320,7 @@ class PostComment extends React.Component{
                         <textarea id="editbox_post" className = "mceEditor">
                         </textarea>
                     </div>
-                    <div className = "position-relative" id="editbox_comment_container">
+                    <div id="editbox_comment_container">
                         <div id="editbox_comment" className="position-relative">
                             {this.state.comments.map(comment=>{
                                 if(!comment.isNewComment){
