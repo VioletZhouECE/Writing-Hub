@@ -110,18 +110,20 @@ hr{
 }
 
 #success_message {
-    position: fixed;
+    float: right;
+    position: absolute;
     top: 20px;
     right: 20px;
-    z-index: 2;
+    z-index: 99;
     display: none;
 }
 
 #error_message {
-    position: fixed;
+    float: right;
+    position: absolute;
     top: 20px;
     right: 20px;
-    z-index: 2;
+    z-index: 99;
     display: none;
 }
 

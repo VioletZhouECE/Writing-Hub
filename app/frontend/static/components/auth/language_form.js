@@ -1,4 +1,5 @@
 import React from "react";
+import {displayErrorMessage} from "../../scripts/display_messages"
 
 class LanguageForm extends React.Component{
     constructor(props){
@@ -28,8 +29,15 @@ class LanguageForm extends React.Component{
         // Fetch form to apply custom Bootstrap validation
         var form = $('#form-validation');
 
+        //validate if language is empty
         if (form[0].checkValidity() === false) {
             form.addClass('was-validated');
+            return;
+        }
+
+        //validate if learnLanguage is the same as firstLanguage
+        if (this.state.learnLanguage == this.state.firstLanguage){
+            displayErrorMessage("languages cannot be the same");
             return;
         }
 
@@ -50,7 +58,7 @@ class LanguageForm extends React.Component{
                                     <option>Simplified Chinese</option>
                                     <option>Traditional Chinese</option>
                                     <option>French</option>
-                                    <option>Janpanese</option>
+                                    <option>Japanese</option>
                                 </select>
                                 <div class="invalid-feedback">
                                     You need to select a language to learn
@@ -64,7 +72,7 @@ class LanguageForm extends React.Component{
                                     <option>Simplified Chinese</option>
                                     <option>Traditional Chinese</option>
                                     <option>French</option>
-                                    <option>Janpanese</option>
+                                    <option>Japanese</option>
                                 </select>
                                 <div class="invalid-feedback">
                                     You need to select a language you can teach
