@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyparser = require('body-parser');
 const path = require('path');
+const port = process.env.PORT || '3000';
 const authRouter = require('./routers/auth_router');
 const journalRouter = require('./routers/journal_router');
 const editedJournalRouter = require('./routers/editedJournal_router');
@@ -16,6 +17,7 @@ app.use(bodyparser.json());
 
 app.set('view engine', 'jade');
 
+//static content serving
 app.use(express.static("../frontend"));
 
 //allow cross domain access
@@ -40,4 +42,5 @@ app.get('*/', (req, res) => {
 
 app.use(errorHandler);
 
-app.listen(3000, '127.0.0.1');
+app.set('port', port);
+app.listen(port);
