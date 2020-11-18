@@ -1,0 +1,8 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/e9d08d6a-65de-40d3-8023-de7df10723e3/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/Writing-Hub",
+    "appService.deploySubpath": ""
+}
