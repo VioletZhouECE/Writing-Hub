@@ -2,12 +2,12 @@ var path = require("path")
 
 module.exports = {
     entry: {
-        path: path.resolve(__dirname + "/static/scripts/home.js")
+        path: path.resolve(__dirname + "/frontend/static/scripts/home.js")
     },
     
     output: {
         filename: 'bundle.js',
-        path: path.resolve(__dirname + "/public")
+        path: path.resolve(__dirname + "/frontend/public")
     },
 
     module: {

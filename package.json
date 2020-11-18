@@ -4,8 +4,11 @@
     "description": "writing hub frontend",
     "main": "index.js",
     "scripts": {
-      "start": "cd frontend&&npm start&&cd ../backend&&npm start",
-      "test": "echo \"Error: no test specified\" && exit 1"
+        "start": "webpack && node ./backend/app.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "engines": {
+        "node": "12.15.0"
     },
     "author": "Violet Zhou",
     "license": "ISC",
@@ -34,4 +37,4 @@
         "tedious": "^9.2.1",
         "uuid": "^8.3.0"
     }
-  }
+}

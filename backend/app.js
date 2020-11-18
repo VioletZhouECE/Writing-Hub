@@ -15,10 +15,8 @@ app = express();
 
 app.use(bodyparser.json());
 
-app.set('view engine', 'jade');
-
 //static content serving
-app.use(express.static("../frontend"));
+app.use(express.static(path.join(__dirname, "../frontend")));
 
 //allow cross domain access
 app.use((req, res, next) => {
@@ -37,7 +35,7 @@ app.use('/journals', jwtValidator, journalRouter);
 app.use('/editedJournals', jwtValidator, editedJournalRouter);
 
 app.get('*/', (req, res) => {
-    res.render('index');
+  res.status(200).sendFile(path.join(__dirname, '../frontend/static/index.html'));
 });
 
 app.use(errorHandler);

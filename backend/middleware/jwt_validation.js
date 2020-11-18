@@ -11,6 +11,7 @@ module.exports = (req, res, next) => {
     }
 
     let token = authHeader.split(' ')[1];
+    console.log("token is " + token);
     let decodedToken;
     //decode failed
     try {
