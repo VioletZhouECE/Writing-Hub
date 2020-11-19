@@ -9,6 +9,7 @@ class WriteEntry extends React.Component{
         super(props);
 
         this.handleSubmitJournal = this.handleSubmitJournal.bind(this);
+        this.handleSubmitQuestion = this.handleSubmitQuestion.bind(this);
     }
 
     handleSubmitJournal(data){
@@ -41,6 +42,35 @@ class WriteEntry extends React.Component{
         })
     }
 
+    handleSubmitQuestion(data){
+        fetch('/questions', {
+            method: 'POST',
+            headers: {
+                'Content-Type' : 'application/json',
+                'Authorization' : 'Bearer ' + this.props.token
+            },
+            body: JSON.stringify({
+                language: data.languageFlag,
+                title: data.title,
+                body: data.body
+            })
+        })
+        .then(res => {
+            if (res.status === 200){
+                return res.json();
+            } else {
+                return res.json().then((err) => {
+                    throw new Error(err.message);
+                })}
+        })
+        .then(resData =>{
+            displaySuccessMessage(resData.msg);
+        })
+        .catch(err=>{
+            displayErrorMessage(err.message)
+        })
+    }
+
     render(){
         return(
         <div className = "center-container">
@@ -50,7 +80,7 @@ class WriteEntry extends React.Component{
             </div>
             <hr></hr>
             <Switch>
-                <Route path="/write/question" component={Question}></Route>
+                <Route path="/write/question" render={(props)=><Question handleSubmitQuestion={this.handleSubmitQuestion}></Question>}></Route>
                 <Route path="/write" render={(props)=><Journal handleSubmitJournal={this.handleSubmitJournal}></Journal>}></Route>
             </Switch>
         </div>

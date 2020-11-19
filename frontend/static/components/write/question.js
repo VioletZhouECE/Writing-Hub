@@ -10,8 +10,7 @@ class Question extends React.Component{
             title: "",
             invalidTitle: false,
             body: "",
-            invalidBody: false,
-            comment: ""
+            invalidBody: false
         }
 
         this.baseState = this.state;
@@ -30,13 +29,13 @@ class Question extends React.Component{
         this.setState({title : e.target.value});
     }
 
-    handleBodyChange(content, editor){
+    handleBodyChange(content){
         this.setState({body : content});
     }
 
     handleSubmit(){
         if(this.validate()){
-            // this.props.handleSubmitJournal(this.state);
+            this.props.handleSubmitQuestion(this.state);
         }
     }
 
@@ -85,7 +84,7 @@ class Question extends React.Component{
                         <p className = "alert alert-danger">Body cannot be empty</p>
                     </div>
                     <small id ="question_help" class = "form-text text-muted">Describe your question</small>
-                    <textarea className="form-control mb-2" rows="10" value={this.state.body} onChange={this.handleBodyChange}></textarea>
+                    <textarea className="form-control mb-2" rows="10" value={this.state.body} onChange={(e)=>this.handleBodyChange(e.target.value)}></textarea>
                 </div>
                 <div className = "form-spacing">
                     <div style = {{width :"250px", margin : "auto"}}>
