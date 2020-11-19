@@ -1,54 +1,96 @@
 import React from "react";
 import LanguageSelect from "../reusable/language_select";
-import { Editor } from '@tinymce/tinymce-react';
-import {tiny_editor} from "../../../config/api_keys";
 
 class Question extends React.Component{
     constructor(props){
         super(props);
 
         this.state = {
-            languageFlag : "English"
+            languageFlag : "English",
+            title: "",
+            invalidTitle: false,
+            body: "",
+            invalidBody: false,
+            comment: ""
         }
 
+        this.baseState = this.state;
+
         this.handleLanguageChange = this.handleLanguageChange.bind(this);
+        this.handleTitleChange = this.handleTitleChange.bind(this);
+        this.handleBodyChange = this.handleBodyChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleLanguageChange(e){
-        this.setState({langaugeFlag : e.target.value});
+        this.setState({languageFlag : e.target.value});
+    }
+
+    handleTitleChange(e){
+        this.setState({title : e.target.value});
+    }
+
+    handleBodyChange(content, editor){
+        this.setState({body : content});
+    }
+
+    handleSubmit(){
+        if(this.validate()){
+            // this.props.handleSubmitJournal(this.state);
+        }
+    }
+
+    validate(){
+        var isValid = true;
+
+        if(this.state.title.length == 0){
+            this.setState({invalidTitle : true});
+            isValid = false;
+        } else {
+            this.setState({invalidTitle : false}); 
+        }
+        
+        if (this.state.body.length == 0){
+            this.setState({invalidBody : true});
+            isValid = false;
+        } else {
+            this.setState({invalidBody : false}); 
+        }
+
+        return isValid;
+    }
+
+    resetform(){
+        this.setState(this.baseState);
     }
 
     render(){
         return(
             <div>
                 <div className = "d-flex justify-content-between form-spacing">
-                    <div className = "p-0 col-sm-6 col-sm-6 col-sm-6">I have a question about</div>
+                    <div className = "p-0 col-sm-6 col-sm-6 col-sm-6">I am asking a question about</div>
                     <div className = "p-0 col-sm-6 col-sm-6 col-sm-6"><LanguageSelect value = {this.state.langaugeFlag} handleChange = {this.handleLanguageChange}></LanguageSelect></div>
                 </div>
                 <div className = "form-group form-spacing">
-                    <label className = "m-0" for = "questionTitleInput">Title</label>
-                    <small id = "questionTitleHelp" class = "form-text text-muted">Give a summary of your question</small>
-                    <input type = "text" className = "form-control" id = "questuinTitleInput"></input>
+                    <label className = "m-0" for = "question_title_input">Title</label>
+                    <div style = {{display : this.state.invalidTitle? "inline" : "none"}}>
+                        <p className = "alert alert-danger">Title cannot be empty</p>
+                    </div>
+                    <small id = "question_title_help" class = "form-text text-muted">Briefly describe what your question is about</small>
+                    <input type = "text" className = "form-control" id = "question_title_input" value={this.state.title} onChange={this.handleTitleChange}></input>
                 </div>
                 <div className = "form-group form-spacing">
                     <label className = "m-0">Body</label>
-                    <small id ="questionBodyHelp" class = "form-text text-muted">Give more details about your question</small>
-                    <Editor
-                        id = "questionEditor"
-                        apiKey = {tiny_editor}
-                        init = {{
-                        height: 500,
-                        menubar: false,
-                        plugins: [
-                            'advlist autolink lists link image charmap print preview anchor',
-                            'searchreplace visualblocks code fullscreen',
-                            'insertdatetime media table paste code help wordcount'
-                        ],
-                        toolbar:
-                            'undo redo | formatselect | bold italic backcolor | \
-                            alignleft aligncenter alignright alignjustify | \
-                            bullist numlist outdent indent | removeformat | help'
-                            }}></Editor>
+                    <div style = {{display : this.state.invalidBody? "inline" : "none"}}>
+                        <p className = "alert alert-danger">Body cannot be empty</p>
+                    </div>
+                    <small id ="question_help" class = "form-text text-muted">Describe your question</small>
+                    <textarea className="form-control mb-2" rows="10" value={this.state.body} onChange={this.handleBodyChange}></textarea>
+                </div>
+                <div className = "form-spacing">
+                    <div style = {{width :"250px", margin : "auto"}}>
+                        <button type= "button" className="btn-primary" style = {{width : "100%"}} onClick = {this.handleSubmit}>Publish!</button>
+                    </div>
                 </div>
             </div>
         )
