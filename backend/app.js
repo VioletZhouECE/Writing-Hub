@@ -32,6 +32,7 @@ app.use((req, res, next) => {
 
 app.use('/auth', authRouter);
 app.use('/journals', jwtValidator, journalRouter);
+app.use('/questions', jwtValidator, questionRouter);
 app.use('/editedJournals', jwtValidator, editedJournalRouter);
 
 app.get('*/', (req, res) => {
