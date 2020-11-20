@@ -1,5 +1,10 @@
 import React from "react";
 import LanguageSelect from "../reusable/language_select";
+import 'react-widgets/dist/css/react-widgets.css';
+import { Multiselect } from 'react-widgets'
+
+//hard-coded tags
+const tags = ["grammar", "word choice", "general opinion", "writing tips", "translation"]
 
 class Question extends React.Component{
     constructor(props){
@@ -85,6 +90,16 @@ class Question extends React.Component{
                     </div>
                     <small id ="question_help" class = "form-text text-muted">Describe your question</small>
                     <textarea className="form-control mb-2" rows="10" value={this.state.body} onChange={(e)=>this.handleBodyChange(e.target.value)}></textarea>
+                </div>
+                <div className = "form-group form-spacing">
+                    <label className = "m-0" for = "question_title_input">Title</label>
+                    <small id = "question_tags_help" class = "form-text text-muted">Select tags to categorize your questions</small>
+                    <Multiselect
+                        data={tags}
+                        textField='tags'
+                        caseSensitive={false}
+                        filter='contains'
+                    />
                 </div>
                 <div className = "form-spacing">
                     <div style = {{width :"250px", margin : "auto"}}>
