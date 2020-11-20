@@ -29,10 +29,10 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       },
 
-      upvotesCount: {
+      upvoteCount: {
         type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: 0
+        defaultValue: 0,
+        allowNull: false
       }
     });
   
