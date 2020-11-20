@@ -4,7 +4,7 @@ import 'react-widgets/dist/css/react-widgets.css';
 import { Multiselect } from 'react-widgets'
 
 //hard-coded tags
-const tags = ["grammar", "word choice", "general opinion", "writing tips", "translation"]
+const tags = ["grammar", "word choice", "translate", "general opinion", "writing tips"]
 
 class Question extends React.Component{
     constructor(props){
@@ -92,10 +92,11 @@ class Question extends React.Component{
                     <textarea className="form-control mb-2" rows="10" value={this.state.body} onChange={(e)=>this.handleBodyChange(e.target.value)}></textarea>
                 </div>
                 <div className = "form-group form-spacing">
-                    <label className = "m-0" for = "question_title_input">Title</label>
+                    <label className = "m-0" for = "question_title_input">Tags</label>
                     <small id = "question_tags_help" class = "form-text text-muted">Select tags to categorize your questions</small>
                     <Multiselect
                         data={tags}
+                        defaultValue={tags[0]}
                         textField='tags'
                         caseSensitive={false}
                         filter='contains'
