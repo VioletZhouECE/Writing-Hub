@@ -53,8 +53,8 @@ class HomePage extends React.Component{
     loadPost(){
         return new Promise ((resolve, reject)=> {
             this.setState({isLoading: true, hasMorePost: true});
-            const pageToLoad = Math.floor(this.state.loadedPosts/5) + 1;
-            fetch(`/journals/all/language?languageName=${this.state.language}&page=${pageToLoad}`, {
+            const lastPostId = this.state.posts.length!=0? this.state.posts[this.state.posts.length-1].id : "";
+            fetch(`/journals/all/language?languageName=${this.state.language}&lastPostId=${lastPostId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type' : 'application/json',

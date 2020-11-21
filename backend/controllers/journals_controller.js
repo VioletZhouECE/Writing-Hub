@@ -1,19 +1,29 @@
 const models = require('../models/index');
+const { Op } = require('sequelize');
 
 exports.getJournalsByUser = (req, res, next) => {}
 
 //version I: return journals written in the requested language in chronological order 
-exports.getJournalsByLanguage= async (req, res, next) => {
+exports.getJournalsByLanguage = async (req, res, next) => {
     try{
-        const pageNum = req.query.page || 1;
-        //move this to config later 
+        const lastPostId = req.query.lastPostId;
+
         const perPage = 5;
 
         //retrieve languageId
         const language = await models.Language.getLanguageByName(req.query.languageName);
 
+        //get createdAt for lastPostId
+        let offset = 0;
+        if (lastPostId != ""){
+            const lastPost = await models.Journal.findOne({where:{'id' : lastPostId}});
+            const lastCreatedAt = lastPost.createdAt;
+            //get the offset based on lastCreatedAt
+            offset = await models.Journal.count({where:{'createdAt' : {[Op.lte]: lastCreatedAt}}})+1;
+        }
+
         //retrieve post data
-        const {count, rows} = await models.Journal.findAndCountAll({order : [['createdAt', 'ASC']], offset: perPage*(pageNum-1), limit: perPage, where: {LanguageId:language.id}, include:models.User});
+        const {count, rows} = await models.Journal.findAndCountAll({order : [['createdAt', 'ASC']], offset: offset, limit: perPage, where: {LanguageId:language.id}, include:models.User});
         const journals = rows;
 
         //send response
