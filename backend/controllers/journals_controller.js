@@ -19,7 +19,7 @@ exports.getnJournalsByLanguage = (n) => {
                 const lastPost = await models.Journal.findOne({where:{'id' : lastPostId}});
                 const lastCreatedAt = lastPost.createdAt;
                 //get the offset based on lastCreatedAt
-                offset = await models.Journal.count({where:{'createdAt' : {[Op.lte]: lastCreatedAt}}})+1;
+                offset = await models.Journal.count({where:{'createdAt' : {[Op.lte]: lastCreatedAt}, LanguageId:language.id}});
             }
     
             //retrieve post data
@@ -32,13 +32,14 @@ exports.getnJournalsByLanguage = (n) => {
                         type: "journal",
                         id: journal.id,
                         username: journal.User.username,
+                        createdAt: journal.createdAt,
                         title: journal.title,
                         body: journal.body,
                         count: journal.viewsCount
                     }
                 ))
 
-            return posts;
+            return {totalJournals: count, journals: posts};
         } catch(err) {
             next(err);
         };

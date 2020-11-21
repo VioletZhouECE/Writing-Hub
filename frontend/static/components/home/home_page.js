@@ -7,9 +7,9 @@ class HomePage extends React.Component{
         super(props);
 
         this.loadedJournals = 0;
-        this.lastLoadedJournal;
+        this.lastLoadedJournal = '';
         this.loadedQuestions = 0;
-        this.lastLoadedQuestion;
+        this.lastLoadedQuestion = '';
 
         this.state = {
            posts: [],
@@ -91,10 +91,10 @@ class HomePage extends React.Component{
 
     //return an array of newPosts (shuffle journals and questions) from the returned posts and update lastLoadedJournal & lastLoadedQuestion
     getNewPosts(posts){
-        const newJournalPosts = posts.filter(post => post.type=="journal" && (!this.lastLoadedJournal || post.createdAt > this.lastLoadedJournal.createdAt));
-        const newQuestionPosts = posts.filter(post => post.type=="question" && (!this.lastLoadedQuestion || post.createdAt > this.lastLoadedQuestion.createdAt));
+        const newJournalPosts = posts.filter(post => post.type=="journal" && (!this.lastLoadedJournal || new Date(post.createdAt).getTime() > new Date(this.lastLoadedJournal.createdAt).getTime()))
+        const newQuestionPosts = posts.filter(post => post.type=="question" && (!this.lastLoadedQuestion || new Date(post.createdAt).getTime() > new Date(this.lastLoadedQuestion.createdAt).getTime()));
         this.lastLoadedJournal = newJournalPosts.length != 0? newJournalPosts[newJournalPosts.length-1] : this.lastLoadedJournal;
-        this.lastLoadedQuestion = newQuestionPosts.length != 0? newQuestionlPosts[newQuestionPosts.length-1] : this.lastLoadedQuestion;
+        this.lastLoadedQuestion = newQuestionPosts.length != 0? newQuestionPosts[newQuestionPosts.length-1] : this.lastLoadedQuestion;
         const newPosts = [...newJournalPosts, ...newQuestionPosts];
         this.shuffleArray(newPosts);
         return newPosts;
@@ -109,21 +109,18 @@ class HomePage extends React.Component{
     }
 
     switchLanguage(language){
-        this.loadedPostsEager = 0;
+        //reset to initial state
+        this.loadedJournals = 0;
+        this.lastLoadedJournal = '';
+        this.loadedQuestions = 0;
+        this.lastLoadedQuestion = '';
         this.setState({
             posts : [],
             totalPosts : 0,
-            loadedPosts: 0,
             page : 0,
             language : language
         }, this.loadPost);
     }
-
-    // <div className = "tab-float-left"><a href="#" onClick = {(e) => this.loadFeed(e.target.value)}>Feed</a></div>
-    // <div className = "tab-float-left" key={this.props.learnLanguage}><a href="javascript:;" onClick = {(e) => this.switchLanguage(this.props.learnLanguage)}>{this.props.learnLanguage}</a></div>
-    // <div className = "tab-float-left" key={this.props.firstLanguage}><a href="javascript:;" onClick = {(e) => this.switchLanguage(this.props.firstLanguage)}>{this.props.firstLanguage}</a></div>
-    // <div className = "tab-float-left"><a href="#">...</a></div>
-    // <div className="clear-float"></div>
 
     render(){
         return(

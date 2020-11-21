@@ -1,4 +1,5 @@
 const models = require('../models/index');
+const { Op } = require('sequelize');
 
 exports.getnQuestionsByLanguage =  (n) => {
     const perPage = n? n:5;
@@ -15,7 +16,7 @@ exports.getnQuestionsByLanguage =  (n) => {
                 const lastPost = await models.Question.findOne({where:{'id' : lastPostId}});
                 const lastCreatedAt = lastPost.createdAt;
                 //get the offset based on lastCreatedAt
-                offset = await models.Question.count({where:{'createdAt' : {[Op.lte]: lastCreatedAt}}})+1;
+                offset = await models.Question.count({where:{'createdAt' : {[Op.lte]: lastCreatedAt}, LanguageId:language.id}});
             }
     
             //retrieve post data
@@ -28,12 +29,13 @@ exports.getnQuestionsByLanguage =  (n) => {
                         id: question.id,
                         username: question.User.username,
                         title: question.title,
+                        createdAt: question.createdAt,
                         body: question.body,
                         count: question.upvoteCount
                     }
                 ))
                 
-            return posts;
+            return {totalQuestions: count, questions: posts};
         } catch(err) {
             next(err);
         };
