@@ -20,7 +20,7 @@ class PostSummary extends React.Component{
                     </div>
                 </div>
                 <div className="float-right">
-                    Views: {this.props.viewsCount} 
+                    {this.props.type == "journal"? <div>Views: {this.props.count}</div> : <div>Upvotes: {this.props.count}</div>}
                 </div>
                 <div className="clear-float"></div>
                 <hr></hr>

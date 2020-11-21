@@ -27,11 +27,13 @@ exports.getnQuestionsByLanguage =  (n) => {
             response = {
                 totalPosts: count,
                 posts: questions.map(question=>(
-                    {id: question.id,
+                    {   
+                        type: "question",
+                        id: question.id,
                         username: question.User.username,
                         title: question.title,
                         body: question.body,
-                        viewsCount: question.upvoteCount
+                        upvoteCount: question.upvoteCount
                     }
                 ))
             }

@@ -31,7 +31,9 @@ exports.getnJournalsByLanguage = (n) => {
             response = {
                 totalPosts: count,
                 posts: journals.map(journal=>(
-                    {id: journal.id,
+                    {   
+                        type: "journal",
+                        id: journal.id,
                         username: journal.User.username,
                         title: journal.title,
                         body: journal.body,

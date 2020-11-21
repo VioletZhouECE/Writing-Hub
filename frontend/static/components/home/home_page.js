@@ -61,7 +61,7 @@ class HomePage extends React.Component{
             this.setState({isLoading: true, hasMorePost: true});
             const lastPostId = this.loadedPostsEager!=0? this.state.posts[this.loadedPostsEager-1].id : "";
             this.loadedPostsEager += 5; //post per page 
-            fetch(`/journals/all/language?languageName=${this.state.language}&lastPostId=${lastPostId}`, {
+            fetch(`/questions/all/language?languageName=${this.state.language}&lastPostId=${lastPostId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type' : 'application/json',
@@ -128,7 +128,7 @@ class HomePage extends React.Component{
                     </nav>
                 </div>
                 <div className = "center-container mt-3">
-                    {this.state.posts.map(post => (<PostSummary id={post.id} key={post.id} username={post.username} title={post.title} body={post.body} viewsCount={post.viewsCount}></PostSummary>))}
+                    {this.state.posts.map(post => (<PostSummary id={post.id} key={post.id} username={post.username} title={post.title} body={post.body} type = {post.type} count = {post.type == "journal"? post.viewsCount:post.upvoteCount}></PostSummary>))}
                     <div ref={loadingRef => (this.loadingRef = loadingRef)}></div>
                     <div className = "text-center" style={{display: this.state.isLoading? "block" : "none"}}> Loading... </div>
                     <div className = "text-center" style={{display: this.state.hasMorePost? "none" : "block"}}> All posts have been loaded</div>
