@@ -8,7 +8,7 @@ exports.getnJournalsByLanguage = (n) => {
     const perPage = n? n:5;
     return async (req, res, next) => {
         try{
-            const lastPostId = req.query.lastPostId;
+            const lastPostId = req.query.lastJournalId;
     
             //retrieve languageId
             const language = await models.Language.getLanguageByName(req.query.languageName);
@@ -26,22 +26,19 @@ exports.getnJournalsByLanguage = (n) => {
             const {count, rows} = await models.Journal.findAndCountAll({order : [['createdAt', 'ASC']], offset: offset, limit: perPage, where: {LanguageId:language.id}, include:models.User});
             const journals = rows;
     
-            //send response
-            let response;
-            response = {
-                totalPosts: count,
-                posts: journals.map(journal=>(
+            
+            const posts = journals.map(journal=>(
                     {   
                         type: "journal",
                         id: journal.id,
                         username: journal.User.username,
                         title: journal.title,
                         body: journal.body,
-                        viewsCount: journal.viewsCount
+                        count: journal.viewsCount
                     }
                 ))
-            }
-            res.status(200).json(response); 
+
+            return posts;
         } catch(err) {
             next(err);
         };

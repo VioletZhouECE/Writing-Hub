@@ -6,14 +6,14 @@ class HomePage extends React.Component{
     constructor(props){
         super(props);
 
-        // this variable will be incremented as soon as load post request is sent to the backend (before the response comes back)
-        // this variable keeps track of how many posts user has requested, which prevents duplicated requests from being sent when the user scrolls too fast (i.e. two requests are sent to the server simultaneouly)
-        this.loadedPostsEager = 0;
+        this.loadedJournals = 0;
+        this.lastLoadedJournal;
+        this.loadedQuestions = 0;
+        this.lastLoadedQuestion;
 
         this.state = {
            posts: [],
            totalPosts: 0,
-           loadedPosts: 0,
            //feed = all posts written in learnLanguage
            language: UserInfo.learnLanguage,
            isLoading: false,
@@ -56,12 +56,10 @@ class HomePage extends React.Component{
 
     loadPost(){
         return new Promise ((resolve, reject)=> {
-            //This if condition is to fix the issue when the user scrolls too fast when browsing the last few posts (this.loadedPostEager > totalPost)
-            if (this.loadedPostsEager!=0 && !this.state.posts[this.loadedPostsEager-1]){return;}
             this.setState({isLoading: true, hasMorePost: true});
-            const lastPostId = this.loadedPostsEager!=0? this.state.posts[this.loadedPostsEager-1].id : "";
-            this.loadedPostsEager += 5; //post per page 
-            fetch(`/questions/all/language?languageName=${this.state.language}&lastPostId=${lastPostId}`, {
+            const lastJournalId = this.lastLoadedJournal? this.lastLoadedJournal.id : ""
+            const lastQuestionId = this.lastLoadedQuestion? this.lastLoadedQuestion.id : ""
+            fetch(`/feeds?languageName=${this.state.language}&lastJournalId=${lastJournalId}&lastQuestionId=${lastQuestionId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type' : 'application/json',
@@ -70,23 +68,44 @@ class HomePage extends React.Component{
             })
             .then(res=> res.json())
             .then(resData=>{
+                //get the new posts
+                const newPosts = this.getNewPosts(resData.posts);
+                if (newPosts.length == 0){resolve()};
                 this.setState( prevState => {
-                    const postsToAppend = Math.min(resData.totalPosts-prevState.loadedPosts, 5);
                     return {
-                    posts: [...prevState.posts, ...(resData.posts.slice(resData.posts.length-postsToAppend, resData.posts.length))], 
-                    totalPosts: resData.totalPosts,
-                    loadedPosts: prevState.loadedPosts + postsToAppend,
-                    isLoading: false,
-                    hasMorePost: (prevState.loadedPosts + postsToAppend) < resData.totalPosts
-                }}, ()=>{
-                    this.loadedPostsEager = this.state.loadedPosts; 
+                        posts: [...prevState.posts, ...newPosts], 
+                        totalPosts: resData.totalPosts,
+                        isLoading: false,
+                        hasMorePost: (prevState.posts.length + newPosts.length) < resData.totalPosts
+                        }
+                    }, ()=>{
                     resolve();
                 });
             })
             .catch(err=>{
+                console.log(err);
                 displayErrorMessage(err.message);
             })
         })
+    }
+
+    //return an array of newPosts (shuffle journals and questions) from the returned posts and update lastLoadedJournal & lastLoadedQuestion
+    getNewPosts(posts){
+        const newJournalPosts = posts.filter(post => post.type=="journal" && (!this.lastLoadedJournal || post.createdAt > this.lastLoadedJournal.createdAt));
+        const newQuestionPosts = posts.filter(post => post.type=="question" && (!this.lastLoadedQuestion || post.createdAt > this.lastLoadedQuestion.createdAt));
+        this.lastLoadedJournal = newJournalPosts.length != 0? newJournalPosts[newJournalPosts.length-1] : this.lastLoadedJournal;
+        this.lastLoadedQuestion = newQuestionPosts.length != 0? newQuestionlPosts[newQuestionPosts.length-1] : this.lastLoadedQuestion;
+        const newPosts = [...newJournalPosts, ...newQuestionPosts];
+        this.shuffleArray(newPosts);
+        return newPosts;
+    }
+
+    //Durstenfeld shuffle
+    shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
     }
 
     switchLanguage(language){
@@ -128,7 +147,7 @@ class HomePage extends React.Component{
                     </nav>
                 </div>
                 <div className = "center-container mt-3">
-                    {this.state.posts.map(post => (<PostSummary id={post.id} key={post.id} username={post.username} title={post.title} body={post.body} type = {post.type} count = {post.type == "journal"? post.viewsCount:post.upvoteCount}></PostSummary>))}
+                    {this.state.posts.map(post => (<PostSummary id={post.id} key={post.id} username={post.username} title={post.title} body={post.body} type = {post.type} count = {post.count}></PostSummary>))}
                     <div ref={loadingRef => (this.loadingRef = loadingRef)}></div>
                     <div className = "text-center" style={{display: this.state.isLoading? "block" : "none"}}> Loading... </div>
                     <div className = "text-center" style={{display: this.state.hasMorePost? "none" : "block"}}> All posts have been loaded</div>

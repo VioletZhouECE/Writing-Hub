@@ -4,7 +4,7 @@ exports.getnQuestionsByLanguage =  (n) => {
     const perPage = n? n:5;
     return async (req, res, next) => {
         try{
-            const lastPostId = req.query.lastPostId;
+            const lastPostId = req.query.lastQuestionId;
     
             //retrieve languageId
             const language = await models.Language.getLanguageByName(req.query.languageName);
@@ -21,23 +21,19 @@ exports.getnQuestionsByLanguage =  (n) => {
             //retrieve post data
             const {count, rows} = await models.Question.findAndCountAll({order : [['createdAt', 'ASC']], offset: offset, limit: perPage, where: {LanguageId:language.id}, include:models.User});
             const questions = rows;
-    
-            //send response
-            let response;
-            response = {
-                totalPosts: count,
-                posts: questions.map(question=>(
+            
+            const posts = questions.map(question=>(
                     {   
                         type: "question",
                         id: question.id,
                         username: question.User.username,
                         title: question.title,
                         body: question.body,
-                        upvoteCount: question.upvoteCount
+                        count: question.upvoteCount
                     }
                 ))
-            }
-            res.status(200).json(response); 
+                
+            return posts;
         } catch(err) {
             next(err);
         };

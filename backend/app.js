@@ -6,6 +6,7 @@ const authRouter = require('./routers/auth_router');
 const journalRouter = require('./routers/journal_router');
 const editedJournalRouter = require('./routers/editedJournal_router');
 const questionRouter = require('./routers/question_router');
+const {getFeedsByLanguage} = require('./controllers/feeds_controller');
 const replyRouter = require('./routers/reply_router');
 const jwtValidator = require('./middleware/jwt_validation');
 const errorHandler = require('./middleware/error_handler');
@@ -31,6 +32,7 @@ app.use((req, res, next) => {
   });
 
 app.use('/auth', authRouter);
+app.get('/feeds', jwtValidator, getFeedsByLanguage);
 app.use('/journals', jwtValidator, journalRouter);
 app.use('/questions', jwtValidator, questionRouter);
 app.use('/editedJournals', jwtValidator, editedJournalRouter);
