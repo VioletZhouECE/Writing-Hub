@@ -3,46 +3,47 @@ const { Op } = require('sequelize');
 
 exports.getJournalsByUser = (req, res, next) => {}
 
-//version I: return journals written in the requested language in chronological order 
-exports.getJournalsByLanguage = async (req, res, next) => {
-    try{
-        const lastPostId = req.query.lastPostId;
-
-        const perPage = 5;
-
-        //retrieve languageId
-        const language = await models.Language.getLanguageByName(req.query.languageName);
-
-        //get createdAt for lastPostId
-        let offset = 0;
-        if (lastPostId != ""){
-            const lastPost = await models.Journal.findOne({where:{'id' : lastPostId}});
-            const lastCreatedAt = lastPost.createdAt;
-            //get the offset based on lastCreatedAt
-            offset = await models.Journal.count({where:{'createdAt' : {[Op.lte]: lastCreatedAt}}})+1;
-        }
-
-        //retrieve post data
-        const {count, rows} = await models.Journal.findAndCountAll({order : [['createdAt', 'ASC']], offset: offset, limit: perPage, where: {LanguageId:language.id}, include:models.User});
-        const journals = rows;
-
-        //send response
-        let response;
-        response = {
-            totalPosts: count,
-            posts: journals.map(journal=>(
-                {id: journal.id,
-                    username: journal.User.username,
-                    title: journal.title,
-                    body: journal.body,
-                    viewsCount: journal.viewsCount
-                }
-            ))
-        }
-        res.status(200).json(response); 
-    } catch(err) {
-        next(err);
-    };
+//return n journals written in the requested language in chronological order 
+exports.getnJournalsByLanguage = (n) => {
+    const perPage = n? n:5;
+    return async (req, res, next) => {
+        try{
+            const lastPostId = req.query.lastPostId;
+    
+            //retrieve languageId
+            const language = await models.Language.getLanguageByName(req.query.languageName);
+    
+            //get createdAt for lastPostId
+            let offset = 0;
+            if (lastPostId != ""){
+                const lastPost = await models.Journal.findOne({where:{'id' : lastPostId}});
+                const lastCreatedAt = lastPost.createdAt;
+                //get the offset based on lastCreatedAt
+                offset = await models.Journal.count({where:{'createdAt' : {[Op.lte]: lastCreatedAt}}})+1;
+            }
+    
+            //retrieve post data
+            const {count, rows} = await models.Journal.findAndCountAll({order : [['createdAt', 'ASC']], offset: offset, limit: perPage, where: {LanguageId:language.id}, include:models.User});
+            const journals = rows;
+    
+            //send response
+            let response;
+            response = {
+                totalPosts: count,
+                posts: journals.map(journal=>(
+                    {id: journal.id,
+                        username: journal.User.username,
+                        title: journal.title,
+                        body: journal.body,
+                        viewsCount: journal.viewsCount
+                    }
+                ))
+            }
+            res.status(200).json(response); 
+        } catch(err) {
+            next(err);
+        };
+    }
 }
 
 //get a single journal by id

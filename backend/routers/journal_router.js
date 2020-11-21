@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const {getJournalsByUser, getJournalsByLanguage, getJournal, postJournal, updateJournal, deleteJournal, incrementViewsCount} = require('../controllers/journals_controller');
+const {getJournalsByUser, getnJournalsByLanguage, getJournal, postJournal, updateJournal, deleteJournal, incrementViewsCount} = require('../controllers/journals_controller');
 
 //GET /journals/all/langauge/:languageName
 router.get('/all/user/:userId', getJournalsByUser);
 
 //GET /journals/all/langauge/:languageName
-router.get('/all/language', getJournalsByLanguage);
+router.get('/all/language', getnJournalsByLanguage(5));
 
 //GET /journals/:journalId
 router.get('/:journalId', getJournal);
