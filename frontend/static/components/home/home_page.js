@@ -6,6 +6,8 @@ class HomePage extends React.Component{
     constructor(props){
         super(props);
 
+        // this variable will be incremented as soon as load post request is sent to the backend (before the response comes back)
+        // this variable keeps track of how many posts user has requested, which prevents duplicated requests from being sent when the user scrolls too fast (i.e. two requests are sent to the server simultaneouly)
         this.loadedPostsEager = 0;
 
         this.state = {
@@ -54,9 +56,11 @@ class HomePage extends React.Component{
 
     loadPost(){
         return new Promise ((resolve, reject)=> {
+            //This if condition is to fix the issue when the user scrolls too fast when browsing the last few posts (this.loadedPostEager > totalPost)
+            if (this.loadedPostsEager!=0 && !this.state.posts[this.loadedPostsEager-1]){return;}
             this.setState({isLoading: true, hasMorePost: true});
             const lastPostId = this.loadedPostsEager!=0? this.state.posts[this.loadedPostsEager-1].id : "";
-            this.loadedPostsEager += 5; 
+            this.loadedPostsEager += 5; //post per page 
             fetch(`/journals/all/language?languageName=${this.state.language}&lastPostId=${lastPostId}`, {
                 method: 'GET',
                 headers: {
