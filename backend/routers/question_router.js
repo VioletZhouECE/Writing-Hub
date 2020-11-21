@@ -1,9 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const {getnQuestionsByLanguage, getQuestion, postQuestion, updateQuestion, deleteQuestion} = require("../controllers/questions_controller");
-
-//GET /journals/all/langauge/:languageName & : lastPostId
-router.get('/all/language', getnQuestionsByLanguage(5));
+const {getQuestion, postQuestion, updateQuestion, deleteQuestion} = require("../controllers/questions_controller");
 
 //GET /questions/:questionId
 router.get('/:questionId', getQuestion);

@@ -4,6 +4,7 @@ const { Op } = require('sequelize');
 exports.getJournalsByUser = (req, res, next) => {}
 
 //return n journals written in the requested language in chronological order 
+//this is not a controller, just used internally by getFeedsByLanguage
 exports.getnJournalsByLanguage = (n) => {
     const perPage = n? n:5;
     return async (req, res, next) => {

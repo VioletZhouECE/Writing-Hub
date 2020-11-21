@@ -1,6 +1,8 @@
 const models = require('../models/index');
 const { Op } = require('sequelize');
 
+//return n questions written in the requested language in chronological order 
+//this is not a controller, just used internally by getFeedsByLanguage
 exports.getnQuestionsByLanguage =  (n) => {
     const perPage = n? n:5;
     return async (req, res, next) => {

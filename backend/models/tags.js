@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const Question = sequelize.define('Question', {
+    const Tag = sequelize.define('Tag', {
       id: {
         type: DataTypes.UUID,
         primaryKey: true,
@@ -19,28 +19,16 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       },
 
-      title: {
+      name: {
         type: DataTypes.STRING,
-        allowNull: false
-      },
-
-      body: {
-        type: DataTypes.TEXT,
-        allowNull: false
-      },
-
-      upvoteCount: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0,
+        unique: true,
         allowNull: false
       }
-    });
+    })
   
-    Question.associate = models => {
-        Question.belongsToMany(models.Tag);
-        Question.belongsTo(models.Language);
-        Question.belongsTo(models.User);
+    Tag.associate = models => {
+        Tag.belongsToMany(models.Question);
     };
   
-    return Question;
+    return Tag;
   };
