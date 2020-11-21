@@ -96,16 +96,7 @@ class HomePage extends React.Component{
         this.lastLoadedJournal = newJournalPosts.length != 0? newJournalPosts[newJournalPosts.length-1] : this.lastLoadedJournal;
         this.lastLoadedQuestion = newQuestionPosts.length != 0? newQuestionPosts[newQuestionPosts.length-1] : this.lastLoadedQuestion;
         const newPosts = [...newJournalPosts, ...newQuestionPosts];
-        this.shuffleArray(newPosts);
         return newPosts;
-    }
-
-    //Durstenfeld shuffle
-    shuffleArray(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
     }
 
     switchLanguage(language){

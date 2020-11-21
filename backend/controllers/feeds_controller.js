@@ -6,14 +6,13 @@ exports.getFeedsByLanguage = async (req, res, next) => {
     const numOfJournals = Math.floor((Math.random() * 5));
     const numOfQuestions = 5 - numOfJournals;
 
-    const {totalJournals, journals} = await getnJournalsByLanguage(numOfJournals)(req, res, next);
-    const {totalQuestions, questions} = await getnQuestionsByLanguage(numOfQuestions)(req, res, next);
+    const [{totalJournals, journals}, {totalQuestions, questions}] = await Promise.all([getnJournalsByLanguage(numOfJournals)(req, res, next), getnQuestionsByLanguage(numOfQuestions)(req, res, next)]);
 
     let response;
     response = {
         totalPosts: totalJournals + totalQuestions,
         posts: [...journals, ...questions]
     }
-    
+
     res.status(200).json(response);
 }
