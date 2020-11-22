@@ -16,7 +16,7 @@ class Question extends React.Component{
             invalidTitle: false,
             body: "",
             invalidBody: false,
-            tags: ["grammar"]
+            tags: []
         }
 
         this.baseState = this.state;

@@ -1,0 +1,8 @@
+
+{   
+    "username": "<username>",
+    "password": "<password>",
+    "database": "writing-hub-server",
+    "host": "<host>",
+    "dialect": "mssql"
+}

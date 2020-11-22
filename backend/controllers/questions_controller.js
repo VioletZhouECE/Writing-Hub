@@ -63,7 +63,7 @@ exports.postQuestion= async (req, res, next) => {
         });
         
         //set associations between tags and questions
-        await Promise.all(tagIds.map(tagId=> question.setTag(tagId)));
+        await Promise.all(tagIds.map(tagId=> question.setTags(tagId)));
 
         let response = {msg: "publish success"};
         res.status(200).json(response);
