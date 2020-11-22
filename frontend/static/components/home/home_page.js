@@ -120,7 +120,7 @@ class HomePage extends React.Component{
                     <nav className="navbar navbar-expand-lg navbar-light bg-light">
                         <ul className="navbar-nav mr-auto">
                             <li className="nav-item active">
-                                <a className="nav-link" href="javascript:;" onClick = {(e) => this.loadFeed(e.target.value)}>Feed</a>
+                                <a className="nav-link" href="javascript:;" onClick = {this.loadFeed}>Feed</a>
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link" href="javascript:;" key={UserInfo.learnLanguage} onClick = {(e) => this.switchLanguage(UserInfo.learnLanguage)}>{UserInfo.learnLanguage}</a>

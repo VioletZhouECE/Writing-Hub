@@ -15,7 +15,8 @@ class Question extends React.Component{
             title: "",
             invalidTitle: false,
             body: "",
-            invalidBody: false
+            invalidBody: false,
+            tags: ["grammar"]
         }
 
         this.baseState = this.state;
@@ -96,10 +97,11 @@ class Question extends React.Component{
                     <small id = "question_tags_help" class = "form-text text-muted">Select tags to categorize your questions</small>
                     <Multiselect
                         data={tags}
-                        defaultValue={tags[0]}
                         textField='tags'
                         caseSensitive={false}
                         filter='contains'
+                        value={this.state.value}
+                        onChange={value => this.setState({ tags: value })}
                     />
                 </div>
                 <div className = "form-spacing">

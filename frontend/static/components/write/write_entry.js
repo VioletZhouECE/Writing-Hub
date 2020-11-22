@@ -43,6 +43,7 @@ class WriteEntry extends React.Component{
     }
 
     handleSubmitQuestion(data){
+        console.log(data.tags);
         fetch('/questions', {
             method: 'POST',
             headers: {
@@ -52,7 +53,8 @@ class WriteEntry extends React.Component{
             body: JSON.stringify({
                 language: data.languageFlag,
                 title: data.title,
-                body: data.body
+                body: data.body,
+                tags: data.tags
             })
         })
         .then(res => {
