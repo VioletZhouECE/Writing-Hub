@@ -25,9 +25,23 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       }
     })
+
+    Tag.getTagIdByName = async (tagName) => {
+        try{
+          const tag = await Tag.findOne({where: {name: tagName}});
+          if (!tag){
+            let err = new Error(`The tag ${tagName} does not exist in our database`);
+            err.statusCode = 422;
+            throw err;
+          }
+          return Promise.resolve(tag);
+        } catch (err){
+          throw err;
+        }
+      }
   
     Tag.associate = models => {
-        Tag.belongsToMany(models.Question);
+        Tag.belongsToMany(models.Question, {through: "questionTag"});
     };
   
     return Tag;

@@ -50,12 +50,21 @@ exports.getQuestion = async (req, res, next) => {
 exports.postQuestion= async (req, res, next) => {
     try{
         const language = await models.Language.getLanguageByName(req.body.language);
-        await models.Question.create({
+
+        //get a list of tag ids
+        const tagIds = await Promise.all(req.body.tags.map(tag=> models.Tag.getTagIdByName(tag)));
+
+        //create a question
+        const question = await models.Question.create({
             UserId: req.userId,
             LanguageId: language.id,
             title: req.body.title,
             body: req.body.body
         });
+        
+        //set associations between tags and questions
+        await Promise.all(tagIds.map(tagId=> question.setTag(tagId)));
+
         let response = {msg: "publish success"};
         res.status(200).json(response);
     } catch (err) {

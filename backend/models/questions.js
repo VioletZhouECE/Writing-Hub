@@ -37,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
     });
   
     Question.associate = models => {
-        Question.belongsToMany(models.Tag);
+        Question.belongsToMany(models.Tag, {through: "questionTag"});
         Question.belongsTo(models.Language);
         Question.belongsTo(models.User);
     };
