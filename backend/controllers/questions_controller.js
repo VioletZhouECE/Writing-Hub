@@ -14,7 +14,7 @@ exports.getnQuestionsByLanguage =  (n) => {
     
             //get createdAt for lastPostId
             let offset = 0;
-            if (lastPostId != ""){
+            if (lastPostId != ''){
                 const lastPost = await models.Question.findOne({where:{'id' : lastPostId}});
                 const lastCreatedAt = lastPost.createdAt;
                 //get the offset based on lastCreatedAt
@@ -23,17 +23,24 @@ exports.getnQuestionsByLanguage =  (n) => {
     
             //retrieve post data
             const {count, rows} = await models.Question.findAndCountAll({order : [['createdAt', 'ASC']], offset: offset, limit: perPage, where: {LanguageId:language.id}, include:models.User});
-            const questions = rows;
+
+            //retrieve tags data
+            const questions = await Promise.all(rows.map(async (row)=>{
+                const tags = await row.getTags();
+                const tagNames = tags.map(tag=>tag.dataValues.name);
+                return {...row, tags: tagNames};
+            }));
             
             const posts = questions.map(question=>(
                     {   
                         type: "question",
-                        id: question.id,
+                        id: question.dataValues.id,
                         username: question.User.username,
-                        title: question.title,
-                        createdAt: question.createdAt,
-                        body: question.body,
-                        count: question.upvoteCount
+                        title: question.dataValues.title,
+                        createdAt: question.dataValues.createdAt,
+                        body: question.dataValues.body,
+                        tags: question.tags,
+                        count: question.dataValues.upvoteCount
                     }
                 ))
                 

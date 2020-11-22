@@ -1,9 +1,6 @@
 import React from "react";
 import {Link} from "react-router-dom";
 
-//hard-coded tags
-const tags = ["grammar", "word-choice", "translate"];
-
 class PostSummary extends React.Component{
     render(){
         return (
@@ -18,13 +15,11 @@ class PostSummary extends React.Component{
                                 {this.props.post.title}
                             </div>
                         </Link>
-                        <div className = "post-wrap post-summary-body mb-3" dangerouslySetInnerHTML={{ __html: this.props.post.body}}>
-                        </div>
-                        <div className="tags-container" style={{display: this.props.post.type=="question"? "block" : "none"}}>
+                        <div className = "post-wrap post-summary-body mb-3" dangerouslySetInnerHTML={{ __html: this.props.post.body}}></div>
+                        {this.props.post.type == "question"? 
                             <div className="d-flex flex-row">
-                                {tags.map(tag=><div key={tag} className="mr-2 post-tag">{tag}</div>)}
-                            </div>
-                        </div>
+                                {this.props.post.tags.map(tag=><div key={tag} className="mr-2 post-tag">{tag}</div>)}
+                            </div> : <div></div>}
                     </div>
                 </div>
                 <div className="float-right">
