@@ -22,25 +22,20 @@ exports.getnQuestionsByLanguage =  (n) => {
             }
     
             //retrieve post data
-            const {count, rows} = await models.Question.findAndCountAll({order : [['createdAt', 'ASC']], offset: offset, limit: perPage, where: {LanguageId:language.id}, include:models.User});
-
-            //retrieve tags data
-            const questions = await Promise.all(rows.map(async (row)=>{
-                const tags = await row.getTags();
-                const tagNames = tags.map(tag=>tag.dataValues.name);
-                return {...row, tags: tagNames};
-            }));
+            //eager loading is used
+            const {count, rows} = await models.Question.findAndCountAll({distinct: true, col: 'id', order : [['createdAt', 'ASC']], offset: offset, limit: perPage, where: {LanguageId:language.id}, include:[models.User, models.Tag]});
+            const questions = rows;
             
             const posts = questions.map(question=>(
                     {   
                         type: "question",
-                        id: question.dataValues.id,
+                        id: question.id,
                         username: question.User.username,
-                        title: question.dataValues.title,
-                        createdAt: question.dataValues.createdAt,
-                        body: question.dataValues.body,
-                        tags: question.tags,
-                        count: question.dataValues.upvoteCount
+                        title: question.title,
+                        createdAt: question.createdAt,
+                        body: question.body,
+                        tags: question.Tags.map(tag=>tag.name),
+                        count: question.upvoteCount
                     }
                 ))
                 
@@ -60,7 +55,7 @@ exports.getQuestion = async (req, res, next) => {
             err.statusCode = 500;
             throw err;
         }
-        
+
         let learnLanguageData = await question.User.getLearnLanguage();
         const tags = await question.getTags();
         const tagNames = tags.map(tag=>tag.dataValues.name);
