@@ -135,7 +135,7 @@ class HomePage extends React.Component{
                     </nav>
                 </div>
                 <div className = "center-container mt-3">
-                    {this.state.posts.map(post => (<PostSummary id={post.id} key={post.id} username={post.username} title={post.title} body={post.body} type = {post.type} count = {post.count}></PostSummary>))}
+                    {this.state.posts.map(post => (<PostSummary post = {post}></PostSummary>))}
                     <div ref={loadingRef => (this.loadingRef = loadingRef)}></div>
                     <div className = "text-center" style={{display: this.state.isLoading? "block" : "none"}}> Loading... </div>
                     <div className = "text-center" style={{display: this.state.hasMorePost? "none" : "block"}}> All posts have been loaded</div>
