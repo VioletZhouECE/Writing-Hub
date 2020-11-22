@@ -10,7 +10,7 @@ class PostSummary extends React.Component{
                         <i className="fas fa-user-circle fa-3x"></i>
                     </div>
                     <div className = "pl-2 col-sm-10 col-md-10 col-lg-10 d-flex flex-column">
-                        <Link to={`/journal/${this.props.post.id}`}>
+                        <Link to={`/${this.props.post.type}/${this.props.post.id}`}>
                             <div className = "post-title-wrap font-weight-bold pb-3">
                                 {this.props.post.title}
                             </div>

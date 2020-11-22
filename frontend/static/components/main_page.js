@@ -5,8 +5,8 @@ import Signup from "./auth/signup";
 import HomePage from "./home/home_page";
 import MenuBar from "./reusable/menu_bar";
 import WriteEntry from "./write/write_entry";
-import PostDetails from "./home/post_details";
-import LanguageSelect from "./reusable/language_select";
+import JournalDetails from "./home/journal_details";
+import QuestionDetails from "./home/question_details";
 
 window.UserInfo = {}; 
 
@@ -226,7 +226,8 @@ class MainPage extends React.Component{
               <div id = "error_message" className = "alert alert-danger toast-message"></div>
               <Switch>
                 <Route path = "/write" render = {(props)=><WriteEntry token = {this.state.token}></WriteEntry>}></Route>
-                <Route path = "/journal" render = {(props)=><PostDetails token = {this.state.token}></PostDetails>}></Route>
+                <Route path = "/journal" render = {(props)=><JournalDetails token = {this.state.token}></JournalDetails>}></Route>
+                <Route path = "/question" render = {(props)=><QuestionDetails token = {this.state.token}></QuestionDetails>}></Route>
                 <Route path ="/" render = {(props)=><HomePage token = {this.state.token}></HomePage>}></Route>
               </Switch>
             </div>

@@ -4,7 +4,7 @@ import { displayErrorMessage } from "../../scripts/display_messages";
 import PostComment from "./post_comment";
 import datetimeConversion from "../../scripts/date_conversion";
 
-class PostDetails extends React.Component {
+class JournalDetails extends React.Component {
     constructor(props){
         super(props);
 
@@ -113,4 +113,4 @@ class PostDetails extends React.Component {
     }
 }
 
-export default withRouter(PostDetails);
+export default withRouter(JournalDetails);

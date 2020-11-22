@@ -51,7 +51,35 @@ exports.getnQuestionsByLanguage =  (n) => {
     }
 }
 
+//get a single question by id
 exports.getQuestion = async (req, res, next) => {
+    try{
+        const question = await models.Question.findOne({where:{id: req.params.questionId}, include:[models.User]});
+        if (!question){
+            let err = new Error(`the journal with journalId: ${questionId} does not exist in our database`);
+            err.statusCode = 500;
+            throw err;
+        }
+        
+        let learnLanguageData = await question.User.getLearnLanguage();
+        const tags = await question.getTags();
+        const tagNames = tags.map(tag=>tag.dataValues.name);
+
+        let response = {
+            id: question.id,
+            createdAt: question.createdAt,
+            updatedAt: question.updatedAt,
+            username: question.User.username,
+            learnLanguage: learnLanguageData[0].name,
+            title: question.title,
+            body: question.body,
+            tags: tagNames,
+            upvotesCount: question.upvoteCount
+        }
+        res.status(200).json(response);
+    } catch(err){
+        next(err);
+    }
 }
 
 exports.postQuestion= async (req, res, next) => {
