@@ -4,10 +4,6 @@ import { useHistory } from "react-router-dom";
 const MenuBar = (props)=>{
     const history = useHistory();
 
-    const handleClickButton = ()=>{
-        history.push("/write");
-    }
-
     return(
         <div className="menubar-background">
             <nav className="navbar navbar-expand-lg navbar-light main-container menubar-background">
@@ -24,7 +20,7 @@ const MenuBar = (props)=>{
                         <a className="nav-link" href="javascript:;">Entries</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="javascript:;">Profile</a>
+                        <a className="nav-link" href="javascript:;" onClick={()=>{history.push('/profile')}}>Profile</a>
                     </li>
                     <li className="nav-item">
                         <a className="nav-link" href="javascript:;" onClick = {props.handleLogout}>Logout</a>
@@ -33,7 +29,7 @@ const MenuBar = (props)=>{
                 <form className="form-inline my-2 my-lg-0 float-right">
                     <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"></input>
                     <i className="fas fa-user-circle fa-2x mr-2"></i>
-                    <button className="btn btn-primary my-2 my-sm-0" type="submit" onClick={handleClickButton}>Start Writing!</button>
+                    <button className="btn btn-primary my-2 my-sm-0" type="submit" onClick={()=>{history.push('/write')}}>Start Writing!</button>
                 </form>
                 </div>
             </nav>
