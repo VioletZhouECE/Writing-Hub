@@ -202,3 +202,27 @@ hr{
     font-size: 90%;
     white-space: nowrap;
 }
+
+.modal {
+    background-color: rgba(0,0,0,0.5);
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-content {
+    position: fixed;
+    width: 770px;
+    top: 20vh;
+    background: white;
+    border-radius: 5px;
+    z-index: 999;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  }
+  
+  
