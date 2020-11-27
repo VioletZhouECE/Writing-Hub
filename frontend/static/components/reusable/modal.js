@@ -5,13 +5,16 @@ const Modal = props => {
   
 const modalWrapper = 
 <div className="modal">
-  <div className="modal-content">
-    <header className="modal-header">
-      <h1>{props.title}</h1>
-    </header>
+  <div className="modal-container">
+    <div className="modal-title mb-2">
+      {props.title}
+    </div>
+    <hr className="mb-2"></hr>
     {props.children}
-    <button type="button" className="btn-primary float-right"  style={{width: "200px"}} onClick={props.acceptModal}>Accept</button>
-    <button type="button" className="btn-primary float-right" style={{width: "200px"}} onClick={props.cancelModal}>Cancel</button>
+    <div className="mt-3">
+      <button type="button" className="btn btn-primary float-right"  style={{width: "100px"}} onClick={props.onAcceptModal}>Accept</button>
+      <button type="button" className="btn btn-outline-primary float-right mr-3" style={{width: "100px"}} onClick={props.onCancelModal}>Cancel</button>
+    </div>
   </div>
 </div>
 

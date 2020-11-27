@@ -215,14 +215,23 @@ hr{
     justify-content: center;
   }
 
-  .modal-content {
+  .modal-container {
     position: fixed;
-    width: 770px;
+    width: 500px;
     top: 20vh;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 16px;
+    padding-right: 16px;
     background: white;
     border-radius: 5px;
     z-index: 999;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   }
-  
+
+  .modal-title{
+      text-align: center;
+      font-size: 16px;
+      font-weight: bold
+  }
   
