@@ -219,8 +219,8 @@ hr{
     position: fixed;
     width: 500px;
     top: 20vh;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 14px;
+    padding-bottom: 14px;
     padding-left: 16px;
     padding-right: 16px;
     background: white;
@@ -231,7 +231,7 @@ hr{
 
   .modal-title{
       text-align: center;
-      font-size: 16px;
+      font-size: 20px;
       font-weight: bold
   }
   

@@ -12,8 +12,8 @@ const modalWrapper =
     <hr className="mb-2"></hr>
     {props.children}
     <div className="mt-3">
-      <button type="button" className="btn btn-primary float-right"  style={{width: "100px"}} onClick={props.onAcceptModal}>Accept</button>
-      <button type="button" className="btn btn-outline-primary float-right mr-3" style={{width: "100px"}} onClick={props.onCancelModal}>Cancel</button>
+      <button type="button" className="btn btn-primary float-right"  style={{width: "100px"}} onClick={props.onAcceptModal}>{props.acceptText?props.acceptText:"Accept"}</button>
+      <button type="button" className="btn btn-outline-primary float-right mr-3" style={{width: "100px"}} onClick={props.onCancelModal}>{props.cancelText?props.cancelText:"Cancel"}</button>
     </div>
   </div>
 </div>

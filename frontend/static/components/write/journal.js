@@ -137,7 +137,7 @@ class Journal extends React.Component{
                 </div>
                 <div className = "form-spacing">
                     <div style = {{width :"250px", margin : "auto"}}>
-                        <button type= "button" className="btn-primary" style = {{width : "100%"}} onClick = {this.handleSubmit}>Publish!</button>
+                        <button type= "button" className="btn btn-primary" style = {{width : "100%"}} onClick = {this.handleSubmit}>Publish!</button>
                     </div>
                 </div>
             </div>
