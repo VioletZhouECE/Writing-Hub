@@ -2,14 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Modal from "../reusable/modal";
 import Avatar from 'react-avatar-edit';
+import {displayErrorMessage} from "../../scripts/display_messages";
 
 class AvatarEdit extends React.Component {
   constructor(props) {
     super(props);
-    const src = '/static/image/carousel-sunshine.jpg'
     this.state = {
-      imageCroped: src,
-      imageDisplay: src
+      imageCroped: this.props.userAvatar,
+      imageDisplay: this.props.userAvatar
     }
 
     this.onCrop = this.onCrop.bind(this);
@@ -23,12 +23,13 @@ class AvatarEdit extends React.Component {
   }
 
   onCrop(img) {
+    //this img would be the croped image
     this.setState({imageCroped: img});
   }
   
   onBeforeFileLoad(elem) {
     if(elem.target.files[0].size > 71680){
-      alert("File is too big!");
+      displayErrorMessage("image is too large");
       elem.target.value = "";
     };
   }
@@ -36,13 +37,21 @@ class AvatarEdit extends React.Component {
   onFileLoad(img) {
     this.setState({imageDisplay: img});
   }
+
+  onAcceptAvatar(img){
+    if (!img){
+      displayErrorMessage("image cannot be empty");
+      return;
+    }
+    this.props.onAcceptAvatar(img);
+  }
   
   render () {
     return (
       <div>
         <Modal title="Profile"
                acceptText="Apply"
-               onAcceptModal={this.props.onAcceptAvatar}
+               onAcceptModal={()=>this.onAcceptAvatar(this.state.imageCroped)}
                onCancelModal={this.props.onCancelAvatar}
         >
           <Avatar
