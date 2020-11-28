@@ -7,7 +7,7 @@ import MenuBar from "./reusable/menu_bar";
 import WriteEntry from "./write/write_entry";
 import JournalDetails from "./home/journal_details";
 import QuestionDetails from "./home/question_details";
-import AvatarEdit from './profile/avatar';
+import Profile from './profile/profile';
 
 window.UserInfo = {}; 
 
@@ -229,7 +229,7 @@ class MainPage extends React.Component{
                 <Route path = "/write" render = {(props)=><WriteEntry token = {this.state.token}></WriteEntry>}></Route>
                 <Route path = "/journal" render = {(props)=><JournalDetails token = {this.state.token}></JournalDetails>}></Route>
                 <Route path = "/question" render = {(props)=><QuestionDetails token = {this.state.token}></QuestionDetails>}></Route>
-                <Route path = "/profile" render = {(props)=><AvatarEdit token = {this.state.token}></AvatarEdit>}></Route>
+                <Route path = "/profile" render = {(props)=><Profile token = {this.state.token}></Profile>}></Route>
                 <Route path ="/" render = {(props)=><HomePage token = {this.state.token}></HomePage>}></Route>
               </Switch>
             </div>

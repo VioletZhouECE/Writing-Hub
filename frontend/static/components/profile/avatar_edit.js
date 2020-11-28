@@ -42,6 +42,8 @@ class AvatarEdit extends React.Component {
       <div>
         <Modal title="Profile"
                acceptText="Apply"
+               onAcceptModal={this.props.onAcceptAvatar}
+               onCancelModal={this.props.onCancelAvatar}
         >
           <Avatar
             width={468}
