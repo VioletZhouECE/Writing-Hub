@@ -24,7 +24,7 @@ const fileFilter = (req, file, cb) => {
     cb(new Error("File type is not correct"), false);
   }
 };
-const uploadStrategy = multer({ storage: inMemoryStorage, fileFilter: fileFilter}).single('image');
+const uploadStrategy = multer({ storage: inMemoryStorage}).single('image');
 
 app = express();
 
@@ -46,7 +46,7 @@ app.use((req, res, next) => {
   });
 
 app.use('/auth', authRouter);
-app.post('/profile', jwtValidator, uploadStrategy, profileRouter);
+app.use('/profile', jwtValidator, profileRouter);
 app.get('/feeds', jwtValidator, getFeedsByLanguage);
 app.use('/journals', jwtValidator, journalRouter);
 app.use('/questions', jwtValidator, questionRouter);

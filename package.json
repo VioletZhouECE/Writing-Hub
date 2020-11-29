@@ -19,6 +19,7 @@
         "@babel/preset-env": "^7.11.0",
         "@babel/preset-react": "^7.10.4",
         "@tinymce/tinymce-react": "^3.6.0",
+        "azure-storage": "^2.10.3",
         "babel-loader": "^8.1.0",
         "bcrypt": "^5.0.0",
         "bcryptjs": "^2.4.3",
