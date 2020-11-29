@@ -38,7 +38,7 @@ class Profile extends React.Component {
         })
         .then((resData) =>{
             //update frontend image
-            this.setState({editAvatar: false, avatar: img});
+            this.setState({editAvatar: false, avatar: resData.url});
             displaySuccessMessage(resData.msg);
         })
         .catch(err=>{

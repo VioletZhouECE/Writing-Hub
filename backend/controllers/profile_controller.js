@@ -22,8 +22,11 @@ exports.updateAvatar = async (req, res, next) => {
             undefined, undefined,
             { blobHTTPHeaders: { blobContentType: "image/jpg" } });
 
+        const imageURL = `https://${storage.storageAccount}/${storage.avatarContainer}/${blobName}`
 
-        const response = {msg: "image upload succeeded"}
+        const response = {msg: "image upload succeeded",
+                          url: imageURL}
+                          
         res.status(200).json(response);
     } catch(err) {
         next(err);

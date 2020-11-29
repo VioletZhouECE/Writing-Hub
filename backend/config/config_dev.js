@@ -12,6 +12,7 @@ const config = {
         }
     },
     "storage": {
+        "storageAccount": "writinghub.blob.core.windows.net",
         "connectionString": process.env.AZURE_STORAGE_CONNECTION_STRING,
         "avatarContainer": "avatar"
     }
