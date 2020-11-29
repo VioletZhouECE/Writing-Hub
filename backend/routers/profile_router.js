@@ -1,12 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const {updateAvatar, deleteAvatar} = require("../controllers/profile_controller");
+const {updateAvatar} = require("../controllers/profile_controller");
 
-//avatar routes
+//avatar route
 //PUT /avatar/:userId
 router.post('/avatar/:userId', updateAvatar);
-
-//DELETE /avatar/:userId
-router.delete('/avatar/:userId', deleteAvatar);
 
 module.exports = router;

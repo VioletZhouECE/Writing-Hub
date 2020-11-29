@@ -8,10 +8,23 @@ const journalRouter = require('./routers/journal_router');
 const editedJournalRouter = require('./routers/editedJournal_router');
 const questionRouter = require('./routers/question_router');
 const {getFeedsByLanguage} = require('./controllers/feeds_controller');
-const replyRouter = require('./routers/reply_router');
 const jwtValidator = require('./middleware/jwt_validation');
 const errorHandler = require('./middleware/error_handler');
-const { Sequelize } = require('sequelize');
+
+//multer middleware to extract images
+const multer = require('multer');
+const inMemoryStorage = multer.memoryStorage();
+const fileFilter = (req, file, cb) => {
+  if (
+    file.mimetype === 'image/png' ||
+    file.mimetype === 'image/jpg'
+  ) {
+    cb(null, true);
+  } else {
+    cb(new Error("File type is not correct"), false);
+  }
+};
+const uploadStrategy = multer({ storage: inMemoryStorage, fileFilter: fileFilter}).single('image');
 
 app = express();
 
@@ -33,7 +46,7 @@ app.use((req, res, next) => {
   });
 
 app.use('/auth', authRouter);
-app.use('/profile', jwtValidator, profileRouter);
+app.post('/profile', jwtValidator, uploadStrategy, profileRouter);
 app.get('/feeds', jwtValidator, getFeedsByLanguage);
 app.use('/journals', jwtValidator, journalRouter);
 app.use('/questions', jwtValidator, questionRouter);

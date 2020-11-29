@@ -19,16 +19,15 @@ class Profile extends React.Component {
     }
 
     onAcceptAvatar(img){
+        //create formData
+        const formData = new FormData();
+        formData.append("image", img);
+
         //send the new avatar to the backend
         fetch(`/profile/avatar/${UserInfo.userId}`, {
             method: 'POST',
-            headers: {
-                'Content-Type' : 'application/json',
-                'Authorization' : 'Bearer ' + this.props.token
-            },
-            body: JSON.stringify({
-                image: img
-            })
+            headers: {'Authorization' : 'Bearer ' + this.props.token},
+            body: formData
         })
         .then((res)=>{
             if (res.status === 200){
