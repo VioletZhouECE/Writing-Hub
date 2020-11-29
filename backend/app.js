@@ -3,6 +3,7 @@ const bodyparser = require('body-parser');
 const path = require('path');
 const port = process.env.PORT || '3000';
 const authRouter = require('./routers/auth_router');
+const profileRouter = require('./routers/profile_router');
 const journalRouter = require('./routers/journal_router');
 const editedJournalRouter = require('./routers/editedJournal_router');
 const questionRouter = require('./routers/question_router');
@@ -32,6 +33,7 @@ app.use((req, res, next) => {
   });
 
 app.use('/auth', authRouter);
+app.use('/profile', jwtValidator, profileRouter);
 app.get('/feeds', jwtValidator, getFeedsByLanguage);
 app.use('/journals', jwtValidator, journalRouter);
 app.use('/questions', jwtValidator, questionRouter);
