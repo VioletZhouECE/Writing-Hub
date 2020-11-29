@@ -10,7 +10,7 @@ exports.updateAvatar = async (req, res, next) => {
         //split the image data header
         const imgBase64 = req.body.image.split(';base64,').pop();
         //decode base 64 string to buffer
-        const buff = new Buffer(imgBase64, 'base64');
+        const buff = Buffer.from(imgBase64, 'base64');
         //convert buffer to stream
         const stream = getStream(buff);
         
@@ -26,7 +26,7 @@ exports.updateAvatar = async (req, res, next) => {
 
         const response = {msg: "image upload succeeded",
                           url: imageURL}
-                          
+
         res.status(200).json(response);
     } catch(err) {
         next(err);
