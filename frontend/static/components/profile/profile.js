@@ -1,6 +1,7 @@
 import React from "react";
 import Avatar from 'react-avatar';
 import AvatarEdit from "./avatar_edit";
+import {displaySuccessMessage, displayErrorMessage} from "../../scripts/display_messages";
 
 class Profile extends React.Component {
     constructor(props){
@@ -18,8 +19,32 @@ class Profile extends React.Component {
     }
 
     onAcceptAvatar(img){
-        //save imageCroped in the frontend
-        this.setState({editAvatar: false, avatar: img});
+        //send the new avatar to the backend
+        fetch(`/profile/avatar/${UserInfo.userId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type' : 'application/json',
+                'Authorization' : 'Bearer ' + this.props.token
+            },
+            body: JSON.stringify({
+                image: img
+            })
+        })
+        .then((res)=>{
+            if (res.status === 200){
+                return res.json();
+            } else {
+                throw new Error("Upload image failed, please try again");
+            }
+        })
+        .then((resData) =>{
+            //update frontend image
+            this.setState({editAvatar: false, avatar: img});
+            displaySuccessMessage(resData.msg);
+        })
+        .catch(err=>{
+            displayErrorMessage(err.message)
+        })
     }
 
     onCancelAvatar(){

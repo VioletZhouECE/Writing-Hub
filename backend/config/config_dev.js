@@ -12,7 +12,8 @@ const config = {
         }
     },
     "storage": {
-        "connectionString": process.env.AZURE_STORAGE_CONNECTION_STRING
+        "connectionString": process.env.AZURE_STORAGE_CONNECTION_STRING,
+        "avatarContainer": "avatar"
     }
 }
 

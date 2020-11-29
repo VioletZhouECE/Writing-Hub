@@ -4,7 +4,7 @@ const {updateAvatar, deleteAvatar} = require("../controllers/profile_controller"
 
 //avatar routes
 //PUT /avatar/:userId
-router.get('/avatar/:userId', updateAvatar);
+router.post('/avatar/:userId', updateAvatar);
 
 //DELETE /avatar/:userId
 router.delete('/avatar/:userId', deleteAvatar);
