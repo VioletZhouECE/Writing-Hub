@@ -3,7 +3,7 @@ const router = express.Router();
 const {updateAvatar} = require("../controllers/profile_controller");
 
 //avatar route
-//PUT /avatar/:userId
-router.post('/avatar/:userId', updateAvatar);
+//PUT /avatar
+router.put('/avatar', updateAvatar);
 
 module.exports = router;

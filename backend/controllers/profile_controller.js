@@ -2,13 +2,25 @@ const uuid = require('uuid');
 const getStream = require('into-stream');
 const {BlobServiceClient} = require('@azure/storage-blob');
 const {storage} = require('../config/config');
+const models = require('../models/index');
 
 //delete the existing avatar (if exists) and store the new avatar
 exports.updateAvatar = async (req, res, next) => {
     try{
+        const imageData = req.body.image;
+        if(!imageData){
+            let err = new Error(`Empty image`);
+            err.statusCode = 500;
+            throw err;
+        }
+        
+        //delete avatarUrl from db
+        //delete avatar from Azure blob if necessary
+
+        //upload image to Azure blob
         const blobName = uuid.v4() + '.jpg';
         //split the image data header
-        const imgBase64 = req.body.image.split(';base64,').pop();
+        const imgBase64 = imageData.split(';base64,').pop();
         //decode base 64 string to buffer
         const buff = Buffer.from(imgBase64, 'base64');
         //convert buffer to stream
@@ -23,6 +35,12 @@ exports.updateAvatar = async (req, res, next) => {
             { blobHTTPHeaders: { blobContentType: "image/jpg" } });
 
         const imageURL = `https://${storage.storageAccount}/${storage.avatarContainer}/${blobName}`
+        
+        //store avatarUrl to db
+        await models.User.update(
+            { avatarUrl: imageURL},
+            { where: { id: req.userId } }
+          )
 
         const response = {msg: "image upload succeeded",
                           url: imageURL}

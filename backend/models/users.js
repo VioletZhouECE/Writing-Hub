@@ -38,9 +38,9 @@ module.exports = (sequelize, DataTypes) => {
       },
       
       points: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-          defaultValue: 0
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0
       }
     });
 
