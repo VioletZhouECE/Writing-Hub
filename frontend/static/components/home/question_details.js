@@ -1,4 +1,5 @@
 import React from "react";
+import Avatar from 'react-avatar';
 import {withRouter} from 'react-router-dom';
 import { displayErrorMessage } from "../../scripts/display_messages";
 import datetimeConversion from "../../scripts/date_conversion";
@@ -42,7 +43,7 @@ class QuestionDetails extends React.Component {
         return(
         <div className="center-container">
                 <div className = "float-left">
-                    <i className="fas fa-user-circle fa-3x"></i>
+                    <Avatar size="60" src={this.state.postData.avatarUrl} name={this.state.postData.username} round={true}></Avatar>
                 </div>
                 <div className="float-left pl-4">
                     <div className = "post-details-username float-left">

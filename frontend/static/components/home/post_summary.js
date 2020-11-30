@@ -1,13 +1,18 @@
 import React from "react";
+import Avatar from 'react-avatar';
 import {Link} from "react-router-dom";
 
 class PostSummary extends React.Component{
+    constructor(props){
+        super(props);
+        this.UserInfo = UserInfo;
+    }
     render(){
         return (
             <div className = "pt-2">
                 <div className = "d-flex justify-content-between">
                     <div className = "p-0 col-sm-2 col-md-2 col-lg-2">
-                        <i className="fas fa-user-circle fa-3x"></i>
+                        <Avatar size="72" src={this.props.post.avatarUrl} name={this.props.post.username} round={true}></Avatar>
                     </div>
                     <div className = "pl-2 col-sm-10 col-md-10 col-lg-10 d-flex flex-column">
                         <Link to={`/${this.props.post.type}/${this.props.post.id}`}>
