@@ -45,7 +45,7 @@ class MainPage extends React.Component{
       } else {
         const token = localStorage.getItem('token');
         const username = localStorage.getItem('username');
-        const avatarUrl = localStorage.removeItem('avatarUrl');
+        const avatarUrl = localStorage.getItem('avatarUrl');
         const userId = localStorage.getItem("userId");
         const learnLanguage = localStorage.getItem('learnLanguage');
         const firstLanguage = localStorage.getItem('firstLanguage');
