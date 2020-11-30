@@ -38,12 +38,14 @@ class MainPage extends React.Component{
        localStorage.removeItem('expiryDate');
        localStorage.removeItem('token');
        localStorage.removeItem('username');
+       localStorage.removeItem('avatarUrl');
        localStorage.removeItem('userId');
        localStorage.removeItem('learnLanguage');
        localStorage.removeItem('firstLanguage');
       } else {
         const token = localStorage.getItem('token');
         const username = localStorage.getItem('username');
+        const avatarUrl = localStorage.removeItem('avatarUrl');
         const userId = localStorage.getItem("userId");
         const learnLanguage = localStorage.getItem('learnLanguage');
         const firstLanguage = localStorage.getItem('firstLanguage');
@@ -56,6 +58,7 @@ class MainPage extends React.Component{
           token: token
         })
         UserInfo.username = username;
+        UserInfo.avatarUrl = avatarUrl;
         UserInfo.userId = userId;
         UserInfo.learnLanguage = learnLanguage;
         UserInfo.firstLanguage = firstLanguage;
@@ -150,9 +153,10 @@ class MainPage extends React.Component{
       return res.json();
     })
     .then(resData => {
-      this.setLocalStorage(resData.username, resData.userId, resData.token, resData.learnLanguage, resData.firstLanguage);
+      this.setLocalStorage(resData.username, resData.avatarUrl, resData.userId, resData.token, resData.learnLanguage, resData.firstLanguage);
 
       UserInfo.username = resData.username;
+      UserInfo.avatarUrl = resData.avatarUrl;
       UserInfo.userId = resData.userId;
       UserInfo.learnLanguage = resData.learnLanguage;
       UserInfo.firstLanguage = resData.firstLanguage;
@@ -170,8 +174,9 @@ class MainPage extends React.Component{
     });   
   }
 
-  setLocalStorage(username, userId, token, learnLanguage, firstLanguage){
+  setLocalStorage(username, avatarUrl, userId, token, learnLanguage, firstLanguage){
     localStorage.setItem('username', username);
+    localStorage.setItem('avatarUrl', avatarUrl);
     localStorage.setItem('userId', userId);
     localStorage.setItem('token', token);
     localStorage.setItem('learnLanguage', learnLanguage);
@@ -200,6 +205,7 @@ class MainPage extends React.Component{
     //remove items from the local storage
     localStorage.removeItem('token');
     localStorage.removeItem('username');
+    localStorage.removeItem('avatarUrl');
     localStorage.removeItem('userId');
     localStorage.removeItem('expiryDate');
     localStorage.removeItem('learnLanguage');

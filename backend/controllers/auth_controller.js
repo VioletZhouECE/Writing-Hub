@@ -37,6 +37,7 @@ exports.login = async (req, res, next) => {
         let response = {
             msg : 'authentication succeeded!',
             username: user.username,
+            avatarUrl: user.avatarUrl,
             userId: user.id,
             token: token,
             firstLanguage: firstLanguageData[0].name,

@@ -7,10 +7,9 @@ class Profile extends React.Component {
     constructor(props){
         super(props);
         this.UserInfo = UserInfo;
-        const src = '/static/image/carousel-sunshine.jpg';
         this.state = {
             editAvatar : false,
-            avatar: src
+            avatar: UserInfo.avatarUrl
         }
     }
 
@@ -21,8 +20,8 @@ class Profile extends React.Component {
     onAcceptAvatar(img){
         //img is base64 string
         //send the new avatar to the backend
-        fetch(`/profile/avatar/${UserInfo.userId}`, {
-            method: 'POST',
+        fetch(`/profile/avatar`, {
+            method: 'PUT',
             headers: {
                 'Content-Type' : 'application/json',
                 'Authorization' : 'Bearer ' + this.props.token
