@@ -31,6 +31,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false
       },
+
+      avatarUrl: {
+        type: DataTypes.STRING,
+        allowNull: true
+      },
       
       points: {
           type: DataTypes.INTEGER,

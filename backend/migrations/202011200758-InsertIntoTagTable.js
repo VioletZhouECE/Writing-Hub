@@ -1,7 +1,5 @@
 const uuid = require('uuid');
 
-"grammar", "word choice", "translate", "general opinion", "writing tips"
-
 module.exports = {
     up: async (queryInterface, Sequelize) => {
       await queryInterface.bulkInsert('tags', [{
