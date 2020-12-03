@@ -5,6 +5,12 @@ import { useHistory } from "react-router-dom";
 const MenuBar = (props)=>{
     const history = useHistory();
 
+    const [userInfo, setUserInfo] = React.useState(UserInfo);
+
+    React.useEffect(() => {
+        setPageName(location.pathname);
+    }, [location]);
+
     return(
         <div className="menubar-background">
             <nav className="navbar navbar-expand-lg navbar-light main-container menubar-background">
@@ -29,7 +35,7 @@ const MenuBar = (props)=>{
                 </ul>
                 <form className="form-inline my-2 my-lg-0 float-right">
                     <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"></input>
-                    <Avatar className="mr-2" size="48" src={UserInfo.avatarUrl} name={UserInfo.username} round={true}></Avatar>
+                    <Avatar className="mr-2" size="48" src={useUserInfo().avatarUrl} name={useUserInfo().username} round={true}></Avatar>
                     <button className="btn btn-primary my-2 my-sm-0" type="submit" onClick={()=>{history.push('/write')}}>Start Writing!</button>
                 </form>
                 </div>
