@@ -31,6 +31,7 @@ class MainPage extends React.Component{
     }
 
     componentDidMount(){
+      console.log("Component did mount")
       //if the token expires, remove items from local storage
       if (!localStorage.getItem('token')){
         return; 
@@ -61,10 +62,10 @@ class MainPage extends React.Component{
           token: token
         })
         UserInfo.username = username;
-        UserInfo.avatarUrl = avatarUrl;
         UserInfo.userId = userId;
         UserInfo.learnLanguage = learnLanguage;
         UserInfo.firstLanguage = firstLanguage;
+
         this.setState({userContext: {avatarUrl: avatarUrl}});
       }
     }
@@ -160,10 +161,10 @@ class MainPage extends React.Component{
       this.setLocalStorage(resData.username, resData.avatarUrl, resData.userId, resData.token, resData.learnLanguage, resData.firstLanguage);
 
       UserInfo.username = resData.username;
-      UserInfo.avatarUrl = resData.avatarUrl;
       UserInfo.userId = resData.userId;
       UserInfo.learnLanguage = resData.learnLanguage;
       UserInfo.firstLanguage = resData.firstLanguage;
+
       this.setState({userContext: {avatarUrl: resData.avatarUrl}});
       
       //direct user to the home page

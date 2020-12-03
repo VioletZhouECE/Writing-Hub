@@ -11,8 +11,7 @@ class Profile extends React.Component {
         super(props);
         this.UserInfo = UserInfo;
         this.state = {
-            editAvatar : false,
-            avatar: UserInfo.avatarUrl
+            editAvatar : false
         }
     }
 
@@ -40,7 +39,7 @@ class Profile extends React.Component {
         })
         .then((resData) =>{
             //update frontend image
-            this.setState({editAvatar: false, avatar: resData.url});
+            this.setState({editAvatar: false});
             //update userContext
             this.context.setUserContext({avatarUrl: resData.url});
             displaySuccessMessage(resData.msg);
@@ -57,8 +56,8 @@ class Profile extends React.Component {
     render(){
         return (
             <div>
-                <Avatar src={this.state.avatar} name={this.UserInfo.username} round={true} onClick={this.handleClickProfile.bind(this)}></Avatar>
-                {this.state.editAvatar?<AvatarEdit userAvatar={this.state.avatar} onAcceptAvatar={this.onAcceptAvatar.bind(this)} onCancelAvatar={this.onCancelAvatar.bind(this)}></AvatarEdit>:<div></div>}
+                <Avatar src={this.context.userContext.avatarUrl} name={this.UserInfo.username} round={true} onClick={this.handleClickProfile.bind(this)}></Avatar>
+                {this.state.editAvatar?<AvatarEdit userAvatar={this.context.userContext.avatarUrl} onAcceptAvatar={this.onAcceptAvatar.bind(this)} onCancelAvatar={this.onCancelAvatar.bind(this)}></AvatarEdit>:<div></div>}
             </div>
         )
     }
