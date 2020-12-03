@@ -1,13 +1,15 @@
-import React from "react";
+import React, {useContext} from "react";
 import Avatar from 'react-avatar';
 import { useHistory } from "react-router-dom";
+import UserContext from "../userContext";
 
 const MenuBar = (props)=>{
     const history = useHistory();
+    const {userContext} = useContext(UserContext);
 
-    const useUserInfo = () => {
+    const useUserInfo = ()=>{
         return UserInfo;
-      };
+    }
 
     return(
         <div className="menubar-background">
@@ -33,7 +35,7 @@ const MenuBar = (props)=>{
                 </ul>
                 <form className="form-inline my-2 my-lg-0 float-right">
                     <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"></input>
-                    <Avatar className="mr-2" size="48" src={useUserInfo().avatarUrl} name={useUserInfo().username} round={true}></Avatar>
+                    <Avatar className="mr-2" size="48" src={userContext} name={useUserInfo().username} round={true}></Avatar>
                     <button className="btn btn-primary my-2 my-sm-0" type="submit" onClick={()=>{history.push('/write')}}>Start Writing!</button>
                 </form>
                 </div>

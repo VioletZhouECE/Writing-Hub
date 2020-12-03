@@ -1,5 +1,6 @@
 import React from "react";
 import {Route, Switch} from "react-router-dom";
+import UserContext from './userContext'
 import Login from "./auth/login";
 import Signup from "./auth/signup";
 import HomePage from "./home/home_page";
@@ -17,6 +18,7 @@ class MainPage extends React.Component{
 
         this.state = {
             isAuth: false,
+            userContext: {},
             token: null,
             error: null
         }
@@ -25,6 +27,7 @@ class MainPage extends React.Component{
         this.verifyUsername = this.verifyUsername.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
+        this.setUserContext = this.setUserContext.bind(this);
     }
 
     componentDidMount(){
@@ -196,6 +199,10 @@ class MainPage extends React.Component{
     setTimeout(()=>{this.handleLogout()}, remainingMilliseconds);
   }
 
+  setUserContext(context){
+    this.setState({userContext: context});
+  }
+
   handleLogout(){
     //log the user out
     this.setState({
@@ -216,17 +223,23 @@ class MainPage extends React.Component{
   }
 
     render(){
+       let userContext = this.state.userContext;
+       let setUserContext = this.setUserContext;
+
         return !this.state.isAuth?(
-          <div id="auth-parent-component">
-            <div className = "float-right alert alert-danger toast-message" style={{display: this.state.error? "inline" : "none"}}>
-                {this.state.error}
+          <UserContext.Provider value={{userContext, setUserContext}}>
+            <div id="auth-parent-component">
+              <div className = "float-right alert alert-danger toast-message" style={{display: this.state.error? "inline" : "none"}}>
+                  {this.state.error}
+              </div>
+              <Switch>
+                  <Route path = "/signup" render = {(props) => <Signup handleSubmitForm = {this.handleSignup} verifyUsername = {this.verifyUsername}></Signup>}></Route>
+                  <Route path = "/" render = {(props) => <Login handleSubmitForm = {this.handleLogin}></Login>}></Route>
+              </Switch>
             </div>
-            <Switch>
-                <Route path = "/signup" render = {(props) => <Signup handleSubmitForm = {this.handleSignup} verifyUsername = {this.verifyUsername}></Signup>}></Route>
-                <Route path = "/" render = {(props) => <Login handleSubmitForm = {this.handleLogin}></Login>}></Route>
-            </Switch>
-          </div>
+          </UserContext.Provider>
         ) : (
+          <UserContext.Provider value={{userContext, setUserContext}}>
             <div>
               <MenuBar handleLogout = {this.handleLogout}></MenuBar>
               <div id = "success_message" className = "alert alert-success toast-message"></div>
@@ -239,6 +252,7 @@ class MainPage extends React.Component{
                 <Route path ="/" render = {(props)=><HomePage token = {this.state.token}></HomePage>}></Route>
               </Switch>
             </div>
+          </UserContext.Provider>
         )
     }
 }
