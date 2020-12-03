@@ -1,6 +1,6 @@
 import React from "react";
 import Avatar from 'react-avatar';
-import UserContext from "../userContext";
+import {UserContext} from "../context/user_context";
 import AvatarEdit from "./avatar_edit";
 import {displaySuccessMessage, displayErrorMessage} from "../../scripts/display_messages";
 
@@ -42,7 +42,7 @@ class Profile extends React.Component {
             //update frontend image
             this.setState({editAvatar: false, avatar: resData.url});
             //update userContext
-            this.context.setUserContext(resData.url);
+            this.context.setUserContext({avatarUrl: resData.url});
             displaySuccessMessage(resData.msg);
         })
         .catch(err=>{

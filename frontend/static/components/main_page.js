@@ -1,6 +1,6 @@
 import React from "react";
 import {Route, Switch} from "react-router-dom";
-import UserContext from './userContext'
+import {UserContext} from './context/user_context'
 import Login from "./auth/login";
 import Signup from "./auth/signup";
 import HomePage from "./home/home_page";
@@ -65,6 +65,7 @@ class MainPage extends React.Component{
         UserInfo.userId = userId;
         UserInfo.learnLanguage = learnLanguage;
         UserInfo.firstLanguage = firstLanguage;
+        this.setState({userContext: {avatarUrl: avatarUrl}});
       }
     }
  
@@ -163,6 +164,7 @@ class MainPage extends React.Component{
       UserInfo.userId = resData.userId;
       UserInfo.learnLanguage = resData.learnLanguage;
       UserInfo.firstLanguage = resData.firstLanguage;
+      this.setState({userContext: {avatarUrl: resData.avatarUrl}});
       
       //direct user to the home page
       this.setState({isAuth: true,
@@ -220,6 +222,9 @@ class MainPage extends React.Component{
 
     //reset global userInfo variable
     UserInfo = {};
+
+    //clear the userInfo state context
+    this.setState({userContext: {}});
   }
 
     render(){
