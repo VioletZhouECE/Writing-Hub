@@ -40,8 +40,9 @@ class Profile extends React.Component {
         .then((resData) =>{
             //update frontend image
             this.setState({editAvatar: false});
-            //update userContext
+            //update avatarUrl in userContext and localStorage
             this.context.setUserContext({avatarUrl: resData.url});
+            localStorage.setItem('avatarUrl', resData.url);
             displaySuccessMessage(resData.msg);
         })
         .catch(err=>{
