@@ -5,11 +5,9 @@ import { useHistory } from "react-router-dom";
 const MenuBar = (props)=>{
     const history = useHistory();
 
-    const [userInfo, setUserInfo] = React.useState(UserInfo);
-
-    React.useEffect(() => {
-        setPageName(location.pathname);
-    }, [location]);
+    const useUserInfo = () => {
+        return UserInfo;
+      };
 
     return(
         <div className="menubar-background">
