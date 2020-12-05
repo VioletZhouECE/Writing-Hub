@@ -35,7 +35,9 @@ const MenuBar = (props)=>{
                 </ul>
                 <form className="form-inline my-2 my-lg-0 float-right">
                     <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"></input>
-                    <Avatar className="mr-2" size="48" src={userContext.avatarUrl} name={useUserInfo().username} round={true}></Avatar>
+                    <div role="button">
+                        <Avatar className="mr-2" size="48" src={userContext.avatarUrl} name={useUserInfo().username} round={true} onClick={()=>{history.push('/profile')}}></Avatar>
+                    </div>
                     <button className="btn btn-primary my-2 my-sm-0" type="submit" onClick={()=>{history.push('/write')}}>Start Writing!</button>
                 </form>
                 </div>

@@ -57,7 +57,7 @@ class Profile extends React.Component {
     render(){
         return (
             <div>
-                <div className="avatar-container">
+                <div className="avatar-container" role="button">
                     <Avatar className= "profile-avatar" src={this.context.userContext.avatarUrl} name={this.UserInfo.username} round={true} onClick={this.handleClickProfile.bind(this)}></Avatar>
                     <i className="fas fa-edit profile-edit"></i>
                 </div>
