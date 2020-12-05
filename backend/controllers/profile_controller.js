@@ -13,9 +13,6 @@ exports.updateAvatar = async (req, res, next) => {
             err.statusCode = 500;
             throw err;
         }
-        
-        //delete avatarUrl from db
-        //delete avatar from Azure blob if necessary
 
         //upload image to Azure blob
         const blobName = uuid.v4() + '.jpg';
@@ -33,6 +30,13 @@ exports.updateAvatar = async (req, res, next) => {
         await blockBlobClient.uploadStream(stream,
             undefined, undefined,
             { blobHTTPHeaders: { blobContentType: "image/jpg" } });
+
+        //get the old image url from db and delete the old image from Azure blob
+        const {avatarUrl} = await models.User.findOne({where: { id: req.userId }});
+        if (avatarUrl){
+            const filename = avatarUrl.split('/').pop();
+            await containerClient.deleteBlob(filename);
+        }
 
         const imageURL = `https://${storage.storageAccount}/${storage.avatarContainer}/${blobName}`
         
