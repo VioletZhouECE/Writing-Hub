@@ -235,4 +235,20 @@ hr{
     font-size: 20px;
     font-weight: bold
   }
-  
+
+  .avatar-container {
+    position: relative;
+    display: inline-block;
+    padding-top: 14px;
+    padding-left: 14px;
+  } 
+
+  .profile-avatar {
+    display: block
+  }
+
+  .profile-edit {
+    position: absolute; 
+    bottom:0; 
+    right:0; 
+  }
