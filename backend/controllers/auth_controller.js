@@ -1,5 +1,6 @@
 const models = require('../models/index');
 const jwt = require('jsonwebtoken');
+const authService = require('../services/auth');
 const {errorWrapper} = require("../middleware/error_wrapper");
 
 exports.login = async (req, res, next) => {
@@ -68,28 +69,9 @@ exports.verifyUsernameNotExists = async (req, res, next) => {
 
 exports.signup = async (req, res, next) => {
     try{
-        //verify username does not exist
-        const userExists = await models.User.usernameExists(req.body.username);
-        if (userExists){
-            let err = new Error('A user with the username already exists');
-                err.statusCode = 422;
-                throw err;
-            }
-
-        //retrieve language data
-        const [learnLanguage, firstLanguage] = await Promise.all([models.Language.getLanguageByName(req.body.learnLanguage), models.Language.getLanguageByName(req.body.firstLanguage)]);
-
-        //create user
-        let user = await models.User.build({
-            username: req.body.username,
-            password: req.body.password
-        });
-        await user.storePasswordHash();
-        await user.save();
-
-        //set associations between user and language
-        await Promise.all([user.setFirstLanguage(firstLanguage.id), user.setLearnLanguage(learnLanguage.id)]);
-
+        const {username, password, learnLanguage, firstLanguage} = req.body;
+        const authServiceInstance = new authService();
+        await authServiceInstance.signup(username, password, learnLanguage, firstLanguage);
         res.status(201).send();
     } catch (err){
         next(err);
