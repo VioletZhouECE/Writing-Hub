@@ -11,24 +11,11 @@ const {getFeedsByLanguage} = require('./controllers/feeds_controller');
 const jwtValidator = require('./middleware/jwt_validation');
 const errorHandler = require('./middleware/error_handler');
 
-//multer middleware to extract images
-const multer = require('multer');
-const inMemoryStorage = multer.memoryStorage();
-const fileFilter = (req, file, cb) => {
-  if (
-    file.mimetype === 'image/png' ||
-    file.mimetype === 'image/jpg'
-  ) {
-    cb(null, true);
-  } else {
-    cb(new Error("File type is not correct"), false);
-  }
-};
-const uploadStrategy = multer({ storage: inMemoryStorage}).single('image');
-
 app = express();
 
 app.use(bodyparser.json());
+
+app.use(bodyparser.urlencoded({extended: true}));
 
 //static content serving
 app.use(express.static(path.join(__dirname, "../frontend")));
