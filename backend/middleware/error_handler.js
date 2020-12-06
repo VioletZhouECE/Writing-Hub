@@ -3,7 +3,7 @@ const {ValidationError} = require('express-validation')
 //error handler used in development
 module.exports = (err, req, res, next) => {
     if (err instanceof ValidationError) {
-        err.message = err.details[0];
+        err.message = err.details;
         err.statusCode = 400;
     }
 

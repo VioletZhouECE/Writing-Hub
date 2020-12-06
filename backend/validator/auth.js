@@ -21,6 +21,23 @@ module.exports.authValidation = {
             .valid('English','Simplified Chinese', 'Traditional Chinese', 'French', 'Japanese')
             .required()
         })
+  },
+
+  login : {
+    body: Joi.object({
+        username: Joi.string()
+        .required(),
+
+        password: Joi.string()
+        .required(),
+  })
+},
+
+  verifyUsernameNotExists : {
+    params: Joi.object({
+        username: Joi.string()
+        .required()
+    })
   }
 }
   
