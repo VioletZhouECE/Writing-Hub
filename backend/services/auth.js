@@ -1,4 +1,4 @@
-require('dotenv').config();
+const {jwtkey} = require('../config/config.js')
 const jwt = require('jsonwebtoken');
 const models = require('../models/index');
 
@@ -60,7 +60,7 @@ class Auth {
                 { username: user.username,
                   userId: user.id
                 },
-                process.env.JWT_KEY,
+                jwtkey,
                 { expiresIn: '3h' }
             );
 
