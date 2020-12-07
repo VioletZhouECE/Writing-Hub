@@ -2,13 +2,7 @@ const express = require('express');
 const bodyparser = require('body-parser');
 const path = require('path');
 const port = process.env.PORT || '3000';
-const authRouter = require('./routers/auth_router');
-const profileRouter = require('./routers/profile_router');
-const journalRouter = require('./routers/journal_router');
-const editedJournalRouter = require('./routers/editedJournal_router');
-const questionRouter = require('./routers/question_router');
-const {getFeedsByLanguage} = require('./controllers/feeds_controller');
-const jwtValidator = require('./middleware/jwt_validation');
+const routes = require('./routers');
 const errorHandler = require('./middleware/error_handler');
 
 app = express();
@@ -32,16 +26,7 @@ app.use((req, res, next) => {
     next();
   });
 
-app.use('/auth', authRouter);
-app.use('/profile', jwtValidator, profileRouter);
-app.get('/feeds', jwtValidator, getFeedsByLanguage);
-app.use('/journals', jwtValidator, journalRouter);
-app.use('/questions', jwtValidator, questionRouter);
-app.use('/editedJournals', jwtValidator, editedJournalRouter);
-
-app.get('*/', (req, res) => {
-  res.status(200).sendFile(path.join(__dirname, '../frontend/static/index.html'));
-});
+routes(app);
 
 app.use(errorHandler);
 
