@@ -87,8 +87,12 @@ class PostComment extends React.Component{
                 editor.ui.registry.addButton('annotate-alpha', {
                     text: 'Annotate',
                     onAction: () => {
-                      self.appendNewComment();
-                      self.setState({hasNewComment: true});
+                        if(!tinymce.activeEditor.selection.getContent()){
+                            displayErrorMessage("Please select text before applying annotation");
+                            return;
+                        }
+                        self.appendNewComment();
+                        self.setState({hasNewComment: true});
                     }
                   });
 
@@ -176,11 +180,6 @@ class PostComment extends React.Component{
         if(this.state.hasNewComment){
             return;
         }
-
-        if(!this.state.editor.selection.getContent()){
-            console.log("No selected text");
-            return;
-        }
         
         const selectionNode = this.stringToDomNode("<mark id=\"marker\" style=\"background-color:#ffa64d\">" + tinymce.activeEditor.selection.getContent() + "</mark>")
         tinymce.activeEditor.selection.setNode(selectionNode);
@@ -202,8 +201,6 @@ class PostComment extends React.Component{
             }
             curr = curr.previousSibling;
         }
-
-        console.log(prevUid);
 
         if (prevUid){
             this.setState(prevState=>{
