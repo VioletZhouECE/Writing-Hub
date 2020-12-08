@@ -1,7 +1,6 @@
 import React from "react";
-import CommentEdit from "./comment_edit"
-
-{/* <div id={this.props.commentId} className="comment-time">{this.props.commentInfo.time}</div> */}
+import CommentEdit from "./comment_edit";
+import Avatar from 'react-avatar';
 
 class Comment extends React.Component{
     constructor(props){
@@ -47,7 +46,9 @@ class Comment extends React.Component{
         return (
             <div className="form-group position-relative">
                 <div id={`commentbox-${this.props.commentId}`}className="form-control displayed-comment-box position-relative" ref={this.currentCommentBox}>
-                    <span className="float-left mr-2"><i className="fas fa-user-circle fa-2x"></i></span>
+                    <span className="float-left mr-2">
+                        <Avatar size="40" src={this.props.commentAvatarUrl} name={this.props.commentAuthor} round={true}></Avatar>
+                    </span>
                     <div className ="float-left mb-1">
                         <div className="float-left comment-username">
                             {this.props.commentInfo.author}

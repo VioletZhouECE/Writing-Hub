@@ -5,8 +5,11 @@ import Comment from "./comment";
 import moment from "moment";
 import uniqid from "uniqid";
 import {displaySuccessMessage, displayErrorMessage} from "../../scripts/display_messages";
+import {UserContext} from "../context/user_context";
 
 class PostComment extends React.Component{
+    static contextType = UserContext;
+
     constructor(props){
         super(props);
         this.state = {
@@ -23,7 +26,6 @@ class PostComment extends React.Component{
     }
 
     componentDidUpdate(prevProps, prevState){
-        //issue: cannot access any attribute of tinymce.activeEditor after page refresh even though attributes are all present
         if (this.props.editedPost.body !== prevProps.editedPost.body && this.props.editedPost.body) {
             //set content when the page is loaded the first time
             tinymce.activeEditor.setContent(this.props.editedPost.body);
@@ -59,6 +61,7 @@ class PostComment extends React.Component{
         return {
             uid : node.getAttribute("data-mce-annotation-uid"),
             author: node.getAttribute("data-mce-author"),
+            avatarUrl: node.getAttribute('data-mce-avatarUrl')? node.getAttribute('data-mce-avatarUrl'): '',
             time: node.getAttribute("data-mce-time"),
             content: node.getAttribute("data-mce-comment"),
             isNewComment: false
@@ -97,6 +100,7 @@ class PostComment extends React.Component{
                         attributes: {
                             'data-mce-comment': data.comment ? data.comment : '',
                             'data-mce-author': data.author ? data.author : 'anonymous',
+                            'data-mce-avatarUrl': data.avatarUrl ? data.avatarUrl : '',
                             'data-mce-time': data.time ? data.time  : ''
                             }
                         };
@@ -242,6 +246,7 @@ class PostComment extends React.Component{
             uid:  uniqid(),
             comment: comment,
             author: UserInfo.username,
+            avatarUrl: this.context.userContext.avatarUrl,
             time: moment().format('MMM Do YYYY, h:mm:ss a')
         };
 
@@ -260,6 +265,7 @@ class PostComment extends React.Component{
                         return {
                             uid: annotationFields.uid,
                             author: annotationFields.author,
+                            avatarUrl: annotationFields.avatarUrl,
                             time: annotationFields.time,
                             content: annotationFields.comment,
                             isNewComment: false
@@ -324,7 +330,7 @@ class PostComment extends React.Component{
                         <div id="editbox_comment" className="position-relative">
                             {this.state.comments.map(comment=>{
                                 if(!comment.isNewComment){
-                                    return <Comment commentId={comment.uid} key={comment.uid} commentInfo = {comment} handleEditComment = {this.handleEditComment.bind(this)}></Comment>;
+                                    return <Comment commentId={comment.uid} key={comment.uid} commentInfo = {comment} commentAvatarUrl = {comment.avatarUrl} commentAuthor = {comment.author} handleEditComment = {this.handleEditComment.bind(this)}></Comment>;
                                 } else {
                                     //new comment
                                     return (<NewComment handleSave={this.handleSaveComment.bind(this)} editor={this.state.editor}></NewComment>)
