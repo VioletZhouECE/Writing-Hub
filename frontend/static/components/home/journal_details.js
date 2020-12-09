@@ -18,7 +18,7 @@ class JournalDetails extends React.Component {
     componentDidMount(){
         const postId = this.props.location.pathname.split('/')[2];
         //fetch post details
-        fetch(`/journals/${postId}`, {
+        fetch(`/api/journals/${postId}`, {
             method: 'GET',
             headers: {
                 'Content-Type' : 'application/json',
@@ -41,7 +41,7 @@ class JournalDetails extends React.Component {
         })
 
         //fetch editedJournal
-        fetch(`/editedJournals/${postId}`, {
+        fetch(`/api/editedJournals/${postId}`, {
             method: 'GET',
             headers: {
                 'Content-Type' : 'application/json',
@@ -70,7 +70,7 @@ class JournalDetails extends React.Component {
         })
 
         //update ViewCount
-        fetch(`/journals/${postId}/updateViewsCount`, {
+        fetch(`/api/journals/${postId}/updateViewsCount`, {
             method: 'PATCH',
             headers: {
                 'Content-Type' : 'application/json',

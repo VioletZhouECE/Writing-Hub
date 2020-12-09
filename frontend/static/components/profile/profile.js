@@ -22,7 +22,7 @@ class Profile extends React.Component {
     onAcceptAvatar(img){
         //img is base64 string
         //send the new avatar to the backend
-        fetch(`/profile/avatar`, {
+        fetch(`/api/profile/avatar`, {
             method: 'PUT',
             headers: {
                 'Content-Type' : 'application/json',

@@ -13,7 +13,7 @@ class WriteEntry extends React.Component{
     }
 
     handleSubmitJournal(data){
-        fetch('/journals', {
+        fetch('/api/journals', {
             method: 'POST',
             headers: {
                 'Content-Type' : 'application/json',
@@ -44,7 +44,7 @@ class WriteEntry extends React.Component{
 
     handleSubmitQuestion(data){
         console.log(data.tags);
-        fetch('/questions', {
+        fetch('/api/questions', {
             method: 'POST',
             headers: {
                 'Content-Type' : 'application/json',

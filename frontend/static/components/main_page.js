@@ -74,7 +74,7 @@ class MainPage extends React.Component{
       //remove error from the previous signup request
       return new Promise((resolve, reject) =>{
         this.setState({error:null});
-        fetch(`/auth/signup/${username}`, {
+        fetch(`/api/auth/signup/${username}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json'
@@ -106,7 +106,7 @@ class MainPage extends React.Component{
     handleSignup(data){
       //remove error from the previous signup request
       this.setState({error:null});
-      fetch('/auth/signup', {
+      fetch('/api/auth/signup', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -138,7 +138,7 @@ class MainPage extends React.Component{
   handleLogin(data){
     //remove error from the previous signup request
     this.setState({error:null});
-    fetch('/auth/login', {
+    fetch('/api/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

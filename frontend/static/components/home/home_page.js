@@ -59,7 +59,7 @@ class HomePage extends React.Component{
             this.setState({isLoading: true, hasMorePost: true});
             const lastJournalId = this.lastLoadedJournal? this.lastLoadedJournal.id : ""
             const lastQuestionId = this.lastLoadedQuestion? this.lastLoadedQuestion.id : ""
-            fetch(`/feeds?languageName=${this.state.language}&lastJournalId=${lastJournalId}&lastQuestionId=${lastQuestionId}`, {
+            fetch(`/api/feeds?languageName=${this.state.language}&lastJournalId=${lastJournalId}&lastQuestionId=${lastQuestionId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type' : 'application/json',
