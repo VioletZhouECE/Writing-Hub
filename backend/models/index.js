@@ -7,8 +7,10 @@ const basename = path.basename(__filename);
 const {database} = require(__dirname + '/../config/config.js')
 const db = {};
 
+//initialize sequelize connection
 var sequelize = new Sequelize(database.database, database.username, database.password, database);
 
+//read all models in the model folder into a dictionary
 fs
   .readdirSync(__dirname)
   .filter(file => {
@@ -19,6 +21,7 @@ fs
     db[model.name] = model;
   });
 
+//set associations among models
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {
     db[modelName].associate(db);

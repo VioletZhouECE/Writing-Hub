@@ -1,5 +1,5 @@
 const models = require('../models/index');
-const { Op } = require('sequelize');
+const journalService = require('../services/journal');
 
 exports.getJournalsByUser = (req, res, next) => {}
 
@@ -78,17 +78,13 @@ exports.getJournal= async (req, res, next) => {
 
 exports.postJournal= async (req, res, next) => {
     try{
-        const language = await models.Language.getLanguageByName(req.body.language);
-        await models.Journal.create({
-            UserId: req.userId,
-            LanguageId: language.id,
-            title: req.body.title,
-            body: req.body.body,
-            comment: req.body.comment
-        });
-        let response = {msg: "publish success"};
+        const {language, title, body, comment} = req.body;
+        const {userId} = req;
+        const journalServiceInstance = new journalService();
+        await journalServiceInstance.postJournal(userId, language, title, body, comment);
+        const response = {msg: "public success"};
         res.status(200).json(response);
-    } catch (err) {
+    } catch (err){
         next(err);
     }
 }
