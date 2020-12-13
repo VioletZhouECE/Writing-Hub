@@ -5,14 +5,16 @@ const {getJournalsByUser, getJournal, postJournal, updateJournal, deleteJournal,
 const jwtValidator = require('../middleware/jwt_validation');
 const {journalValidation} = require('../validator/journal');
 
-//GET /journals/all/langauge/:languageName
+//no validator 
+//GET /journals/all/user/:userId
 router.get('/all/user/:userId', jwtValidator, getJournalsByUser);
 
+//no validator 
 //GET /journals/:journalId
-router.get('/:journalId', jwtValidator, validate(journalValidation.getJournal, {keyByField: true}), getJournal);
+router.get('/:journalId', jwtValidator, getJournal);
 
 //POST /journals
-router.post('/', jwtValidator, postJournal);
+router.post('/', jwtValidator, validate(journalValidation.postJournal, {keyByField: true}), postJournal);
 
 //PUT /journals/:journalId
 router.put('/:journalId', jwtValidator, updateJournal);

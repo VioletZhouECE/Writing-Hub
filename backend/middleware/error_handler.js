@@ -2,8 +2,11 @@ const {ValidationError} = require('express-validation')
 
 //error handler used in development
 module.exports = (err, req, res, next) => {
+    //this assumes that all express validator has keyByField set to true
     if (err instanceof ValidationError) {
-        err.message = err.details;
+        //get all the error messages
+        const message = err.details.map(error => Object.keys(error).map((key)=>error[key])[0]).join(',');
+        err.message = message;
         err.statusCode = 400;
     }
 
