@@ -5,13 +5,13 @@ const editedJournalRoutes = require("./editedJournal");
 const journalRoutes = require("./journal");
 const profileRoutes = require("./profile");
 const questionRoutes = require("./question");
-const {getFeedsByLanguage} = require("../controllers/feeds_controller");
+const feedRoutes = require("./feed");
 
 module.exports = (app)=>{
 
     app.use('/api/auth', authRoutes);
     app.use('/api/profile', profileRoutes);
-    app.use('/api/feeds', getFeedsByLanguage);
+    app.use('/api/feeds', feedRoutes);
     app.use('/api/journals', journalRoutes);
     app.use('/api/questions', questionRoutes);
     app.use('/api/editedJournals', editedJournalRoutes);

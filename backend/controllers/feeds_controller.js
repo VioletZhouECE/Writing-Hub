@@ -1,6 +1,8 @@
 const journalService = require('../services/journal');
 const questionService = require('../services/question');
 
+//feeds_controller.js contains all the api endpoints that require uses of both journal db and question db
+
 exports.getFeedsByLanguage = async (req, res, next) => {
     //return a mix of journals and questions
     const numOfJournals = Math.floor((Math.random() * 5));

@@ -1,52 +1,6 @@
 const models = require('../models/index');
 const { Op } = require('sequelize');
 
-//return n questions written in the requested language in chronological order 
-//this is not a controller, just used internally by getFeedsByLanguage
-exports.getnQuestionsByLanguage =  (n) => {
-    const perPage = n? n:5;
-    return async (req, res, next) => {
-        try{
-            const lastPostId = req.query.lastQuestionId;
-    
-            //retrieve languageId
-            const language = await models.Language.getLanguageByName(req.query.languageName);
-    
-            //get createdAt for lastPostId
-            let offset = 0;
-            if (lastPostId != ''){
-                const lastPost = await models.Question.findOne({where:{'id' : lastPostId}});
-                const lastCreatedAt = lastPost.createdAt;
-                //get the offset based on lastCreatedAt
-                offset = await models.Question.count({where:{'createdAt' : {[Op.lte]: lastCreatedAt}, LanguageId:language.id}});
-            }
-    
-            //retrieve post data
-            //eager loading is used
-            const {count, rows} = await models.Question.findAndCountAll({distinct: true, col: 'id', order : [['createdAt', 'ASC']], offset: offset, limit: perPage, where: {LanguageId:language.id}, include:[models.User, models.Tag]});
-            const questions = rows;
-            
-            const posts = questions.map(question=>(
-                    {   
-                        type: "question",
-                        id: question.id,
-                        username: question.User.username,
-                        avatarUrl: question.User.avatarUrl,
-                        title: question.title,
-                        createdAt: question.createdAt,
-                        body: question.body,
-                        tags: question.Tags.map(tag=>tag.name),
-                        count: question.upvoteCount
-                    }
-                ))
-                
-            return {totalQuestions: count, questions: posts};
-        } catch(err) {
-            next(err);
-        };
-    }
-}
-
 //get a single question by id
 exports.getQuestion = async (req, res, next) => {
     try{
