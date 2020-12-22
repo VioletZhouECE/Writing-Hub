@@ -1,5 +1,5 @@
 const journalService = require('../services/journal');
-const {getnQuestionsByLanguage} = require("./questions_controller");
+const questionService = require('../services/question');
 
 exports.getFeedsByLanguage = async (req, res, next) => {
     //return a mix of journals and questions
@@ -13,8 +13,10 @@ exports.getFeedsByLanguage = async (req, res, next) => {
 
 
     const journalServiceInstance = new journalService();
+    const questionServiceInstance = new questionService();
 
-    const [{totalJournals, journals}, {totalQuestions, questions}] = await Promise.all([journalServiceInstance.getnJournalsByLanguage(numOfJournals, languageName, lastJournalId), getnQuestionsByLanguage(numOfQuestions)(req, res, next)]);
+    const [{totalJournals, journals}, {totalQuestions, questions}] = await Promise.all([journalServiceInstance.getnJournalsByLanguage(numOfJournals, languageName, lastJournalId), 
+                                                                                        questionServiceInstance.getnQuestionsByLanguage(numOfQuestions, languageName, lastQuestionId)]);
 
     let response;
     response = {
