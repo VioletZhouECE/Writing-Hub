@@ -6,6 +6,7 @@ class Journal {
         this.userModel = models.User;
         this.journalModel = models.Journal;
         this.languageModel = models.Language;
+        this.sequelize = models.sequelize;
     }
 
     async getnJournalsByLanguage(n, languageName, lastPostId){
@@ -46,6 +47,27 @@ class Journal {
         };
     }
 
+    async getnJournalsBySearchString(n, searchString, lastPostId){
+       //get the offset based on lastPostId
+       let offset = 0;
+       if (lastPostId != ""){
+           const lastPost = await this.journalModel.findOne({where:{'id' : lastPostId}});
+           const lastCreatedAt = lastPost.createdAt;
+           //get the offset based on lastCreatedAt
+           offset = await this.journalModel.count({where:{'createdAt' : {[Op.lte]: lastCreatedAt}, LanguageId:language.id}});
+       }
+
+        //retrieve search results - use fulltext search 
+        const query = `SELECT id, title, body, UserId
+                        FROM CONTAINSTABLE(journalViews.vjournalsEnglish, (title, body), '${searchString}', ${n}) AS TBL
+                            INNER JOIN journals
+                            ON journals.id = TBL.[KEY]
+                        ORDER BY RANK`;
+        
+        const result = this.sequelize.query(query);
+        console.log(result);
+    }
+
     async postJournal(userId, postLanguage, title, body, comment){
         try{
             const language = await this.languageModel.getLanguageByName(postLanguage);
@@ -62,5 +84,8 @@ class Journal {
         }
     }
 }
+
+const journal = new Journal();
+journal.getnJournalsBySearchString(5, "Test", "");
 
 module.exports = Journal;
