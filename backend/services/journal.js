@@ -85,7 +85,4 @@ class Journal {
     }
 }
 
-const journal = new Journal();
-journal.getnJournalsBySearchString(5, "Test", "");
-
 module.exports = Journal;

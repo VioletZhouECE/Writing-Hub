@@ -8,7 +8,7 @@ exports.getJournal= async (req, res, next) => {
     try{
         const journal = await models.Journal.findOne({where:{id: req.params.journalId}, include:[models.User]});
         if (!journal){
-            let err = new Error(`the journal with journalId: ${journalId} does not exist in our database`);
+            let err = new Error(`the journal with journalId: ${req.params.journalId} does not exist in our database`);
             err.statusCode = 500;
             throw err;
         }

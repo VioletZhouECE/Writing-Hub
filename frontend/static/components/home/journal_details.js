@@ -18,7 +18,7 @@ class JournalDetails extends React.Component {
     componentDidMount(){
         const postId = this.props.location.pathname.split('/')[2];
         //fetch post details
-        fetch(`/api/journals/journalId=${postId}`, {
+        fetch(`/api/journals/${postId}`, {
             method: 'GET',
             headers: {
                 'Content-Type' : 'application/json',
