@@ -1,4 +1,4 @@
-const {jwtkey} = require('../config/config.js')
+const {jwtkey} = require('../config/config.js/index.js.js.js.js')
 const jwt = require('jsonwebtoken');
 const models = require('../models/index');
 
