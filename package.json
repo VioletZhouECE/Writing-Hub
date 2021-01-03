@@ -4,8 +4,8 @@
     "description": "writing hub frontend",
     "main": "index.js",
     "scripts": {
-        "start": "NODE_ENV=production && webpack && node ./backend/app.js",
-        "dev": "NODE_ENV=development && webpack && node ./backend/app.js",
+        "start": "NODE_ENV=development && webpack && node ./backend/app.js",
+        "prod": "NODE_ENV=production && webpack && node ./backend/app.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "engines": {
@@ -52,5 +52,8 @@
         "uuid": "^8.3.0",
         "webpack": "^4.44.1",
         "webpack-cli": "^3.3.12"
+    },
+    "devDependencies": {
+        "dotenv": "^8.2.0"
     }
 }
