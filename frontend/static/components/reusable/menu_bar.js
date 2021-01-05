@@ -11,6 +11,18 @@ const MenuBar = (props)=>{
         return UserInfo;
     }
 
+    const handleSubmitSearch = (e)=>{
+        if (e.key != "Enter"){
+            return;
+        }
+        e.preventDefault();
+        const searchString = e.target.value;
+        if (searchString == ""){
+            return;
+        }
+        history.push(`/search?q=${searchString}`);
+    }
+
     return(
         <div className="menubar-background">
             <nav className="navbar navbar-expand-lg navbar-light main-container menubar-background">
@@ -34,7 +46,7 @@ const MenuBar = (props)=>{
                     </li>
                 </ul>
                 <form className="form-inline my-2 my-lg-0 float-right">
-                    <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"></input>
+                    <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" onKeyDown={handleSubmitSearch}></input>
                     <div role="button">
                         <Avatar className="mr-2" size="48" src={userContext.avatarUrl} name={useUserInfo().username} round={true} onClick={()=>{history.push('/profile')}}></Avatar>
                     </div>

@@ -9,6 +9,7 @@ import WriteEntry from "./write/write_entry";
 import JournalDetails from "./home/journal_details";
 import QuestionDetails from "./home/question_details";
 import Profile from './profile/profile';
+import Search from "./search/search";
 
 window.UserInfo = {}; 
 
@@ -255,6 +256,7 @@ class MainPage extends React.Component{
                 <Route path = "/journal" render = {(props)=><JournalDetails token = {this.state.token}></JournalDetails>}></Route>
                 <Route path = "/question" render = {(props)=><QuestionDetails token = {this.state.token}></QuestionDetails>}></Route>
                 <Route path = "/profile" render = {(props)=><Profile token = {this.state.token}></Profile>}></Route>
+                <Route path = "/search" render = {(props)=><Search token = {this.state.token} query={this.state.searchString}></Search>}></Route>
                 <Route path ="/" render = {(props)=><HomePage token = {this.state.token}></HomePage>}></Route>
               </Switch>
             </div>
