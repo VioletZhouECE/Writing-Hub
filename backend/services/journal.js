@@ -1,5 +1,7 @@
 const models = require('../models/index');
 const { Op } = require('sequelize');
+const { QueryTypes } = require('sequelize');
+const {viewNames} = require('../queries/viewnames')
 
 class Journal {
     constructor(){
@@ -47,25 +49,29 @@ class Journal {
         };
     }
 
-    async getnJournalsBySearchString(n, searchString, lastPostId){
-       //get the offset based on lastPostId
-       let offset = 0;
-       if (lastPostId != ""){
-           const lastPost = await this.journalModel.findOne({where:{'id' : lastPostId}});
-           const lastCreatedAt = lastPost.createdAt;
-           //get the offset based on lastCreatedAt
-           offset = await this.journalModel.count({where:{'createdAt' : {[Op.lte]: lastCreatedAt}, LanguageId:language.id}});
-       }
+    //for simplicity, we only return fixed amount of results (n = 10)
+    async getnJournalsBySearchString(searchString){
+        const n = 10;
+        console.log(await this.getnJournalsFromIndexedView(n, searchString));
+    }
 
-        //retrieve search results - use fulltext search 
-        const query = `SELECT id, title, body, UserId
-                        FROM CONTAINSTABLE(journalViews.vjournalsEnglish, (title, body), '${searchString}', ${n}) AS TBL
+    async getnJournalsFromIndexedView(n, searchString){
+        //get journals from all indexedView
+        const results= await Promise.all(viewNames.map(view=>{
+            const query = `SELECT id, title, body, UserId, rank
+                        FROM CONTAINSTABLE(${view}, (title, body), '${searchString}', ${n}) AS TBL
                             INNER JOIN journals
                             ON journals.id = TBL.[KEY]
                         ORDER BY RANK`;
-        
-        const result = this.sequelize.query(query);
-        console.log(result);
+            return this.sequelize.query(query, { type: QueryTypes.SELECT });
+        }));
+
+        //select n with the highest rank
+        let flatten = [];
+        results.forEach(result=>{flatten = flatten.concat(result);});
+        flatten = flatten.sort((a,b)=>(a.rank>b.rank)?-1:1).slice(0,n);
+
+        return flatten;
     }
 
     async postJournal(userId, postLanguage, title, body, comment){
