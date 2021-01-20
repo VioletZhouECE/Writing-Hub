@@ -25,16 +25,6 @@ Comment on journal:
 * Interative editor built upon tinymce API: styling your journals & commenting on others' writing.
 
 # Tech Stack
-* Frontend: React, bootstrap, jquery, webpack.
-* Backend: Node, Express, Sequelize.js (ORM), MySQL.
+* Frontend: React, bootstrap, jquery, JavaScript, HTML, CSS
+* Backend: Node, Express, Sequelize.js (ORM), Azure SQL database
 * Packaging & Transpiling: Webpack, Babel.
-
-# Development
-This is an on-going individual project. More feautures will be relased as the development goes:):
-- [ ] Upvote & downvote posts.
-- [ ] Display the difference between the editted post and original post.
-- [ ] Custom user avatar
-- [ ] Search post functionality
-- [ ] Implement a better algorithm for user's feed
-- [ ] And more ...!
-
