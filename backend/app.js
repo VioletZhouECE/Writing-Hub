@@ -7,7 +7,7 @@ const errorHandler = require('./middleware/error_handler');
 
 app = express();
 
-app.use(bodyparser.json());
+app.use(bodyparser.json({ limit: "500kb" }));
 
 app.use(bodyparser.urlencoded({extended: true}));
 

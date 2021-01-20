@@ -28,7 +28,7 @@ class AvatarEdit extends React.Component {
   }
   
   onBeforeFileLoad(elem) {
-    if(elem.target.files[0].size > 71680){
+    if(elem.target.files[0].size > 200000){
       displayErrorMessage("image is too large");
       elem.target.value = "";
     };
