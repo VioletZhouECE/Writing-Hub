@@ -1,6 +1,4 @@
 # Writing-Hub
-https://writing-hub.azurewebsites.net/
-
 A Q&amp;A website that allows people learning a second language to improve their writing skills by posting/reviewing journal entries and asking/answering language-related questions.
 A friendly platform for learners to help each other by sharing expertise in their native language.
 
